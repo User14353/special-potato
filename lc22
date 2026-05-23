@@ -3256,36 +3256,6 @@
 									table.insert(_vfxC, _c8)
 							end
 
-							do -- ParticleEmitter 9 (ParticleEmitter)
-									local vfx_9 = Instance.new('Part')
-									vfx_9.Anchored = true
-									vfx_9.CanCollide = false
-									vfx_9.CanQuery = false
-									vfx_9.CanTouch = false
-									vfx_9.Transparency = 1
-									vfx_9.Size = Vector3.new(0.1, 0.1, 0.1)
-									vfx_9.Parent = workspace
-									local pe9 = Instance.new('ParticleEmitter', vfx_9)
-									pe9.Color = ColorSequence.new(Color3.fromRGB(255, 255, 255))
-									pe9.Rate = 1000
-									pe9.Speed = NumberRange.new(31.81, 34.05)
-									pe9.Lifetime = NumberRange.new(2.769, 3.325)
-									pe9.Size = NumberSequence.new(0.7664)
-									pe9.SpreadAngle = Vector2.new(-180, 180)
-									table.insert(_vfxI, vfx_9)
-									local _s9, _ia9 = 0, 0
-									local _c9 = RunService.Heartbeat:Connect(function(dt)
-											local pp = getP('HumanoidRootPart')
-											if not pp or not vfx_9.Parent then
-													return
-											end
-											_s9 = _s9 + dt
-											local _tgt = pp.CFrame * CFrame.new(0, 2, 0) * CFrame.Angles(math.rad(0), math.rad(0), math.rad(0))
-											vfx_9.CFrame = vfx_9:Lerp(_tgt, math.min(1, 0.15 * 60 * dt + 0.3))
-									end)
-									table.insert(_vfxC, _c9)
-							end
-
 							do -- Part 10 (Part)
 									local vfx_10 = Instance.new('Part')
 									vfx_10.Name = 'Part_10'
