@@ -2859,7 +2859,7 @@
 
 
 
-			--[[
+			
       local function soundFromLink(link)
           local folder = "ExiresGlitcher"
           if isfolder and not isfolder(folder) then makefolder(folder) end
@@ -2880,7 +2880,7 @@
           sound.Looped = false
           sound.Parent = game:GetService("SoundService")
           return sound
-      end]]
+      end
 
       attacks["f"] = attacks["f"] or {}
       attacks["f"]["z"] = {
@@ -3323,7 +3323,7 @@
                   deltaTime)
           end
       }
---[[
+
       attacks["f"]["r"] = {
           duration = 8.5,
 					fn = function()
@@ -3360,7 +3360,7 @@
               AJBackAccessory.C0 = cf(1, 0.5, 0) * angles(rad(90), rad(30), rad(-90))
               AJBackAccessory.Part1 = getPart("Right Arm")
           end
-      }]]
+      }
       
 			-- Add more modes/keys the same way:
 			-- registerAttack("default", "x", function(p) ... end)
@@ -3372,6 +3372,7 @@
 		
 		addmode("default", {
 			idle = function()
+				cleanupVFX()
 				RootJoint.C0=Lerp(RootJoint.C0,cfMul(cf(0,0,0),angles(-1.4+0.05*sin(sine*1.5),0,-3.141592502593994)),deltaTime)
 				Neck.C0=Lerp(Neck.C0,cfMul(cf(0,1,0),angles(-1.729109199292016-0.05*sin(sine*1.5),0,-3.141592502593994)),deltaTime)
 				LeftHip.C0=Lerp(LeftHip.C0,cfMul(cf(-1,-1,0),angles(-0.2274227437829142-0.05*sin(sine*1.5),-1.054517599868613,0.04707908141767447-0.025*sin(sine*1.5))),deltaTime)
@@ -3385,6 +3386,7 @@
 				AJBackAccessory.Part1=getPart("Torso") AJBackAccessory.C1=cf_0
 			end,
 			walk = function()
+				cleanupVFX()
 				RootJoint.C0=Lerp(RootJoint.C0,cfMul(cf(0,0.01+0.01*sin(sine*2),0),angles(-1.563762217524132+0.05*sin(sine*1.5),0,-3.141592502593994)),deltaTime)
 				Neck.C0=Lerp(Neck.C0,cfMul(cf(0,1,0),angles(-1.624764865786233-0.05*sin(sine*1.5),0,-3.141592502593994)),deltaTime)
 				LeftHip.C0=Lerp(LeftHip.C0,cfMul(cf(-1,-1-0.01*sin(sine*2),0-0.1*sin(sine*2)),angles(-0.2274227437829142+0.5*sin(sine*2),-1.4,0-0.025*sin(sine*1.5))),deltaTime)
@@ -3398,6 +3400,7 @@
 				AJBackAccessory.Part1=getPart("Torso") AJBackAccessory.C1=cf_0
 			end,
 			jump = function()
+				cleanupVFX()
 				RootJoint.C0=Lerp(RootJoint.C0,cfMul(cf(0,0.01+0.01*sin(sine*2),0),angles(-1.563762217524132+0.05*sin(sine*1.5),0,-3.141592502593994)),deltaTime)
 				Neck.C0=Lerp(Neck.C0,cfMul(cf(0,1,0),angles(-1.624764865786233-0.05*sin(sine*1.5),0,-3.141592502593994)),deltaTime)
 				LeftHip.C0=Lerp(LeftHip.C0,cfMul(cf(-1.048806173759594,-0.04939832185444093-0.01*sin(sine*2),-0.7803933662280702),angles(-0.4908738521234053,-1.256966059947003,0-0.025*sin(sine*1.5))),deltaTime)
@@ -3411,6 +3414,7 @@
 				AJBackAccessory.Part1=getPart("Torso") AJBackAccessory.C1=cf_0
 			end,
 			fall = function()
+				cleanupVFX()
 				RootJoint.C0=Lerp(RootJoint.C0,cfMul(cf(0,0.01+0.01*sin(sine*2),0),angles(-1.563762217524132+0.05*sin(sine*1.5),0,-3.141592502593994)),deltaTime)
 				Neck.C0=Lerp(Neck.C0,cfMul(cf(0,1,0),angles(-1.624764865786233-0.05*sin(sine*1.5),0,-3.141592502593994)),deltaTime)
 				LeftHip.C0=Lerp(LeftHip.C0,cfMul(cf(-1.048806173759594,-0.04939832185444093-0.01*sin(sine*2),-0.7803933662280702),angles(-0.4908738521234053,-1.256966059947003,0-0.025*sin(sine*1.5))),deltaTime)
@@ -3427,6 +3431,7 @@
 
 		addmode("f", {
 			idle = function()
+				cleanupVFX()
 				RootJoint.C0=Lerp(RootJoint.C0,cfMul(cf(0,0,0),angles(-1.4+0.05*sin(sine*1.5),0,-3.141592502593994)),deltaTime)
 				Neck.C0=Lerp(Neck.C0,cfMul(cf(0,1,0),angles(-1.729109199292016-0.05*sin(sine*1.5),0,-3.141592502593994)),deltaTime)
 				LeftHip.C0=Lerp(LeftHip.C0,cfMul(cf(-1,-1,0),angles(-0.2274227437829142-0.05*sin(sine*1.5),-1.054517599868613,0.04707908141767447-0.025*sin(sine*1.5))),deltaTime)
@@ -3440,6 +3445,7 @@
 				AJBackAccessory.Part1=getPart("Right Arm")
 			end,
 			walk = function()
+				cleanupVFX()
 				RootJoint.C0=Lerp(RootJoint.C0,cfMul(cf(0,0.01+0.01*sin(sine*2),0),angles(-1.563762217524132+0.05*sin(sine*1.5),0,-3.141592502593994)),deltaTime)
 				Neck.C0=Lerp(Neck.C0,cfMul(cf(0,1,0),angles(-1.624764865786233-0.05*sin(sine*1.5),0,-3.141592502593994)),deltaTime)
 				LeftHip.C0=Lerp(LeftHip.C0,cfMul(cf(-1,-1-0.01*sin(sine*4),0-0.1*sin(sine*4)),angles(-0.2274227437829142+0.5*sin(sine*4),-1.4,0-0.025*sin(sine*1.5))),deltaTime)
@@ -3453,6 +3459,7 @@
 				AJBackAccessory.Part1=getPart("Right Arm")
 			end,
 			jump = function()
+				cleanupVFX()
 				RootJoint.C0=Lerp(RootJoint.C0,cfMul(cf(0,0.01+0.01*sin(sine*2),0),angles(-1.563762217524132+0.05*sin(sine*1.5),0,-3.141592502593994)),deltaTime)
 				Neck.C0=Lerp(Neck.C0,cfMul(cf(0,1,0),angles(-1.624764865786233-0.05*sin(sine*1.5),0,-3.141592502593994)),deltaTime)
 				LeftHip.C0=Lerp(LeftHip.C0,cfMul(cf(-1.048806173759594,-0.04939832185444093-0.01*sin(sine*2),-0.7803933662280702),angles(-0.4908738521234053,-1.256966059947003,0-0.025*sin(sine*1.5))),deltaTime)
@@ -3466,6 +3473,7 @@
 				AJBackAccessory.Part1=getPart("Right Arm")
 			end,
 			fall = function()
+				cleanupVFX()
 				RootJoint.C0=Lerp(RootJoint.C0,cfMul(cf(0,0.01+0.01*sin(sine*2),0),angles(-1.563762217524132+0.05*sin(sine*1.5),0,-3.141592502593994)),deltaTime)
 				Neck.C0=Lerp(Neck.C0,cfMul(cf(0,1,0),angles(-1.624764865786233-0.05*sin(sine*1.5),0,-3.141592502593994)),deltaTime)
 				LeftHip.C0=Lerp(LeftHip.C0,cfMul(cf(-1.048806173759594,-0.04939832185444093-0.01*sin(sine*2),-0.7803933662280702),angles(-0.4908738521234053,-1.256966059947003,0-0.025*sin(sine*1.5))),deltaTime)
