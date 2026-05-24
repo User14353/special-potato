@@ -3099,10 +3099,10 @@
 										local wind = Instance.new("Sound")
 
 										-- anime/wind woosh
-										wind.SoundId = "rbxassetid://9125712736"
+										wind.SoundId = "rbxassetid://2741718865"
 
 										wind.PlaybackSpeed = math.random(80,110) / 100
-										wind.Volume = 0.35
+										wind.Volume = 1.5
 										wind.Parent = workspace
 
 										wind:Play()
@@ -3616,8 +3616,13 @@
            	[e.KeyCode.Q] = { modeKey = "f", attackKey = "q" },
 						[e.KeyCode.V] = { modeKey = "f", attackKey = "v" },
             [e.KeyCode.R] = { modeKey = "f", attackKey = "r" },
-						[e.KeyCode.MouseLeftButton] = { modeKey = "f", attackKey = "m1"},
 						-- e.g. [e.KeyCode.X] = { modeKey = nil, attackKey = "x" },
+				}
+				local mouseAttackBinds = {
+					[Enum.UserInputType.MouseButton1] = {
+						modeKey = "f",
+						attackKey = "m1"
+					}
 				}
 				-- modeKey = nil  means "fire for whatever current mode is active"
 				-- modeKey = "f"  means "only fire when in mode f"
@@ -3632,6 +3637,25 @@
 
 				_G.AttackInputConnection = UIS.InputBegan:Connect(function(input, gpe)
 						if gpe then return end
+
+						local mouseBind = mouseAttackBinds[input.UserInputType]
+
+						if mouseBind then
+							local activeModeStr = tostring(_G.ModeV or "default")
+
+							if mouseBind.modeKey and mouseBind.modeKey ~= activeModeStr then
+								return
+							end
+
+							local targetMode = mouseBind.modeKey or activeModeStr
+
+							if not attacks[targetMode] then
+								targetMode = "default"
+							end
+
+							fireAttack(targetMode, mouseBind.attackKey)
+							return
+						end
 
 						local bind = attackKeybinds[input.KeyCode]
 						if not bind then return end
