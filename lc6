@@ -3224,11 +3224,70 @@
 							attackDef._soundPlayed = false
 
 							t.setWalkSpeed(0)
-									t.setJumpPower(0)
+							t.setJumpPower(0)
 
 							if progress < 0.29 and not attackDef._vfxSpawned then
 									attackDef._vfxSpawned = true
 									twait(1.5)
+									local activeBoomLoop = true
+									local boomSounds = {}
+
+									local soundIds = {
+										"rbxassetid://129128245549113",
+										"rbxassetid://137164615088188",
+										"rbxassetid://134785366676981"
+									}
+
+									for _, id in ipairs(soundIds) do
+										local s = Instance.new("Sound")
+
+										s.SoundId = id
+
+										-- loud
+										s.Volume = math.random(35,55) / 10
+
+										-- random pitch/depth
+										s.PlaybackSpeed = math.random(70,135) / 100
+
+										-- looping
+										s.Looped = true
+
+										-- distance
+										s.RollOffMaxDistance = math.random(250,600)
+
+										s.Parent = workspace
+
+										s:Play()
+
+										table.insert(boomSounds, s)
+
+										-- random repitch loop
+										task.spawn(function()
+											while activeBoomLoop and s.Parent do
+												s.PlaybackSpeed = math.random(70,135) / 100
+												s.Volume = math.random(35,55) / 10
+
+												task.wait(math.random(10,20) / 100)
+											end
+										end)
+									end
+
+									-- cleanup function
+									local function stopBoomLoop()
+										activeBoomLoop = false
+
+										for _, s in ipairs(boomSounds) do
+											if s then
+												s:Stop()
+												s:Destroy()
+											end
+										end
+
+										table.clear(boomSounds)
+									end
+
+									-- call this to stop:
+									-- stopBoomLoop()
 									local function getRootCF()
 											local rootPt = getPart("HumanoidRootPart") or getPart("Torso")
 											-- in hat reanimate, read from cframes table not the actual part
@@ -3441,6 +3500,7 @@
 							end
 							-- cleanup + unfreeze on last frame
 							if progress >= 0.99 then
+									stopBoomLoop()
 									for _, conn in ipairs(attackDef._vfxConns) do
 											pcall(function()
 													conn:Disconnect()
