@@ -2646,8 +2646,8 @@
 			destroyLightning = destroyLightning,
 			getLightningActive = function() return lightningActive end,
 			setLightningActive = function(v) lightningActive = v end,
-      spawnHatTrail = spawnHatTrail,
-      getAttackProgress = function() return attackProgress end,
+      		spawnHatTrail = spawnHatTrail,
+      		getAttackProgress = function() return attackProgress end,
 		}
 	end
 	local TweenService = game:GetService("TweenService")
