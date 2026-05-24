@@ -3701,7 +3701,7 @@
 				local SongLinks = {
 						["default"] = "https://github.com/bayly098764321/Exire-Reanimate/blob/main/Music/LightningCannon/GunAway.mp3?raw=true",
 						["f"]       = "https://github.com/bayly098764321/Exire-Reanimate/blob/main/Music/LightningCannon/GunOut.mp3?raw=true",
-            ["exist"]   = "https://github.com/bayly098764321/Exire-Reanimate/blob/main/Music/LightningCannon/Unsubstantual.mp3",
+            ["exist"]   = "https://github.com/bayly098764321/Exire-Reanimate/blob/main/Music/LightningCannon/Unsubstantual.mp3?raw=true",
 				}
 
 				function getmp3(modeName)
