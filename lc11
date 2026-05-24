@@ -2890,6 +2890,57 @@
                   setLightningActive(true)
                   spawnLightning()
               end
+							-- Minigun sound spam
+							if progress < 0.02 and not attackDef._soundPlayed then
+								attackDef._soundPlayed = true
+
+								task.spawn(function()
+									local start = tick()
+
+									while tick() - start < 3 do
+										-- electric crack
+										local crack = Instance.new("Sound")
+										crack.SoundId = "rbxassetid://1585579724"
+										crack.PlaybackSpeed = math.random(150,190) / 100
+										crack.Volume = 1
+										crack.Parent = workspace
+										crack:Play()
+
+										game:GetService("Debris"):AddItem(crack, 2)
+
+										-- cannon shot
+										task.spawn(function()
+											task.wait(math.random(0,2) / 100)
+
+											local cannon = Instance.new("Sound")
+											cannon.SoundId = "rbxassetid://130818250"
+											cannon.PlaybackSpeed = math.random(170,230) / 100
+											cannon.Volume = 0.45
+											cannon.Parent = workspace
+											cannon:Play()
+
+											game:GetService("Debris"):AddItem(cannon, 2)
+										end)
+
+										-- bass impact
+										task.spawn(function()
+											task.wait(math.random(1,3) / 100)
+
+											local bass = Instance.new("Sound")
+											bass.SoundId = "rbxassetid://231917784"
+											bass.PlaybackSpeed = math.random(180,240) / 100
+											bass.Volume = 0.3
+											bass.Parent = workspace
+											bass:Play()
+
+											game:GetService("Debris"):AddItem(bass, 2)
+										end)
+
+										-- rapid fire rate
+										task.wait(math.random(4,7) / 100)
+									end
+								end)
+							end
 
               RootJoint.C0 = Lerp(RootJoint.C0, cfMul(cf(0, 0, 0 + 0.025 * sin(sine * 20)),
                   angles(-1.690860599383551, 0, -3.141592502593994)), deltaTime)
@@ -2916,35 +2967,172 @@
               AJBackAccessory.Part1 = getPart("Right Arm")
           end
       }
+
+      attacks["f"]["m1"] = {
+          duration = 1,
+					fn = function()
+						local progress = getAttackProgress()
+						local attackDef = attacks["f"]["m1"]
+						if not getLightningActive() then
+								setLightningActive(true)
+								spawnLightning()
+						end
+						-- Only play sounds on the very first frame
+						if progress < 0.02 and not attackDef._soundPlayed then
+							attackDef._soundPlayed = true
+
+							-- electric crack first
+							task.spawn(function()
+								local s = Instance.new("Sound")
+								s.SoundId = "rbxassetid://1585579724"
+								s.Volume = 1.5
+								s.Parent = workspace
+								s:Play()
+
+								game:GetService("Debris"):AddItem(s, 8)
+							end)
+
+							-- cannon blast
+							task.delay(0.05, function()
+								local s = Instance.new("Sound")
+								s.SoundId = "rbxassetid://130818250"
+								s.Volume = 2
+								s.Parent = workspace
+								s:Play()
+
+								game:GetService("Debris"):AddItem(s, 8)
+							end)
+
+							-- bass impact
+							task.delay(0.06, function()
+								local s = Instance.new("Sound")
+								s.SoundId = "rbxassetid://231917784"
+								s.Volume = 3
+								s.Parent = workspace
+								s:Play()
+
+								game:GetService("Debris"):AddItem(s, 8)
+							end)
+						end
+
+						RootJoint.C0 = Lerp(RootJoint.C0, cfMul(cf(0, 0, 0 + 0.025 * sin(sine * 20)),
+								angles(-1.690860599383551, 0, -3.141592502593994)), deltaTime)
+						Neck.C0 = Lerp(Neck.C0, cfMul(cf(-0.1848053513911738, 1, 0), angles(-1.464800272747772, 0, -3.141592502593994)),
+								deltaTime)
+						LeftShoulder.C0 = Lerp(LeftShoulder.C0,
+								cfMul(cf(-0.4432223135964914, 0.5890213815789469, -0.3903974566543313 + 0.1 * sin(sine * 20)),
+										angles(-0.1353502565802174, -2.080185596147517, -1.593977602253932)), deltaTime)
+						LeftHip.C0=Lerp(LeftHip.C0,cfMul(cf(-1,-1,0 - 0.025 * sin(sine * 20)),angles(-0.2274227437829142 - 0.02 * sin(sine * 20),-1.054517599868613,0.04707908141767447-0.025*sin(sine*1.5))),deltaTime)
+						RightHip.C0=Lerp(RightHip.C0,cfMul(cf(1,-1,0 - 0.025 * sin(sine * 20)),angles(-0.381719008690701 - 0.02 * sin(sine * 20),1.057171790310811,0.1080783656868194)),deltaTime)
+						RightShoulder.C0 = Lerp(RightShoulder.C0, cfMul(cf(0.5376233552631584, 0.5, 0 + 0.1 * sin(sine * 20)), angles(
+								1.583428120344262, 1.486545123214642, -0.06896521958869251)), deltaTime)
+						SpringPixie_150381051_LC.C0 = Lerp(SpringPixie_150381051_LC.C0, cfMul(
+								cf(-1.97579634817023, 0.5270010964912286, 2.6171875), angles(-0, 0, -0)), deltaTime)
+						RockAccessory.C0 = Lerp(RockAccessory.C0, cfMul(
+								cf(-0.556640625, 37.5 + 75 * sin(sine * 25), -0.1183305706894187), angles(-0.15, 0.04686378586849749, -0)),
+								deltaTime)
+						AJBackAccessory.C0 = Lerp(AJBackAccessory.C0, cfMul(
+								cf(0.01787352561950684, -0.2123314142227173, -0.140083909034729), angles(-0, 0, -0)), deltaTime)
+						AJBackAccessory.C0 = cf(1, 0.5, 0) * angles(rad(90), rad(30), rad(-90))
+						AJBackAccessory.Part1 = getPart("Right Arm")
+						
+					end
+      }
       attacks["f"]["x"] = {
           duration = 5,
-          fn = function()
-              if not getLightningActive() then
-                  setLightningActive(true)
-                  spawnLightning()
-              end
-              RootJoint.C0 = Lerp(RootJoint.C0, cfMul(cf(0, 0, 0), angles(-1.5 + 0.07000000000000001 * sin(sine * 2), 0,
-                  -3.141592502593994)), deltaTime)
-              Neck.C0 = Lerp(Neck.C0, cfMul(cf(0, 1, 0), angles(-0.8372137468970156 - 0.07000000000000001 * sin(sine * 2), 0,
-                  -3.141592502593994)), deltaTime)
-              LeftHip.C0 = Lerp(LeftHip.C0, cfMul(cf(-1, -1.38009322317023, 0.1504248903508776), angles(
-                  -0.9645947041647291 - 0.07000000000000001 * sin(sine * 2), -1.570796370506287, 0)), deltaTime)
-              LeftShoulder.C0 = Lerp(LeftShoulder.C0, cfMul(cf(-1, 0.5, 0), angles(
-                  -0.1644151557191025 - 0.07000000000000001 * sin(sine * 2), -1.061477701294349, 0)), deltaTime)
-              RightHip.C0 = Lerp(RightHip.C0, cfMul(cf(1, -1.048862390350877 - 0.05 * sin(sine * 2), -0.8189981025561952),
-                  angles(-0.0675321585894828 - 0.07000000000000001 * sin(sine * 2), 1.570796370506287, 0)), deltaTime)
-              RightShoulder.C0 = Lerp(RightShoulder.C0, cfMul(cf(1, 0.5 - 0.1 * sin(sine * 4), 0), angles(
-                  3.041695518771697 - 0.07000000000000001 * sin(sine * 2), 1.92036565480616, -0.0675321585894828)), deltaTime)
-              RockAccessory.C0 = Lerp(RockAccessory.C0, cfMul(cf(15, 25 + 25 * sin(sine * 3), 0.07364007830619812),
-                  angles(0, (0 + sine * 20), -0)), deltaTime)
-              SpringPixie_150381051_LC.C0 = Lerp(SpringPixie_150381051_LC.C0, cfMul(
-                  cf(5, 4.5 + 15 * sin(sine * 20), -0.1002724319696426), angles(-0, (-6.283185307179586 + sine * 10), -0)),
-                  deltaTime)
-              AJBackAccessory.C0 = Lerp(AJBackAccessory.C0, cfMul(
-                  cf(0.01787352561950684, -0.2123314142227173, -0.140083909034729), angles(-0, 0, -0)), deltaTime)
-              AJBackAccessory.C0 = cf(1, 0.5, 0) * angles(rad(90), rad(30), rad(-90))
-              AJBackAccessory.Part1 = getPart("Right Arm")
-          end
+					fn = function()
+						if not getLightningActive() then
+								setLightningActive(true)
+								spawnLightning()
+						end
+						if progress < 0.02 and not attackDef._soundPlayed then
+							attackDef._soundPlayed = true
+
+							task.spawn(function()
+								local start = tick()
+
+								while tick() - start < 5 do
+									-- softer electric crack
+									local crack = Instance.new("Sound")
+									crack.SoundId = "rbxassetid://1585579724"
+									crack.PlaybackSpeed = math.random(70,95) / 100
+									crack.Volume = 0.18
+									crack.Parent = workspace
+									crack:Play()
+
+									game:GetService("Debris"):AddItem(crack, 3)
+
+									-- soft cannon hum/pop
+									task.spawn(function()
+										task.wait(math.random(1,4) / 100)
+
+										local cannon = Instance.new("Sound")
+										cannon.SoundId = "rbxassetid://130818250"
+										cannon.PlaybackSpeed = math.random(60,90) / 100
+										cannon.Volume = 0.08
+										cannon.Parent = workspace
+										cannon:Play()
+
+										game:GetService("Debris"):AddItem(cannon, 3)
+									end)
+
+									-- low bass rumble
+									task.spawn(function()
+										task.wait(math.random(2,5) / 100)
+
+										local bass = Instance.new("Sound")
+										bass.SoundId = "rbxassetid://231917784"
+										bass.PlaybackSpeed = math.random(55,85) / 100
+										bass.Volume = 0.05
+										bass.Parent = workspace
+										bass:Play()
+
+										game:GetService("Debris"):AddItem(bass, 3)
+									end)
+
+									-- wind woosh layer
+									task.spawn(function()
+										local wind = Instance.new("Sound")
+
+										-- anime/wind woosh
+										wind.SoundId = "rbxassetid://9125712736"
+
+										wind.PlaybackSpeed = math.random(80,110) / 100
+										wind.Volume = 0.35
+										wind.Parent = workspace
+
+										wind:Play()
+
+										game:GetService("Debris"):AddItem(wind, 4)
+									end)
+
+									-- slower power-up pacing
+									task.wait(math.random(12,18) / 100)
+								end
+							end)
+						end
+						RootJoint.C0 = Lerp(RootJoint.C0, cfMul(cf(0, 0, 0), angles(-1.5 + 0.07000000000000001 * sin(sine * 2), 0,
+								-3.141592502593994)), deltaTime)
+						Neck.C0 = Lerp(Neck.C0, cfMul(cf(0, 1, 0), angles(-0.8372137468970156 - 0.07000000000000001 * sin(sine * 2), 0,
+								-3.141592502593994)), deltaTime)
+						LeftHip.C0 = Lerp(LeftHip.C0, cfMul(cf(-1, -1.38009322317023, 0.1504248903508776), angles(
+								-0.9645947041647291 - 0.07000000000000001 * sin(sine * 2), -1.570796370506287, 0)), deltaTime)
+						LeftShoulder.C0 = Lerp(LeftShoulder.C0, cfMul(cf(-1, 0.5, 0), angles(
+								-0.1644151557191025 - 0.07000000000000001 * sin(sine * 2), -1.061477701294349, 0)), deltaTime)
+						RightHip.C0 = Lerp(RightHip.C0, cfMul(cf(1, -1.048862390350877 - 0.05 * sin(sine * 2), -0.8189981025561952),
+								angles(-0.0675321585894828 - 0.07000000000000001 * sin(sine * 2), 1.570796370506287, 0)), deltaTime)
+						RightShoulder.C0 = Lerp(RightShoulder.C0, cfMul(cf(1, 0.5 - 0.1 * sin(sine * 4), 0), angles(
+								3.041695518771697 - 0.07000000000000001 * sin(sine * 2), 1.92036565480616, -0.0675321585894828)), deltaTime)
+						RockAccessory.C0 = Lerp(RockAccessory.C0, cfMul(cf(15, 25 + 25 * sin(sine * 3), 0.07364007830619812),
+								angles(0, (0 + sine * 20), -0)), deltaTime)
+						SpringPixie_150381051_LC.C0 = Lerp(SpringPixie_150381051_LC.C0, cfMul(
+								cf(5, 4.5 + 15 * sin(sine * 20), -0.1002724319696426), angles(-0, (-6.283185307179586 + sine * 10), -0)),
+								deltaTime)
+						AJBackAccessory.C0 = Lerp(AJBackAccessory.C0, cfMul(
+								cf(0.01787352561950684, -0.2123314142227173, -0.140083909034729), angles(-0, 0, -0)), deltaTime)
+						AJBackAccessory.C0 = cf(1, 0.5, 0) * angles(rad(90), rad(30), rad(-90))
+						AJBackAccessory.Part1 = getPart("Right Arm")
+					end
       }
       attacks["f"]["q"] = {
           duration = 1,
@@ -2959,6 +3147,32 @@
               if math.floor(progress * 10) % attackDef.trailSpawnRate == 0 then
                   spawnHatTrail(attackDef.trailFadeDuration, attackDef.trailStartAlpha)
               end
+							if progress < 0.02 and not attackDef._soundPlayed then
+								attackDef._soundPlayed = true
+								task.spawn(function()
+									for i = 1, 3 do
+										local s = Instance.new("Sound")
+
+										-- crackle sound from m1
+										s.SoundId = "rbxassetid://1585579724"
+
+										-- slight random pitch variation
+										s.PlaybackSpeed = math.random(92,108) / 100
+
+										s.Volume = 1.6
+										s.Parent = workspace
+
+										s:Play()
+
+										game:GetService("Debris"):AddItem(s, 3)
+
+										-- small random delay between repeats
+										if i < 3 then
+											task.wait(math.random(10,15) / 100)
+										end
+									end
+								end)
+							end
               local rootCF = cframes[RootJoint.Part0]
               if rootCF then
                   local lookVec = cfGet(rootCF, "LookVector") * v3_101
@@ -3393,11 +3607,12 @@
 				-- Maps KeyCode → {mode, attackKey}
 				-- Add entries here to bind more keys in more modes.
 				local attackKeybinds = {
-						[e.KeyCode.Z] = { modeKey = "f", attackKey = "z", t.setJumpPower(0), t.setWalkSpeed(0) },
-						[e.KeyCode.X] = { modeKey = "f", attackKey = "x", t.setJumpPower(0), t.setWalkSpeed(0) },
-           	[e.KeyCode.Q] = { modeKey = "f", attackKey = "q", t.setJumpPower(0), t.setWalkSpeed(0) },
-						[e.KeyCode.V] = { modeKey = "f", attackKey = "v", t.setJumpPower(0), t.setWalkSpeed(0) },
-            [e.KeyCode.R] = { modeKey = "f", attackKey = "r", t.setJumpPower(0), t.setWalkSpeed(0) },
+						[e.KeyCode.Z] = { modeKey = "f", attackKey = "z" },
+						[e.KeyCode.X] = { modeKey = "f", attackKey = "x" },
+           	[e.KeyCode.Q] = { modeKey = "f", attackKey = "q" },
+						[e.KeyCode.V] = { modeKey = "f", attackKey = "v" },
+            [e.KeyCode.R] = { modeKey = "f", attackKey = "r" },
+						[e.KeyCode.MouseLeftButton] = { modeKey = "f", attackKey = "m1"},
 						-- e.g. [e.KeyCode.X] = { modeKey = nil, attackKey = "x" },
 				}
 				-- modeKey = nil  means "fire for whatever current mode is active"
