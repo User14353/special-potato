@@ -3259,7 +3259,7 @@
 							end
 
               RootJoint.C0=Lerp(RootJoint.C0,cfMul(cf(0,0,0),angles(-1.422313041714887-0.1*sin(sine*2),0.1385796898178704,-2.95270781310955)),deltaTime)
-              Neck.C0=Lerp(Neck.C0,cfMul(cf(0,1,0),angles(-1.820609807692211+0.1*sin(sine*2),-0.1359221353827174,-0.7477214422914855)),deltaTime)
+              Neck.C0=Lerp(Neck.C0,cfMul(cf(0,1,0),angles(-1+0.1*sin(sine*2),-0.1359221353827174,-0.7477214422914855)),deltaTime)
               LeftHip.C0=Lerp(LeftHip.C0,cfMul(cf(-1.277468497293037,-1.35171187551398,0),angles(6.283185307179586+0.05*sin(sine*1),-0.9020177071992723,7.5)),deltaTime)
               LeftShoulder.C0=Lerp(LeftShoulder.C0,cfMul(cf(-1,0.3786883437842654,0),angles(0.2623746305946071+0.1*sin(sine*2+0.860428480448153),-0.8715163830682204,0.5978757400643406)),deltaTime)
               RightHip.C0=Lerp(RightHip.C0,cfMul(cf(1,-1,0-0.05*sin(sine*2)),angles(0+0.1*sin(sine*2),1.302968663618793,0)),deltaTime)
