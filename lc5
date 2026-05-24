@@ -2854,11 +2854,18 @@
 			local rock                     = getPartFromMesh(4307568890, 4307568951)
 			local RockAccessory            = getPartJoint(rock)
 
+			local function stopBoomLoop()
+				activeBoomLoop = false
 
+				for _, s in ipairs(boomSounds) do
+					if s then
+						s:Stop()
+						s:Destroy()
+					end
+				end
 
-
-
-
+				table.clear(boomSounds)
+			end
 			
       local function soundFromLink(link)
           local folder = "ExiresGlitcher"
@@ -3273,18 +3280,7 @@
 									end
 
 									-- cleanup function
-									local function stopBoomLoop()
-										activeBoomLoop = false
-
-										for _, s in ipairs(boomSounds) do
-											if s then
-												s:Stop()
-												s:Destroy()
-											end
-										end
-
-										table.clear(boomSounds)
-									end
+									
 
 									-- call this to stop:
 									-- stopBoomLoop()
