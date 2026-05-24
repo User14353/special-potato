@@ -2997,10 +2997,11 @@
 							local progress = getAttackProgress()
 							local attackDef = attacks["f"]["v"]
 
-							if progress < 0.02 and not attackDef._vfxSpawned then
-									attackDef._vfxSpawned = true
-									t.setWalkSpeed(0)
+							t.setWalkSpeed(0)
 									t.setJumpPower(0)
+
+							if progress < 0.29 and not attackDef._vfxSpawned then
+									attackDef._vfxSpawned = true
 									twait(1.5)
 									local function getRootCF()
 											local rootPt = getPart("HumanoidRootPart") or getPart("Torso")
@@ -3200,7 +3201,7 @@
 									angles(2.775 + 0.1 * sin(sine * 2), 1.902422116379446, 0)), deltaTime)
 							SpringPixie_150381051_LC.C0 = Lerp(SpringPixie_150381051_LC.C0, cfMul(
 									cf(-1.005289178145559, 3.544865658408717, -0.1001110411526867), angles(-0, 0, -0)), deltaTime)
-							while rockmove == false do RockAccessory.C0 = Lerp(RockAccessory.C0, cfMul(cf(1.635999177631579, 150, 0.07364007830619812),
+							if not rockmove then RockAccessory.C0 = Lerp(RockAccessory.C0, cfMul(cf(1.635999177631579, 150, 0.07364007830619812),
 									angles(-0.08812652346543892, 0, -0)), deltaTime) end
 							AJBackAccessory.C0 = Lerp(AJBackAccessory.C0, cfMul(
 									cf(0.01787352561950684, -0.2123314142227173, -0.140083909034729), angles(-0, 0, -0)), deltaTime)
@@ -3451,10 +3452,13 @@
 						end
 				end
 
-				while ModeV == "default" do
-					t.setJumpPower(60)
-					t.setWalkSpeed(16)
-				end
+				task.spawn(function()
+					while ModeV == "default" do
+						task.wait(0.2)
+						t.setJumpPower(60)
+						t.setWalkSpeed(16)
+					end
+				end)
 				
 				local RunService = game:GetService("RunService")
 				local Players = game:GetService("Players")
