@@ -2646,8 +2646,8 @@
 			destroyLightning = destroyLightning,
 			getLightningActive = function() return lightningActive end,
 			setLightningActive = function(v) lightningActive = v end,
-      		spawnHatTrail = spawnHatTrail,
-      		getAttackProgress = function() return attackProgress end,
+      spawnHatTrail = spawnHatTrail,
+      getAttackProgress = function() return attackProgress end,
 		}
 	end
 	local TweenService = game:GetService("TweenService")
@@ -3038,7 +3038,9 @@
 						LeftShoulder.C0 = Lerp(LeftShoulder.C0,
 								cfMul(cf(-0.4432223135964914, 0.5890213815789469, -0.3903974566543313 + 0.1 * sin(sine * 20)),
 										angles(-0.1353502565802174, -2.080185596147517, -1.593977602253932)), deltaTime)
-						LeftHip.C0=Lerp(LeftHip.C0,cfMul(cf(-1,-1,0 - 0.025 * sin(sine * 20)),angles(-0.2274227437829142 - 0.02 * sin(sine * 20),-1.054517599868613,0.04707908141767447-0.025*sin(sine*1.5))),deltaTime)
+						 LeftHip.C0 = Lerp(LeftHip.C0,
+                  cfMul(cf(-0.9586294073807569, -0.9072313810649675, -0.761425460012336 - 0.025 * sin(sine * 20)),
+                      angles(0.2539781041767064 - 0.02 * sin(sine * 20), -1.570796370506287, 0)), deltaTime)
 						RightHip.C0=Lerp(RightHip.C0,cfMul(cf(1,-1,0 - 0.025 * sin(sine * 20)),angles(-0.381719008690701 - 0.02 * sin(sine * 20),1.057171790310811,0.1080783656868194)),deltaTime)
 						RightShoulder.C0 = Lerp(RightShoulder.C0, cfMul(cf(0.5376233552631584, 0.5, 0 + 0.1 * sin(sine * 20)), angles(
 								1.583428120344262, 1.486545123214642, -0.06896521958869251)), deltaTime)
