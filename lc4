@@ -2854,7 +2854,10 @@
 			local rock                     = getPartFromMesh(4307568890, 4307568951)
 			local RockAccessory            = getPartJoint(rock)
 
-			local function stopBoomLoop()
+			local activeBoomLoop = false
+			local boomSounds = {}
+
+			function stopBoomLoop()
 				activeBoomLoop = false
 
 				for _, s in ipairs(boomSounds) do
@@ -3236,8 +3239,8 @@
 							if progress < 0.29 and not attackDef._vfxSpawned then
 									attackDef._vfxSpawned = true
 									twait(1.5)
-									local activeBoomLoop = true
-									local boomSounds = {}
+									activeBoomLoop = true
+									table.clear(boomSounds)
 
 									local soundIds = {
 										"rbxassetid://129128245549113",
