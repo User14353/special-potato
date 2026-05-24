@@ -2883,7 +2883,7 @@
       end
 
       attacks["f"] = attacks["f"] or {}
-			
+
       attacks["f"]["z"] = {
           duration = 3,
           fn = function()
@@ -2891,10 +2891,10 @@
                   setLightningActive(true)
                   spawnLightning()
               end
-							attackDef._soundPlayed = false
 
 							local progress = getAttackProgress()
 							local attackDef = attacks["f"]["z"]
+							attackDef._soundPlayed = false
 							-- Minigun sound spam
 							if progress < 0.02 and not attackDef._soundPlayed then
 								attackDef._soundPlayed = true
@@ -3464,7 +3464,6 @@
 					fn = function()
 							local progress = getAttackProgress()
 							local attackDef = attacks["f"]["r"]
-							attackDef._soundPlayed = false
 
 							-- Only play sound on the very first frame
 							if progress < 0.02 and not attackDef._soundPlayed then
