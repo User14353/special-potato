@@ -3210,7 +3210,7 @@
 							if progress >= 0.29 then
 								rockmove = true
 								RockAccessory.C0 = Lerp(RockAccessory.C0, cfMul(
-										cf(1.635999177631579, 12.5 + 100 * sin(sine * 25), 0.07364007830619812), angles(-0.08812652346543892, 0, -0)),
+										cf(1.635999177631579, 12.5 + 150 * sin(sine * 25), 0.07364007830619812), angles(-0.08812652346543892, 0, -0)),
 										deltaTime)
 							end
 							-- cleanup + unfreeze on last frame
