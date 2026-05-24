@@ -2890,6 +2890,8 @@
                   setLightningActive(true)
                   spawnLightning()
               end
+							local progress = getAttackProgress()
+							local attackDef = attacks["f"]["z"]
 							-- Minigun sound spam
 							if progress < 0.02 and not attackDef._soundPlayed then
 								attackDef._soundPlayed = true
@@ -3041,6 +3043,8 @@
       attacks["f"]["x"] = {
           duration = 5,
 					fn = function()
+						local progress = getAttackProgress()
+						local attackDef = attacks["f"]["x"]
 						if not getLightningActive() then
 								setLightningActive(true)
 								spawnLightning()
