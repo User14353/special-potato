@@ -3627,12 +3627,14 @@ local function C_c()
 
         -- Tip is a child of the handle in part-space.
         -- Based on your idle-back offset diff: tip sits ~1.2 studs along the barrel (-Z).
-        if JawTipJoint then
-            JawTipJoint.Part0 = rpgHandle
-            JawTipJoint.Part1 = jawTip
-            JawTipJoint.C0 = cfMul(cf(0, 0, -1.2), angles(0, 0, 0))
-            JawTipJoint.C1 = cf_0
-        end
+				task.spawn(function()
+						task.wait(0.6)
+						if rpgHandle and rpgHandle.p and jawTip and jawTip.p then
+								local localPos = Inverse(rpgHandle.p.CFrame) * cf(jawTip.p.Position)
+								JawTipJoint.C0 = localPos
+								JawTipJoint.C1 = cf_0
+						end
+				end)
         -- Picks whichever gun is actually present in the cframes table.
         -- The jaw tip never needs manual positioning — it follows the handle joint.
         local function resolveGunJoint()
@@ -3645,8 +3647,8 @@ local function C_c()
             -- RPG handle gun - needs flipped
             if RPGHandle then
                 RPGHandle.C1 = cf_0
-                return RPGHandle,
-                       cf(1, 0.5, 0) * angles(rad(90), rad(-150), rad(-90))
+								return RPGHandle,
+									cf(0.5, 1.2, 0) * angles(rad(0), rad(180), rad(90))
             end
             return nil, cf_0
         end
