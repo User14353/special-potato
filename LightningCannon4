@@ -2853,9 +2853,9 @@
 			local CrystalStaff             = getPartJoint(staff)
 			local rock                     = getPartFromMesh(4307568890, 4307568951)
 			local RockAccessory            = getPartJoint(rock)
-			local rpgHandle   = getPartFromMesh("136055191177936", "")
+			local rpgHandle   = getPartFromMesh("76443789550926", "74471954115673")
 			local RPGHandle   = getPartJoint(rpgHandle)
-			local jawTip      = getPartFromMesh("126145101810389", "")
+			local jawTip      = getPartFromMesh("77229698901212", "74471954115673")
 			local JawTipJoint = getPartJoint(jawTip)
 			
 			-- Tip is a child of the handle in part-space.
@@ -3000,8 +3000,9 @@
                   deltaTime)
               AJBackAccessory.C0 = Lerp(AJBackAccessory.C0, cfMul(
                   cf(0.01787352561950684, -0.2123314142227173, -0.140083909034729), angles(-0, 0, -0)), deltaTime)
-              AJBackAccessory.C0 = cf(1, 0.5, 0) * angles(rad(90), rad(30), rad(-90))
-              AJBackAccessory.Part1 = getPart("Right Arm")
+              local _gj = resolveGunJoint()
+							_gj.C0    = cf(1, 0.5, 0) * angles(rad(90), rad(30), rad(-90))
+							_gj.Part1 = getPart("Right Arm")
           end
       }
       attacks["f"]["m1"] = {
@@ -3074,8 +3075,8 @@
 						AJBackAccessory.C0 = Lerp(AJBackAccessory.C0, cfMul(
 								cf(0.01787352561950684, -0.2123314142227173, -0.140083909034729), angles(-0, 0, -0)), deltaTime)
 						local _gj = resolveGunJoint()
-_gj.C0    = cf(1, 0.5, 0) * angles(rad(90), rad(30), rad(-90))
-_gj.Part1 = getPart("Right Arm")
+						_gj.C0    = cf(1, 0.5, 0) * angles(rad(90), rad(30), rad(-90))
+						_gj.Part1 = getPart("Right Arm")
 						
 					end
       }
@@ -3516,8 +3517,9 @@ _gj.Part1 = getPart("Right Arm")
 									angles(-0.08812652346543892, 0, -0)), deltaTime) end
 							AJBackAccessory.C0 = Lerp(AJBackAccessory.C0, cfMul(
 									cf(0.01787352561950684, -0.2123314142227173, -0.140083909034729), angles(-0, 0, -0)), deltaTime)
-							AJBackAccessory.C0 = cf(1, 0.5, 0) * angles(rad(90), rad(30), rad(-90))
-							AJBackAccessory.Part1 = getPart("Right Arm")
+							local _gj = resolveGunJoint()
+							_gj.C0    = cf(1, 0.5, 0) * angles(rad(90), rad(30), rad(-90))
+							_gj.Part1 = getPart("Right Arm")
 							if progress >= 0.29 then
 								rockmove = true
 								RockAccessory.C0 = Lerp(RockAccessory.C0, cfMul(
@@ -3578,8 +3580,9 @@ _gj.Part1 = getPart("Right Arm")
               RockAccessory.C0=Lerp(RockAccessory.C0,cfMul(cf(-0.5793895721435547,120,0.07364007830619812),angles(-0,0,-0)),deltaTime)
               SpringPixie_150381051_LC.C0=Lerp(SpringPixie_150381051_LC.C0,cfMul(cf(0.2000001668930054,120,-0.1002724319696426),angles(-0,0,-0)),deltaTime)
               AJBackAccessory.C0=Lerp(AJBackAccessory.C0,cfMul(cf(0.01787352561950684,-0.2123314142227173,-0.140083909034729),angles(-0,0,-0)),deltaTime)
-              AJBackAccessory.C0 = cf(1, 0.5, 0) * angles(rad(90), rad(30), rad(-90))
-              AJBackAccessory.Part1 = getPart("Right Arm")
+              local _gj = resolveGunJoint()
+							_gj.C0    = cf(1, 0.5, 0) * angles(rad(90), rad(30), rad(-90))
+							_gj.Part1 = getPart("Right Arm")
           end
       }
       
@@ -3602,8 +3605,9 @@ _gj.Part1 = getPart("Right Arm")
 				AJBackAccessory.C0=Lerp(AJBackAccessory.C0,cfMul(cf(0.01787352561950684,-0.2123314142227173,-0.140083909034729),angles(0,0,-0.7)),deltaTime)
 				SpringPixie_150381051_LC.C0=Lerp(SpringPixie_150381051_LC.C0,cfMul(cf(0.2000001668930054,50,-0.1002724319696426),angles(0,0,0)),deltaTime)
 				RockAccessory.C0=Lerp(RockAccessory.C0,cfMul(cf(-0.5793895721435547,-50,0.07364007830619812),angles(0,0,0)),deltaTime)
-				AJBackAccessory.C0=cf(0,-0.5,-0.6)*angles(rad(0),rad(0),rad(0))
-				AJBackAccessory.Part1=getPart("Torso") AJBackAccessory.C1=cf_0
+				local _gj=resolveGunJoint()
+				_gj.C0=cf(0,-0.5,-0.6)*angles(rad(0),rad(0),rad(0))
+				_gj.Part1=getPart("Torso") _gj.C1=cf_0
 			end,
 			walk = function()
 				RootJoint.C0=Lerp(RootJoint.C0,cfMul(cf(0,0.01+0.01*sin(sine*2),0),angles(-1.563762217524132+0.05*sin(sine*1.5),0,-3.141592502593994)),deltaTime)
@@ -3615,8 +3619,9 @@ _gj.Part1 = getPart("Right Arm")
 				AJBackAccessory.C0=Lerp(AJBackAccessory.C0,cfMul(cf(0.01787352561950684,-0.2123314142227173,-0.140083909034729),angles(0,0,0)),deltaTime)
 				SpringPixie_150381051_LC.C0=Lerp(SpringPixie_150381051_LC.C0,cfMul(cf(0.2000001668930054,50,-0.1002724319696426),angles(0,0,0)),deltaTime)
 				RockAccessory.C0=Lerp(RockAccessory.C0,cfMul(cf(-0.5793895721435547,100,0.07364007830619812),angles(0,0,0)),deltaTime)
-				AJBackAccessory.C0=cf(0,-0.5,-0.6)*angles(rad(0),rad(0),rad(0))
-				AJBackAccessory.Part1=getPart("Torso") AJBackAccessory.C1=cf_0
+				local _gj=resolveGunJoint()
+				_gj.C0=cf(0,-0.5,-0.6)*angles(rad(0),rad(0),rad(0))
+				_gj.Part1=getPart("Torso") _gj.C1=cf_0
 			end,
 			jump = function()
 				RootJoint.C0=Lerp(RootJoint.C0,cfMul(cf(0,0.01+0.01*sin(sine*2),0),angles(-1.563762217524132+0.05*sin(sine*1.5),0,-3.141592502593994)),deltaTime)
@@ -3628,8 +3633,9 @@ _gj.Part1 = getPart("Right Arm")
 				AJBackAccessory.C0=Lerp(AJBackAccessory.C0,cfMul(cf(0.01787352561950684,-0.2123314142227173,-0.140083909034729),angles(0,0,0)),deltaTime)
 				SpringPixie_150381051_LC.C0=Lerp(SpringPixie_150381051_LC.C0,cfMul(cf(0.2000001668930054,50,-0.1002724319696426),angles(0,0,0)),deltaTime)
 				RockAccessory.C0=Lerp(RockAccessory.C0,cfMul(cf(-0.5793895721435547,-50,0.07364007830619812),angles(0,0,0)),deltaTime)
-				AJBackAccessory.C0=cf(0,-0.5,-0.6)*angles(rad(0),rad(0),rad(0))
-				AJBackAccessory.Part1=getPart("Torso") AJBackAccessory.C1=cf_0
+				local _gj=resolveGunJoint()
+				_gj.C0=cf(0,-0.5,-0.6)*angles(rad(0),rad(0),rad(0))
+				_gj.Part1=getPart("Torso") _gj.C1=cf_0
 			end,
 			fall = function()
 				RootJoint.C0=Lerp(RootJoint.C0,cfMul(cf(0,0.01+0.01*sin(sine*2),0),angles(-1.563762217524132+0.05*sin(sine*1.5),0,-3.141592502593994)),deltaTime)
@@ -3641,8 +3647,9 @@ _gj.Part1 = getPart("Right Arm")
 				AJBackAccessory.C0=Lerp(AJBackAccessory.C0,cfMul(cf(0.01787352561950684,-0.2123314142227173,-0.140083909034729),angles(0,0,0)),deltaTime)
 				SpringPixie_150381051_LC.C0=Lerp(SpringPixie_150381051_LC.C0,cfMul(cf(0.2000001668930054,50,-0.1002724319696426),angles(0,0,0)),deltaTime)
 				RockAccessory.C0=Lerp(RockAccessory.C0,cfMul(cf(-0.5793895721435547,-50,0.07364007830619812),angles(0,0,0)),deltaTime)
-				AJBackAccessory.C0=cf(0,-0.5,-0.6)*angles(rad(0),rad(0),rad(0))
-				AJBackAccessory.Part1=getPart("Torso") AJBackAccessory.C1=cf_0
+				local _gj=resolveGunJoint()
+				_gj.C0=cf(0,-0.5,-0.6)*angles(rad(0),rad(0),rad(0))
+				_gj.Part1=getPart("Torso") _gj.C1=cf_0
 			end,
 		})
 
