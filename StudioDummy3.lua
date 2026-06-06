@@ -2908,7 +2908,7 @@
 
           end
       }
-      attacks["f"]["m1"] = {
+      attacks[nil]["m1"] = {
           duration = 1,
 					fn = function()
 						local progress = getAttackProgress()
@@ -2920,7 +2920,7 @@
                         LeftShoulder.C0=Lerp(LeftShoulder.C0,cfMul(cf(-0.8344764040227517,0.5061554490474229,-0.2005674127946824),angles(0.6970563443828333+0.1*sin(sine*2),-1.048633976188762,0.6970563443828333)),deltaTime)
                         RightHip.C0=Lerp(RightHip.C0,cfMul(cf(1,-1,0),angles(-0.2825384043722083+0.1*sin(sine*2),1.308852287298644,0.1462563217432109)),deltaTime)
                         RightShoulder.C0=Lerp(RightShoulder.C0,cfMul(cf(1.017565810889528,0.5,0),angles(1.989330874394852+0.1*sin(sine*2),1.438534215748186,-0.4919503298692893)),deltaTime)
-                        AJBackAccessory.C0=cf(0.5,0.5,0)*angles(rad(0),rad(0),rad(-72))
+                        AJBackAccessory.C0=cf(0.5,-0.5,0)*angles(rad(0),rad(0),rad(-72))
 				        AJBackAccessory.Part1=getPart("Right Arm") AJBackAccessory.C1=cf_0
 						
 					end
@@ -2984,7 +2984,7 @@
                 LeftShoulder.C0=Lerp(LeftShoulder.C0,cfMul(cf(-0.8344764040227517,0.5061554490474229,-0.2005674127946824),angles(0.6970563443828333+0.1*sin(sine*2),-1.048633976188762,0.6970563443828333)),deltaTime)
                 RightHip.C0=Lerp(RightHip.C0,cfMul(cf(1,-1,0),angles(-0.2825384043722083+0.1*sin(sine*2),1.308852287298644,0.1462563217432109)),deltaTime)
                 RightShoulder.C0=Lerp(RightShoulder.C0,cfMul(cf(1.017565810889528,0.5,0),angles(-0.007679995918295823+0.1*sin(sine*2),1.126211017744532,-0.1601798885876375)),deltaTime)
-				AJBackAccessory.C0=cf(0.5,0.5,0)*angles(rad(0),rad(0),rad(-72))
+				AJBackAccessory.C0=cf(0.5,-0.5,0)*angles(rad(0),rad(0),rad(-72))
 				AJBackAccessory.Part1=getPart("Right Arm") AJBackAccessory.C1=cf_0
 			end,
 			walk = function()
@@ -2994,7 +2994,7 @@
                 LeftShoulder.C0=Lerp(LeftShoulder.C0,cfMul(cf(-0.8344764040227517,0.5061554490474229,-0.2005674127946824),angles(0.3351445262164097-0.6*sin(sine*4),-1.715545579693869,0.6062722664822413)),deltaTime)
                 RightHip.C0=Lerp(RightHip.C0,cfMul(cf(1,-1,0),angles(-0.2825384043722083-0.6*sin(sine*4),1.308852287298644,0.1462563217432109)),deltaTime)
                 RightShoulder.C0=Lerp(RightShoulder.C0,cfMul(cf(1.017565810889528,0.5,0),angles(0.5809380355314362+0.6*sin(sine*4),1.438534215748186,-0.4919503298692893)),deltaTime)
-				AJBackAccessory.C0=cf(0.5,0.5,0)*angles(rad(0),rad(0),rad(-72))
+				AJBackAccessory.C0=cf(0.5,-0.5,0)*angles(rad(0),rad(0),rad(-72))
 				AJBackAccessory.Part1=getPart("Right Arm") AJBackAccessory.C1=cf_0
 			end,
 			jump = function()
@@ -3004,7 +3004,7 @@
                 LeftShoulder.C0=Lerp(LeftShoulder.C0,cfMul(cf(-1,0.5,-0.2005674127946824),angles(-1.563045687024527-0.1*sin(sine*15),-1.103749636778057-0.1*sin(sine*10),-1.532544362893477)),deltaTime)
                 RightHip.C0=Lerp(RightHip.C0,cfMul(cf(1.094777960526315,-0.8540638706140351,-0.6827371162280702),angles(-0.002152955491768971-0.056*sin(sine*8),1.308852287298644,0.1462563217432109)),deltaTime)
                 RightShoulder.C0=Lerp(RightShoulder.C0,cfMul(cf(1.017565810889528,0.5,0),angles(-1.256249529447398+0.1*sin(sine*15),1.31473927497145+0.1*sin(sine*10),1.438534215748186)),deltaTime)
-				AJBackAccessory.C0=cf(0.5,0.5,0)*angles(rad(0),rad(0),rad(-72))
+				AJBackAccessory.C0=cf(0.5,-0.5,0)*angles(rad(0),rad(0),rad(-72))
 				AJBackAccessory.Part1=getPart("Right Arm") AJBackAccessory.C1=cf_0
 			end,
 			fall = function()
@@ -3014,7 +3014,7 @@
                 LeftShoulder.C0=Lerp(LeftShoulder.C0,cfMul(cf(-1,0.5,-0.2005674127946824),angles(-1.563045687024527-0.1*sin(sine*15),-0.1546528481611107-0.1*sin(sine*10),-1.532544362893477)),deltaTime)
                 RightHip.C0=Lerp(RightHip.C0,cfMul(cf(1,-0.8540638706140351,-0.6827371162280702),angles(-0.674951546669682-0.056*sin(sine*8),1.308852287298644,0.1462563217432109)),deltaTime)
                 RightShoulder.C0=Lerp(RightShoulder.C0,cfMul(cf(1.017565810889528,0.5,0),angles(-1.256249529447398+0.1*sin(sine*15),0.2436439178162129+0.1*sin(sine*10),1.438534215748186)),deltaTime)
-				AJBackAccessory.C0=cf(0.5,0.5,0)*angles(rad(0),rad(0),rad(-72))
+				AJBackAccessory.C0=cf(0.5,-0.5,0)*angles(rad(0),rad(0),rad(-72))
 				AJBackAccessory.Part1=getPart("Right Arm") AJBackAccessory.C1=cf_0
 			end,
 		})
