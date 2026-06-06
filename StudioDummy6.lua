@@ -2920,7 +2920,7 @@
 						LeftShoulder.C0=Lerp(LeftShoulder.C0,cfMul(cf(-0.8344764040227517,0.5061554490474229,-0.2005674127946824),angles(0.6970563443828333+0.1*sin(sine*2),-1.048633976188762,0.6970563443828333)),deltaTime)
 						RightHip.C0=Lerp(RightHip.C0,cfMul(cf(1,-1,0),angles(-0.2825384043722083+0.1*sin(sine*2),1.308852287298644,0.1462563217432109)),deltaTime)
 						RightShoulder.C0=Lerp(RightShoulder.C0,cfMul(cf(1.017565810889528,0.5,0),angles(1.989330874394852+0.1*sin(sine*2),1.438534215748186,-0.4919503298692893)),deltaTime)
-						RockAccessory.C0 = Lerp(RockAccessory.C0, cfMul(cf(-0.556640625, 37.5 + 75 * sin(sine * 25), -0.1183305706894187), angles(-0.15, 0.04686378586849749, -0)),deltaTime)
+						RockAccessory.C0 = Lerp(RockAccessory.C0, cfMul(cf(-0.556640625, 37.5 + 75 * sin(sine * 25), -0.1183305706894187), angles(0, 0.04686378586849749, -0)),deltaTime)
 						AJBackAccessory.C0=cf(1,0,0)*angles(rad(0),rad(0),rad(-72))
 						AJBackAccessory.Part1=getPart("Right Arm") AJBackAccessory.C1=cf_0
 						
