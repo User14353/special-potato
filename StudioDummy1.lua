@@ -2891,7 +2891,7 @@
           sound.Parent = game:GetService("SoundService")
           return sound
       end
-
+	attacks["default"] = attacks["default"] or {}
       attacks["f"] = attacks["f"] or {}
 
       attacks["f"]["z"] = {
@@ -2908,7 +2908,7 @@
 
           end
       }
-      attacks[nil]["m1"] = {
+      attacks["default"]["m1"] = {
           duration = 1,
 					fn = function()
 						local progress = getAttackProgress()
