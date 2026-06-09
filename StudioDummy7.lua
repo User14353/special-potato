@@ -2853,7 +2853,25 @@
 			local CrystalStaff             = getPartJoint(staff)
 			local rock                     = getPartFromMesh(4307568890, 4307568951)
 			local RockAccessory            = getPartJoint(rock)
-
+			local lastGunPart = nil
+			game:GetService("RunService").Heartbeat:Connect(function()
+			    local gunPart = gun and gun.p
+			    if gunPart ~= lastGunPart then
+			        lastGunPart = gunPart
+			    end
+			    if gunPart and gunPart.Parent then
+			        if gunPart:IsA("MeshPart") then
+			            gunPart.TextureID = ""
+			            gunPart.Color = Color3.fromRGB(255, 255, 255)
+			        else
+			            local sm = gunPart:FindFirstChildOfClass("SpecialMesh")
+			            if sm then
+			                sm.TextureId = ""
+			            end
+			            gunPart.Color = Color3.fromRGB(255, 255, 255)
+			        end
+			    end
+			end)
 			local activeBoomLoop = false
 			local boomSounds = {}
 
