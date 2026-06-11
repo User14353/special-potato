@@ -3059,20 +3059,11 @@
 
       attacks["default"]["z"] = {
           duration = 0.01,
-					_tpFired = false,
           fn = function()
 							local progress = getAttackProgress()
 							local attackDef = attacks["default"]["z"]
 							attackDef._soundPlayed = false
-							if not attackDef._tpFired then
-									attackDef._tpFired = true
-									mouseTp()
-							end
-
-							-- reset the guard when the attack finishes (progress resets to 0 next press)
-							if progress >= 0.99 then
-									attackDef._tpFired = false
-							end
+							mouseTp()
 							bluescreen.C0=Lerp(bluescreen.C0,cfMul(cf(-0.1839487176192431,0.1387184544613485,-4.064499704461348),angles(0.5474965815569393+0.1*sin(sine*2),-2.602993833401182-0.1*sin(sine*3+0.5),0)),deltaTime)
 							RootJoint.C0=Lerp(RootJoint.C0,cfMul(cf(0,0,0),angles(-1.446930742166087-0.1*sin(sine*2),-0.06903922743372171,-3.497620848076365)),deltaTime)
 							Neck.C0=Lerp(Neck.C0,cfMul(cf(0,1,0),angles(-1.75193052750477+0.1*sin(sine*2),-0.008036579171620595-0.05*sin(sine*1),-2.946820825436743)),deltaTime)
