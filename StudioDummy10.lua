@@ -2853,8 +2853,8 @@
 			local CrystalStaff             = getPartJoint(staff)
 			local rock                     = getPartFromMesh(4307568890, 4307568951)
 			local RockAccessory            = getPartJoint(rock)
-			local screen								   = getPartFromMesh(139838579317536 or 9063953843, 73811185769593 or 9063953899) 
-			local bluescreen					     = getPartJoint(screen)
+			local screen				   = getPartFromMesh(139838579317536 or 9063953843, 70409502005996 or 82632102840608) 
+			local bluescreen			   = getPartJoint(screen)
 			local lastGunPart = nil
 			game:GetService("RunService").Heartbeat:Connect(function()
 			    local gunPart = gun and gun.p
