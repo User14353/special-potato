@@ -3071,7 +3071,8 @@
 
 							-- reset the guard when the attack finishes (progress resets to 0 next press)
 							if progress > 0.8 then
-									attackDef._tpFired = false
+								twait(0.2)
+								attackDef._tpFired = false
 							end
 							bluescreen.C0=Lerp(bluescreen.C0,cfMul(cf(-0.1839487176192431,0.1387184544613485,-4.064499704461348),angles(0.5474965815569393+0.1*sin(sine*2),-2.602993833401182-0.1*sin(sine*3+0.5),0)),deltaTime)
 							RootJoint.C0=Lerp(RootJoint.C0,cfMul(cf(0,0,0),angles(-1.446930742166087-0.1*sin(sine*2),-0.06903922743372171,-3.497620848076365)),deltaTime)
