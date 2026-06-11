@@ -2719,10 +2719,10 @@
 								if elapsed < growDur then
 										local t = elapsed / growDur
 										local l = 2 + (targetLength - 2) * t
-										part.Size  = Vector3.new(0.15, 0.15, l)
+										part.Size  = Vector3.new(1, 1, l)
 										part.CFrame = CFrame.lookAt(midpoint, to)
 								elseif elapsed < growDur + holdDur then
-										part.Size  = Vector3.new(0.15, 0.15, targetLength)
+										part.Size  = Vector3.new(1, 1, targetLength)
 										part.CFrame = CFrame.lookAt(midpoint, to)
 								else
 										local fp = math.min((elapsed - growDur - holdDur) / fadeDur, 1)
@@ -3058,7 +3058,7 @@
       attacks["f"] = attacks["f"] or {}
 
       attacks["default"]["z"] = {
-          duration = 1,
+          duration = 0.01,
 					_tpFired = false,
           fn = function()
 							local progress = getAttackProgress()
