@@ -2853,6 +2853,8 @@
 			local CrystalStaff             = getPartJoint(staff)
 			local rock                     = getPartFromMesh(4307568890, 4307568951)
 			local RockAccessory            = getPartJoint(rock)
+			local screen				   = getPartFromMesh(139838579317536, 73811185769593) or getPartFromMesh(9063953843, 9063953899)
+			local Accessory(bluescreen)    = getPartJoint(screen)
 			local lastGunPart = nil
 			game:GetService("RunService").Heartbeat:Connect(function()
 			    local gunPart = gun and gun.p
@@ -2932,6 +2934,7 @@
 						local progress = getAttackProgress()
 						local attackDef = attacks["default"]["m1"]
 						attackDef._soundPlayed = false
+						Accessory(bluescreen).C0=Lerp(Accessory(bluescreen).C0,cfMul(cf(-0.1839487176192431,0.1387184544613485,-4.064499704461348),angles(0.5474965815569393+0.1*sin(sine*2),-2.602993833401182-0.1*sin(sine*3+0.5),0)),deltaTime)
 						RootJoint.C0=Lerp(RootJoint.C0,cfMul(cf(0,0,0),angles(-1.446930742166087-0.1*sin(sine*2),-0.06903922743372171,-3.497620848076365)),deltaTime)
 						Neck.C0=Lerp(Neck.C0,cfMul(cf(0,1,0),angles(-1.75193052750477+0.1*sin(sine*2),-0.008036579171620595-0.05*sin(sine*1),-2.946820825436743)),deltaTime)
 						LeftHip.C0=Lerp(LeftHip.C0,cfMul(cf(-1,-1,0),angles(-0.2215391201030625+0.1*sin(sine*2),-1.201133868858104,0)),deltaTime)
@@ -2997,6 +3000,7 @@
 		
 		addmode("default", {
 			idle = function()
+				Accessory(bluescreen).C0=Lerp(Accessory(bluescreen).C0,cfMul(cf(-0.1839487176192431,0.1387184544613485,-4.064499704461348),angles(0.5474965815569393+0.1*sin(sine*2),-2.602993833401182-0.1*sin(sine*3+0.5),0)),deltaTime)
 				RootJoint.C0=Lerp(RootJoint.C0,cfMul(cf(0,0,0),angles(-1.446930742166087-0.1*sin(sine*2),-0.06903922743372171,-3.497620848076365)),deltaTime)
                 Neck.C0=Lerp(Neck.C0,cfMul(cf(0,1,0),angles(-1.75193052750477+0.1*sin(sine*2),-0.008036579171620595-0.05*sin(sine*1),-2.946820825436743)),deltaTime)
                 LeftHip.C0=Lerp(LeftHip.C0,cfMul(cf(-1,-1,0),angles(-0.2215391201030625+0.1*sin(sine*2),-1.201133868858104,0)),deltaTime)
@@ -3008,6 +3012,7 @@
 				AJBackAccessory.Part1=getPart("Right Arm") AJBackAccessory.C1=cf_0
 			end,
 			walk = function()
+				Accessory(bluescreen).C0=Lerp(Accessory(bluescreen).C0,cfMul(cf(-0.1839487176192431,0.1387184544613485,-4.064499704461348),angles(0.5474965815569393+0.1*sin(sine*2),-2.602993833401182-0.1*sin(sine*3+0.5),0)),deltaTime)
 				RootJoint.C0=Lerp(RootJoint.C0,cfMul(cf(0,0,0),angles(-1.446930742166087,-0.002152955491768971,-3.062939134288139)),deltaTime)
                 Neck.C0=Lerp(Neck.C0,cfMul(cf(0,1,0),angles(-1.75193052750477,-0.008036579171620595-0.05*sin(sine*1),-3.18493770282643)),deltaTime)
                 LeftHip.C0=Lerp(LeftHip.C0,cfMul(cf(-1,-1,0),angles(-0.2215391201030625+0.6*sin(sine*4),-1.201133868858104,0)),deltaTime)
@@ -3019,6 +3024,7 @@
 				AJBackAccessory.Part1=getPart("Right Arm") AJBackAccessory.C1=cf_0
 			end,
 			jump = function()
+				Accessory(bluescreen).C0=Lerp(Accessory(bluescreen).C0,cfMul(cf(-0.1839487176192431,0.1387184544613485,-4.064499704461348),angles(0.5474965815569393+0.1*sin(sine*2),-2.602993833401182-0.1*sin(sine*3+0.5),0)),deltaTime)
 				RootJoint.C0=Lerp(RootJoint.C0,cfMul(cf(0,0,0),angles(-1.80884256033251-0.05*sin(sine*10),-0.002152955491768971+0.05*sin(sine*15),-3.062939134288139)),deltaTime)
                 Neck.C0=Lerp(Neck.C0,cfMul(cf(0,1,0),angles(-2.266345602333491,-0.008036579171620595-0.05*sin(sine*1),-3.18493770282643)),deltaTime)
                 LeftHip.C0=Lerp(LeftHip.C0,cfMul(cf(-1,-0.4885676869174898,-0.6341954281455591),angles(-0.2215391201030625+0.056*sin(sine*7),-1.201133868858104,0)),deltaTime)
@@ -3030,6 +3036,7 @@
 				AJBackAccessory.Part1=getPart("Right Arm") AJBackAccessory.C1=cf_0
 			end,
 			fall = function()
+				Accessory(bluescreen).C0=Lerp(Accessory(bluescreen).C0,cfMul(cf(-0.1839487176192431,0.1387184544613485,-4.064499704461348),angles(0.5474965815569393+0.1*sin(sine*2),-2.602993833401182-0.1*sin(sine*3+0.5),0)),deltaTime)
 				RootJoint.C0=Lerp(RootJoint.C0,cfMul(cf(0,0,0),angles(-1.80884256033251-0.05*sin(sine*10),-0.002152955491768971+0.05*sin(sine*15),-3.062939134288139)),deltaTime)
                 Neck.C0=Lerp(Neck.C0,cfMul(cf(0,1,0),angles(-2.266345602333491,-0.008036579171620595-0.05*sin(sine*1),-3.18493770282643)),deltaTime)
                 LeftHip.C0=Lerp(LeftHip.C0,cfMul(cf(-1,-0.4885676869174898,-0.6341954281455591),angles(-0.2215391201030625+0.056*sin(sine*7),-1.201133868858104,0)),deltaTime)
