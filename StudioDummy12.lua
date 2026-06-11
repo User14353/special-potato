@@ -2020,7 +2020,157 @@
 						end
 				end
 		end
+		-- ╔══════════════════════════════════════════════════════════╗
+		-- ║  mouseTp — reusable teleport with visual effects         ║
+		-- ║  Call: mouseTp()  inside any attack fn                   ║
+		-- ╚══════════════════════════════════════════════════════════╝
+		local function mouseTp()
+				-- ── 1. Gather positions ──────────────────────────────────
+				local hit = insGet(mouse, "Hit")
+				if not hit then return end
 
+				local originPos = cfGet(cfr, "Position")           -- where we ARE
+				local destPos   = cfGet(hit, "Position") + v3_010 * 3  -- where we're GOING (+3 stud offset so we land on top)
+
+				-- ── 2. Helper: make a burst part ────────────────────────
+				--   size grows from 2→10 over growTime, then fades & dies
+				local function makeBurst(atPos, delay)
+						local part = Instance.new("Part")
+						part.Anchored      = true
+						part.CanCollide    = false
+						part.CanQuery      = false
+						part.CanTouch      = false
+						part.CastShadow    = false
+						part.Color         = Color3.fromRGB(255, 255, 255)
+						part.Material      = Enum.Material.SmoothPlastic
+						part.Size          = Vector3.new(2, 2, 2)
+						part.Transparency  = 0.6
+						part.Massless      = true
+						part.CFrame        = CFrame.new(atPos) * CFrame.fromEulerAngles(
+								math.random(0, 628) / 100,
+								math.random(0, 628) / 100,
+								math.random(0, 628) / 100
+						)
+						part.Parent = ws
+
+						-- per-part random rotation axes (deg/s in radians)
+						local rx = (math.random(-15, 15)) * (math.pi / 180)
+						local ry = (math.random(-15, 15)) * (math.pi / 180)
+						local rz = (math.random(-15, 15)) * (math.pi / 180)
+
+						task.delay(delay, function()
+								local startTime = os.clock()
+								local growDuration  = 1.0   -- seconds to grow 2→10
+								local fadeDuration  = 0.12  -- seconds to fade out after full size
+
+								-- grow phase
+								local growConn
+								growConn = game:GetService("RunService").Heartbeat:Connect(function()
+										if not part.Parent then growConn:Disconnect() return end
+										local elapsed = os.clock() - startTime
+										local t = math.min(elapsed / growDuration, 1)
+
+										-- size lerp 2→10
+										local s = 2 + (10 - 2) * t
+										part.Size = Vector3.new(s, s, s)
+
+										-- continuous rotation (15 deg/s per axis, random directions)
+										local dt = 1 / 60  -- approximate; fine for cosmetic
+										part.CFrame = part.CFrame
+												* CFrame.fromEulerAngles(rx * dt, ry * dt, rz * dt)
+
+										if t >= 1 then
+												growConn:Disconnect()
+
+												-- fade + delete phase
+												local fadeStart = os.clock()
+												local fadeConn
+												fadeConn = game:GetService("RunService").Heartbeat:Connect(function()
+														if not part.Parent then fadeConn:Disconnect() return end
+														local fp = math.min((os.clock() - fadeStart) / fadeDuration, 1)
+														part.Transparency = 0.6 + (1 - 0.6) * fp
+														-- keep rotating while fading
+														part.CFrame = part.CFrame
+																* CFrame.fromEulerAngles(rx * dt, ry * dt, rz * dt)
+														if fp >= 1 then
+																fadeConn:Disconnect()
+																part:Destroy()
+														end
+												end)
+										end
+								end)
+						end)
+				end
+
+				-- ── 3. Helper: make the neon connector line ──────────────
+				local function makeLine(from, to)
+						local midpoint = (from + to) * 0.5
+						local length   = (to - from).Magnitude
+						if length < 0.1 then return end  -- same spot, skip
+
+						local part = Instance.new("Part")
+						part.Anchored     = true
+						part.CanCollide   = false
+						part.CanQuery     = false
+						part.CanTouch     = false
+						part.CastShadow   = false
+						part.Color        = Color3.fromRGB(255, 255, 255)
+						part.Material     = Enum.Material.Neon
+						part.Transparency = 0    -- fully opaque
+						part.Massless     = true
+						part.Size         = Vector3.new(0.15, 0.15, 2)  -- starts thin
+						part.CFrame       = CFrame.lookAt(midpoint, to)
+						part.Parent       = ws
+
+						-- grow length from 2 → actual distance over 0.15s, then persist, then fade
+						local targetLength = length
+						local startTime    = os.clock()
+						local growDur      = 0.15
+						local holdDur      = 0.9    -- stay visible most of the burst
+						local fadeDur      = 0.12
+
+						local conn
+						conn = game:GetService("RunService").Heartbeat:Connect(function()
+								if not part.Parent then conn:Disconnect() return end
+								local elapsed = os.clock() - startTime
+
+								if elapsed < growDur then
+										local t = elapsed / growDur
+										local l = 2 + (targetLength - 2) * t
+										part.Size  = Vector3.new(0.15, 0.15, l)
+										part.CFrame = CFrame.lookAt(midpoint, to)
+								elseif elapsed < growDur + holdDur then
+										part.Size  = Vector3.new(0.15, 0.15, targetLength)
+										part.CFrame = CFrame.lookAt(midpoint, to)
+								else
+										local fp = math.min((elapsed - growDur - holdDur) / fadeDur, 1)
+										part.Transparency = fp
+										if fp >= 1 then
+												conn:Disconnect()
+												part:Destroy()
+										end
+								end
+						end)
+				end
+
+				-- ── 4. Spawn bursts at ORIGIN ────────────────────────────
+				for i = 1, 6 do
+						local delay = math.random(0, 150) / 1000   -- 0 to 0.15s
+						makeBurst(originPos, delay)
+				end
+
+				-- ── 5. Teleport character ────────────────────────────────
+				setCfr(destPos)
+
+				-- ── 6. Spawn bursts at DESTINATION ──────────────────────
+				for i = 1, 6 do
+						local delay = math.random(0, 150) / 1000
+						makeBurst(destPos, delay)
+				end
+
+				-- ── 7. Neon line origin → destination ───────────────────
+				makeLine(originPos, destPos)
+		end
 		-- Attack state (read inside mainFunction's lerp step)
 		local attackActive = false
 		local attackProgress = 0       -- 0..1 drives the lerp weight
@@ -2648,6 +2798,7 @@
 			setLightningActive = function(v) lightningActive = v end,
       spawnHatTrail = spawnHatTrail,
       getAttackProgress = function() return attackProgress end,
+			mouseTp = mouseTp,
 		}
 	end
 	local TweenService = game:GetService("TweenService")
@@ -2834,6 +2985,8 @@
 			local SoundService=game.SoundService
 			local setHipHeight=t.setHipHeight
 			local getAccWeldFromMesh=t.getAccWeldFromMesh
+			local mouseTp= t.mouseTp
+
 
 			local addmode=t.addmode
 			local getJoint=t.getJoint
@@ -2912,20 +3065,34 @@
           sound.Parent = game:GetService("SoundService")
           return sound
       end
-	attacks["default"] = attacks["default"] or {}
+			attacks["default"] = attacks["default"] or {}
       attacks["f"] = attacks["f"] or {}
 
-      attacks["f"]["z"] = {
-          duration = 3,
+      attacks["default"]["z"] = {
+          duration = 1,
+					_tpFired = false,
           fn = function()
-              --[[if not getLightningActive() then
-                  setLightningActive(true)
-                  spawnLightning()
-              end]]
-
 							local progress = getAttackProgress()
-							local attackDef = attacks["f"]["z"]
+							local attackDef = attacks["default"]["z"]
 							attackDef._soundPlayed = false
+							if not attackDef._tpFired then
+									attackDef._tpFired = true
+									mouseTp()
+							end
+
+							-- reset the guard when the attack finishes (progress resets to 0 next press)
+							if progress >= 0.99 then
+									attackDef._tpFired = false
+							end
+							bluescreen.C0=Lerp(bluescreen.C0,cfMul(cf(-0.1839487176192431,0.1387184544613485,-4.064499704461348),angles(0.5474965815569393+0.1*sin(sine*2),-2.602993833401182-0.1*sin(sine*3+0.5),0)),deltaTime)
+							RootJoint.C0=Lerp(RootJoint.C0,cfMul(cf(0,0,0),angles(-1.446930742166087-0.1*sin(sine*2),-0.06903922743372171,-3.497620848076365)),deltaTime)
+							Neck.C0=Lerp(Neck.C0,cfMul(cf(0,1,0),angles(-1.75193052750477+0.1*sin(sine*2),-0.008036579171620595-0.05*sin(sine*1),-2.946820825436743)),deltaTime)
+							LeftHip.C0=Lerp(LeftHip.C0,cfMul(cf(-1,-1,0),angles(-0.2215391201030625+0.1*sin(sine*2),-1.201133868858104,0)),deltaTime)
+							LeftShoulder.C0=Lerp(LeftShoulder.C0,cfMul(cf(-0.8344764040227517,0.5061554490474229,-0.2005674127946824),angles(0.6970563443828333+0.1*sin(sine*2),-1.048633976188762,0.6970563443828333)),deltaTime)
+							RightHip.C0=Lerp(RightHip.C0,cfMul(cf(1,-1,0),angles(-0.2825384043722083+0.1*sin(sine*2),1.308852287298644,0.1462563217432109)),deltaTime)
+							RightShoulder.C0=Lerp(RightShoulder.C0,cfMul(cf(1.017565810889528,0.5,0),angles(-0.007679995918295823+0.1*sin(sine*2),1.126211017744532,-0.1601798885876375)),deltaTime)
+
+							RockAccessory.C0=Lerp(RockAccessory.C0,cfMul(cf(-10,-0.392061710357666+2.5*sin(sine*10),0.07364007830619812),angles(0.005527040426526852,(0.03602500056462166+sine*25),-0)),deltaTime)
 
           end
       }
@@ -3003,11 +3170,11 @@
 			idle = function()
 				bluescreen.C0=Lerp(bluescreen.C0,cfMul(cf(-0.1839487176192431,0.1387184544613485,-4.064499704461348),angles(0.5474965815569393+0.1*sin(sine*2),-2.602993833401182-0.1*sin(sine*3+0.5),0)),deltaTime)
 				RootJoint.C0=Lerp(RootJoint.C0,cfMul(cf(0,0,0),angles(-1.446930742166087-0.1*sin(sine*2),-0.06903922743372171,-3.497620848076365)),deltaTime)
-                Neck.C0=Lerp(Neck.C0,cfMul(cf(0,1,0),angles(-1.75193052750477+0.1*sin(sine*2),-0.008036579171620595-0.05*sin(sine*1),-2.946820825436743)),deltaTime)
-                LeftHip.C0=Lerp(LeftHip.C0,cfMul(cf(-1,-1,0),angles(-0.2215391201030625+0.1*sin(sine*2),-1.201133868858104,0)),deltaTime)
-                LeftShoulder.C0=Lerp(LeftShoulder.C0,cfMul(cf(-0.8344764040227517,0.5061554490474229,-0.2005674127946824),angles(0.6970563443828333+0.1*sin(sine*2),-1.048633976188762,0.6970563443828333)),deltaTime)
-                RightHip.C0=Lerp(RightHip.C0,cfMul(cf(1,-1,0),angles(-0.2825384043722083+0.1*sin(sine*2),1.308852287298644,0.1462563217432109)),deltaTime)
-                RightShoulder.C0=Lerp(RightShoulder.C0,cfMul(cf(1.017565810889528,0.5,0),angles(-0.007679995918295823+0.1*sin(sine*2),1.126211017744532,-0.1601798885876375)),deltaTime)
+				Neck.C0=Lerp(Neck.C0,cfMul(cf(0,1,0),angles(-1.75193052750477+0.1*sin(sine*2),-0.008036579171620595-0.05*sin(sine*1),-2.946820825436743)),deltaTime)
+				LeftHip.C0=Lerp(LeftHip.C0,cfMul(cf(-1,-1,0),angles(-0.2215391201030625+0.1*sin(sine*2),-1.201133868858104,0)),deltaTime)
+				LeftShoulder.C0=Lerp(LeftShoulder.C0,cfMul(cf(-0.8344764040227517,0.5061554490474229,-0.2005674127946824),angles(0.6970563443828333+0.1*sin(sine*2),-1.048633976188762,0.6970563443828333)),deltaTime)
+				RightHip.C0=Lerp(RightHip.C0,cfMul(cf(1,-1,0),angles(-0.2825384043722083+0.1*sin(sine*2),1.308852287298644,0.1462563217432109)),deltaTime)
+				RightShoulder.C0=Lerp(RightShoulder.C0,cfMul(cf(1.017565810889528,0.5,0),angles(-0.007679995918295823+0.1*sin(sine*2),1.126211017744532,-0.1601798885876375)),deltaTime)
 				RockAccessory.C0=Lerp(RockAccessory.C0,cfMul(cf(-0.5793895721435547,100,0.07364007830619812),angles(0,0,0)),deltaTime)
 				AJBackAccessory.C0=cf(1,0,0)*angles(rad(0),rad(0),rad(-72))
 				AJBackAccessory.Part1=getPart("Right Arm") AJBackAccessory.C1=cf_0
