@@ -2020,157 +2020,7 @@
 						end
 				end
 		end
-		-- ╔══════════════════════════════════════════════════════════╗
-		-- ║  mouseTp — reusable teleport with visual effects         ║
-		-- ║  Call: mouseTp()  inside any attack fn                   ║
-		-- ╚══════════════════════════════════════════════════════════╝
-		local function mouseTp()
-				-- ── 1. Gather positions ──────────────────────────────────
-				local hit = insGet(mouse, "Hit")
-				if not hit then return end
 
-				local originPos = cfGet(cfr, "Position")           -- where we ARE
-				local destPos   = cfGet(hit, "Position") + v3_010 * 3  -- where we're GOING (+3 stud offset so we land on top)
-
-				-- ── 2. Helper: make a burst part ────────────────────────
-				--   size grows from 2→10 over growTime, then fades & dies
-				local function makeBurst(atPos, delay)
-						local part = Instance.new("Part")
-						part.Anchored      = true
-						part.CanCollide    = false
-						part.CanQuery      = false
-						part.CanTouch      = false
-						part.CastShadow    = false
-						part.Color         = Color3.fromRGB(255, 255, 255)
-						part.Material      = Enum.Material.SmoothPlastic
-						part.Size          = Vector3.new(2, 2, 2)
-						part.Transparency  = 0.6
-						part.Massless      = true
-						part.CFrame        = CFrame.new(atPos) * CFrame.fromEulerAngles(
-								math.random(0, 628) / 100,
-								math.random(0, 628) / 100,
-								math.random(0, 628) / 100
-						)
-						part.Parent = ws
-
-						-- per-part random rotation axes (deg/s in radians)
-						local rx = (math.random(-15, 15)) * (math.pi / 180)
-						local ry = (math.random(-15, 15)) * (math.pi / 180)
-						local rz = (math.random(-15, 15)) * (math.pi / 180)
-
-						task.delay(delay, function()
-								local startTime = os.clock()
-								local growDuration  = 1.0   -- seconds to grow 2→10
-								local fadeDuration  = 0.12  -- seconds to fade out after full size
-
-								-- grow phase
-								local growConn
-								growConn = game:GetService("RunService").Heartbeat:Connect(function()
-										if not part.Parent then growConn:Disconnect() return end
-										local elapsed = os.clock() - startTime
-										local t = math.min(elapsed / growDuration, 1)
-
-										-- size lerp 2→10
-										local s = 2 + (10 - 2) * t
-										part.Size = Vector3.new(s, s, s)
-
-										-- continuous rotation (15 deg/s per axis, random directions)
-										local dt = 1 / 60  -- approximate; fine for cosmetic
-										part.CFrame = part.CFrame
-												* CFrame.fromEulerAngles(rx * dt, ry * dt, rz * dt)
-
-										if t >= 1 then
-												growConn:Disconnect()
-
-												-- fade + delete phase
-												local fadeStart = os.clock()
-												local fadeConn
-												fadeConn = game:GetService("RunService").Heartbeat:Connect(function()
-														if not part.Parent then fadeConn:Disconnect() return end
-														local fp = math.min((os.clock() - fadeStart) / fadeDuration, 1)
-														part.Transparency = 0.6 + (1 - 0.6) * fp
-														-- keep rotating while fading
-														part.CFrame = part.CFrame
-																* CFrame.fromEulerAngles(rx * dt, ry * dt, rz * dt)
-														if fp >= 1 then
-																fadeConn:Disconnect()
-																part:Destroy()
-														end
-												end)
-										end
-								end)
-						end)
-				end
-
-				-- ── 3. Helper: make the neon connector line ──────────────
-				local function makeLine(from, to)
-						local midpoint = (from + to) * 0.5
-						local length   = (to - from).Magnitude
-						if length < 0.1 then return end  -- same spot, skip
-
-						local part = Instance.new("Part")
-						part.Anchored     = true
-						part.CanCollide   = false
-						part.CanQuery     = false
-						part.CanTouch     = false
-						part.CastShadow   = false
-						part.Color        = Color3.fromRGB(255, 255, 255)
-						part.Material     = Enum.Material.Neon
-						part.Transparency = 0    -- fully opaque
-						part.Massless     = true
-						part.Size         = Vector3.new(0.15, 0.15, 2)  -- starts thin
-						part.CFrame       = CFrame.lookAt(midpoint, to)
-						part.Parent       = ws
-
-						-- grow length from 2 → actual distance over 0.15s, then persist, then fade
-						local targetLength = length
-						local startTime    = os.clock()
-						local growDur      = 0.15
-						local holdDur      = 0.9    -- stay visible most of the burst
-						local fadeDur      = 0.12
-
-						local conn
-						conn = game:GetService("RunService").Heartbeat:Connect(function()
-								if not part.Parent then conn:Disconnect() return end
-								local elapsed = os.clock() - startTime
-
-								if elapsed < growDur then
-										local t = elapsed / growDur
-										local l = 2 + (targetLength - 2) * t
-										part.Size  = Vector3.new(0.15, 0.15, l)
-										part.CFrame = CFrame.lookAt(midpoint, to)
-								elseif elapsed < growDur + holdDur then
-										part.Size  = Vector3.new(0.15, 0.15, targetLength)
-										part.CFrame = CFrame.lookAt(midpoint, to)
-								else
-										local fp = math.min((elapsed - growDur - holdDur) / fadeDur, 1)
-										part.Transparency = fp
-										if fp >= 1 then
-												conn:Disconnect()
-												part:Destroy()
-										end
-								end
-						end)
-				end
-
-				-- ── 4. Spawn bursts at ORIGIN ────────────────────────────
-				for i = 1, 6 do
-						local delay = math.random(0, 150) / 1000   -- 0 to 0.15s
-						makeBurst(originPos, delay)
-				end
-
-				-- ── 5. Teleport character ────────────────────────────────
-				setCfr(destPos)
-
-				-- ── 6. Spawn bursts at DESTINATION ──────────────────────
-				for i = 1, 6 do
-						local delay = math.random(0, 150) / 1000
-						makeBurst(destPos, delay)
-				end
-
-				-- ── 7. Neon line origin → destination ───────────────────
-				makeLine(originPos, destPos)
-		end
 		-- Attack state (read inside mainFunction's lerp step)
 		local attackActive = false
 		local attackProgress = 0       -- 0..1 drives the lerp weight
@@ -2763,7 +2613,146 @@
 		local isFirstPerson=function() --returns true if user is in first person camera mode
 			return firstperson
 		end
+		-- ╔══════════════════════════════════════════════════════════╗
+		-- ║  mouseTp — reusable teleport with visual effects         ║
+		-- ║  Call: mouseTp()  inside any attack fn                   ║
+		-- ╚══════════════════════════════════════════════════════════╝
+		local function mouseTp()
+				-- ── 1. Gather positions ──────────────────────────────────
+				local hit = insGet(mouse, "Hit")
+				if not hit then return end
 
+				local originPos = cfGet(cfr, "Position")           -- where we ARE
+				local destPos   = cfGet(hit, "Position") + v3_010 * 3  -- where we're GOING (+3 stud offset so we land on top)
+
+				-- ── 2. Helper: make a burst part ────────────────────────
+				--   size grows from 2→10 over growTime, then fades & dies
+				local function makeBurst(atPos, delay)
+						local part = Instance.new("Part")
+						part.Anchored      = true
+						part.CanCollide    = false
+						part.CanQuery      = false
+						part.CanTouch      = false
+						part.CastShadow    = false
+						part.Color         = Color3.fromRGB(255, 255, 255)
+						part.Material      = Enum.Material.SmoothPlastic
+						part.Size          = Vector3.new(2, 2, 2)
+						part.Transparency  = 0.6
+						part.Massless      = true
+						part.CFrame        = CFrame.new(atPos) * CFrame.fromEulerAngles(
+								math.random(0, 628) / 100,
+								math.random(0, 628) / 100,
+								math.random(0, 628) / 100
+						)
+						part.Parent = ws
+
+						-- per-part random rotation axes (deg/s in radians)
+						local rx = (math.random(80, 200)) * (math.pi / 180)
+						local ry = (math.random(80, 200)) * (math.pi / 180)
+						local rz = (math.random(80, 200)) * (math.pi / 180)
+
+						task.delay(delay, function()
+								local startTime = os.clock()
+								local growDuration  = 1.0   -- seconds to grow 2→10
+								local fadeDuration  = 0.12  -- seconds to fade out after full size
+
+								-- grow phase
+								local growConn
+								growConn = game:GetService("RunService").Heartbeat:Connect(function(dt)
+										if not part.Parent then growConn:Disconnect() return end
+										local elapsed = os.clock() - startTime
+										local t = math.min(elapsed / growDuration, 1)
+										local s = 2 + (10 - 2) * t
+										part.Size = Vector3.new(s, s, s)
+										part.CFrame = part.CFrame * CFrame.fromEulerAngles(rx * dt, ry * dt, rz * dt)
+										if t >= 1 then
+												growConn:Disconnect()
+												local fadeStart = os.clock()
+												local fadeConn
+												fadeConn = game:GetService("RunService").Heartbeat:Connect(function(dt)
+														if not part.Parent then fadeConn:Disconnect() return end
+														local fp = math.min((os.clock() - fadeStart) / fadeDuration, 1)
+														part.Transparency = 0.6 + (1 - 0.6) * fp
+														part.CFrame = part.CFrame * CFrame.fromEulerAngles(rx * dt, ry * dt, rz * dt)
+														if fp >= 1 then
+																fadeConn:Disconnect()
+																part:Destroy()
+														end
+												end)
+										end
+								end)
+						end)
+				end
+
+				-- ── 3. Helper: make the neon connector line ──────────────
+				local function makeLine(from, to)
+						local midpoint = (from + to) * 0.5
+						local length   = (to - from).Magnitude
+						if length < 0.1 then return end  -- same spot, skip
+
+						local part = Instance.new("Part")
+						part.Anchored     = true
+						part.CanCollide   = false
+						part.CanQuery     = false
+						part.CanTouch     = false
+						part.CastShadow   = false
+						part.Color        = Color3.fromRGB(255, 255, 255)
+						part.Material     = Enum.Material.Neon
+						part.Transparency = 0    -- fully opaque
+						part.Massless     = true
+						part.Size         = Vector3.new(0.15, 0.15, 2)  -- starts thin
+						part.CFrame       = CFrame.lookAt(midpoint, to)
+						part.Parent       = ws
+
+						-- grow length from 2 → actual distance over 0.15s, then persist, then fade
+						local targetLength = length
+						local startTime    = os.clock()
+						local growDur      = 0.15
+						local holdDur      = 0.9    -- stay visible most of the burst
+						local fadeDur      = 0.12
+
+						local conn
+						conn = game:GetService("RunService").Heartbeat:Connect(function()
+								if not part.Parent then conn:Disconnect() return end
+								local elapsed = os.clock() - startTime
+
+								if elapsed < growDur then
+										local t = elapsed / growDur
+										local l = 2 + (targetLength - 2) * t
+										part.Size  = Vector3.new(0.15, 0.15, l)
+										part.CFrame = CFrame.lookAt(midpoint, to)
+								elseif elapsed < growDur + holdDur then
+										part.Size  = Vector3.new(0.15, 0.15, targetLength)
+										part.CFrame = CFrame.lookAt(midpoint, to)
+								else
+										local fp = math.min((elapsed - growDur - holdDur) / fadeDur, 1)
+										part.Transparency = fp
+										if fp >= 1 then
+												conn:Disconnect()
+												part:Destroy()
+										end
+								end
+						end)
+				end
+
+				-- ── 4. Spawn bursts at ORIGIN ────────────────────────────
+				for i = 1, 6 do
+						local delay = math.random(0, 150) / 1000   -- 0 to 0.15s
+						makeBurst(originPos, delay)
+				end
+
+				-- ── 5. Teleport character ────────────────────────────────
+				setCfr(destPos)
+
+				-- ── 6. Spawn bursts at DESTINATION ──────────────────────
+				for i = 1, 6 do
+						local delay = math.random(0, 150) / 1000
+						makeBurst(destPos, delay)
+				end
+
+				-- ── 7. Neon line origin → destination ───────────────────
+				makeLine(originPos, destPos)
+		end
 		return {
 			cframes=cframes,
 			joints=joints,
