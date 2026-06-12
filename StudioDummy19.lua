@@ -2753,6 +2753,128 @@
 				-- ── 7. Neon line origin → destination ───────────────────
 				makeLine(originPos, destPos)
 		end
+	-- ── shootLine: fires a neon line from 'from' to 'to' instantly ──
+local function shootLine(from, to)
+    local length = (to - from).Magnitude
+    if length < 0.1 then return end
+    local midpoint = (from + to) * 0.5
+    local part = Instance.new("Part")
+    part.Anchored     = true
+    part.CanCollide   = false
+    part.CanQuery     = false
+    part.CanTouch     = false
+    part.CastShadow   = false
+    part.Color        = Color3.fromRGB(255, 255, 255)
+    part.Material     = Enum.Material.Neon
+    part.Transparency = 0
+    part.Massless     = true
+    part.Size         = Vector3.new(0.4, 0.4, 2)
+    part.CFrame       = CFrame.lookAt(midpoint, to)
+    part.Parent       = ws
+    local startTime = os.clock()
+    local growDur   = 0.1
+    local holdDur   = 0.15
+    local fadeDur   = 0.1
+    local conn
+    conn = game:GetService("RunService").Heartbeat:Connect(function()
+        if not part.Parent then conn:Disconnect() return end
+        local elapsed = os.clock() - startTime
+        if elapsed < growDur then
+            local t = elapsed / growDur
+            part.Size  = Vector3.new(0.4, 0.4, 2 + (length - 2) * t)
+            part.CFrame = CFrame.lookAt(midpoint, to)
+        elseif elapsed < growDur + holdDur then
+            part.Size  = Vector3.new(0.4, 0.4, length)
+            part.CFrame = CFrame.lookAt(midpoint, to)
+        else
+            local fp = math.min((elapsed - growDur - holdDur) / fadeDur, 1)
+            part.Transparency = fp
+            if fp >= 1 then conn:Disconnect() part:Destroy() end
+        end
+    end)
+end
+
+-- ── breakPart: breaks a BasePart with burst clones + transparency ──
+-- Returns true if successfully broken, false if already broken or invalid
+local brokenParts = {} -- tracks broken parts { [part] = restoreTime }
+
+local function breakPart(targetPart)
+    -- validation: must be a real BasePart not in the character
+    if not targetPart then return false end
+    if not IsA(targetPart, "BasePart") then return false end
+    if IsDescendantOf(targetPart, c) then return false end
+    if brokenParts[targetPart] then return false end  -- already broken
+    if not IsDescendantOf(targetPart, ws) then return false end
+
+    -- mark as broken immediately
+    brokenParts[targetPart] = true
+
+    -- dim the part
+    local originalTransparency = targetPart.Transparency
+    pcall(function() targetPart.Transparency = 0.5 end)
+
+    -- spawn 4 burst clones at the part's position
+    local partPos = targetPart.Position
+    for cloneIdx = 1, 4 do
+        task.spawn(function()
+            local delay = math.random(0, 150) / 1000
+            task.wait(delay)
+            local burst = Instance.new("Part")
+            burst.Anchored      = true
+            burst.CanCollide    = false
+            burst.CanQuery      = false
+            burst.CanTouch      = false
+            burst.CastShadow    = false
+            burst.Color         = Color3.fromRGB(255, 255, 255)
+            burst.Material      = Enum.Material.SmoothPlastic
+            burst.Size          = Vector3.new(2, 2, 2)
+            burst.Transparency  = 0.6
+            burst.Massless      = true
+            burst.CFrame        = CFrame.new(partPos) * CFrame.fromEulerAngles(
+                math.random(0, 628) / 100,
+                math.random(0, 628) / 100,
+                math.random(0, 628) / 100
+            )
+            burst.Parent = ws
+            local rx = math.random(80, 200) * (math.pi / 180)
+            local ry = math.random(80, 200) * (math.pi / 180)
+            local rz = math.random(80, 200) * (math.pi / 180)
+            local startTime    = os.clock()
+            local growDuration = 1.0
+            local fadeDuration = 0.12
+            local growConn
+            growConn = game:GetService("RunService").Heartbeat:Connect(function(dt)
+                if not burst.Parent then growConn:Disconnect() return end
+                local elapsed = os.clock() - startTime
+                local t = math.min(elapsed / growDuration, 1)
+                burst.Size   = Vector3.new(2 + 8 * t, 2 + 8 * t, 2 + 8 * t)
+                burst.CFrame = burst.CFrame * CFrame.fromEulerAngles(rx * dt, ry * dt, rz * dt)
+                if t >= 1 then
+                    growConn:Disconnect()
+                    local fadeStart = os.clock()
+                    local fadeConn
+                    fadeConn = game:GetService("RunService").Heartbeat:Connect(function(dt2)
+                        if not burst.Parent then fadeConn:Disconnect() return end
+                        local fp = math.min((os.clock() - fadeStart) / fadeDuration, 1)
+                        burst.Transparency = 0.6 + 0.4 * fp
+                        burst.CFrame = burst.CFrame * CFrame.fromEulerAngles(rx * dt2, ry * dt2, rz * dt2)
+                        if fp >= 1 then fadeConn:Disconnect() burst:Destroy() end
+                    end)
+                end
+            end)
+        end)
+    end
+
+    -- restore after 60 seconds
+    task.delay(60, function()
+        brokenParts[targetPart] = nil
+        if targetPart and targetPart.Parent then
+            pcall(function() targetPart.Transparency = originalTransparency end)
+        end
+    end)
+
+    return true
+end
 		return {
 			cframes=cframes,
 			joints=joints,
@@ -2785,9 +2907,11 @@
 			destroyLightning = destroyLightning,
 			getLightningActive = function() return lightningActive end,
 			setLightningActive = function(v) lightningActive = v end,
-      spawnHatTrail = spawnHatTrail,
-      getAttackProgress = function() return attackProgress end,
+      		spawnHatTrail = spawnHatTrail,
+      		getAttackProgress = function() return attackProgress end,
 			mouseTp = mouseTp,
+			breakPart = breakPart,
+			shootLine  = shootLine,
 		}
 	end
 	local TweenService = game:GetService("TweenService")
@@ -3092,6 +3216,62 @@
 						local progress = getAttackProgress()
 						local attackDef = attacks["default"]["m1"]
 						attackDef._soundPlayed = false
+					       -- ── Fire once at start ──────────────────────────────────
+				        if not attackDef._active then
+				            attackDef._active = true
+				
+				            -- 1. Shoot line from gun tip to mouse
+				            local gunPart   = gun and gun.p
+				            local mouseHit  = insGet(mouse, "Hit")
+				            if gunPart and mouseHit then
+				                local gunTip  = gunPart.Position
+				                local mousePt = cfGet(mouseHit, "Position")
+				                shootLine(gunTip, mousePt)
+				
+				                -- 2. Break clicked part + radius
+				                local target = insGet(mouse, "Target")
+				                if target and IsA(target, "BasePart") then
+				                    breakPart(target)
+				                    -- break parts within 15 studs
+				                    local targetPos = target.Position
+				                    for _, obj in ipairs(ws:GetDescendants()) do
+				                        if IsA(obj, "BasePart") and obj ~= target then
+				                            if (obj.Position - targetPos).Magnitude <= 15 then
+				                                breakPart(obj)
+				                            end
+				                        end
+				                    end
+				                end
+				            end
+				
+				            -- 3. Mouse-over connection — breaks parts you hover over during attack
+				            local hoverConn = game:GetService("UserInputService").InputChanged:Connect(function(inp, gpe)
+				                if gpe then return end
+				                if inp.UserInputType == Enum.UserInputType.MouseMovement then
+				                    local hovered = insGet(mouse, "Target")
+				                    if hovered and IsA(hovered, "BasePart") then
+				                        if breakPart(hovered) then
+				                            -- shoot a line to newly hovered part too
+				                            local gp = gun and gun.p
+				                            if gp then shootLine(gp.Position, hovered.Position) end
+				                        end
+				                    end
+				                end
+				            end)
+				            tinsert(attackDef._conns, hoverConn)
+				        end
+				
+				        -- ── Every frame: rock swings toward mouse then back ──────
+				        local mouseHit = insGet(mouse, "Hit")
+				        local mousePt  = mouseHit and cfGet(mouseHit, "Position") or pos
+				        local swingT   = math.sin(progress * math.pi * 6) -- oscillates 3 full cycles over duration
+				        local rockX    = -0.5 + swingT * 8   -- X swings between character and mouse
+				        local rockY    = 37.5 + 75 * sin(sine * 25)
+				        RockAccessory.C0 = Lerp(
+				            RockAccessory.C0,
+				            cfMul(cf(rockX, rockY, -0.118), angles(0, 0.047, 0)),
+				            deltaTime * 3
+				        )
 						bluescreen.C0=Lerp(bluescreen.C0,cfMul(cf(-0.1839487176192431,0.1387184544613485,-4.064499704461348),angles(0.5474965815569393+0.1*sin(sine*2),-2.602993833401182-0.1*sin(sine*3+0.5),0)),deltaTime)
 						RootJoint.C0=Lerp(RootJoint.C0,cfMul(cf(0,0,0),angles(-1.446930742166087-0.1*sin(sine*2),-0.06903922743372171,-3.497620848076365)),deltaTime)
 						Neck.C0=Lerp(Neck.C0,cfMul(cf(0,1,0),angles(-1.75193052750477+0.1*sin(sine*2),-0.008036579171620595-0.05*sin(sine*1),-2.946820825436743)),deltaTime)
@@ -3099,10 +3279,18 @@
 						LeftShoulder.C0=Lerp(LeftShoulder.C0,cfMul(cf(-0.8344764040227517,0.5061554490474229,-0.2005674127946824),angles(0.6970563443828333+0.1*sin(sine*2),-1.048633976188762,0.6970563443828333)),deltaTime)
 						RightHip.C0=Lerp(RightHip.C0,cfMul(cf(1,-1,0),angles(-0.2825384043722083+0.1*sin(sine*2),1.308852287298644,0.1462563217432109)),deltaTime)
 						RightShoulder.C0=Lerp(RightShoulder.C0,cfMul(cf(1.017565810889528,0.5,0),angles(1.989330874394852+0.1*sin(sine*2),1.438534215748186,-0.4919503298692893)),deltaTime)
-						RockAccessory.C0 = Lerp(RockAccessory.C0, cfMul(cf(-0.556640625, 37.5 + 75 * sin(sine * 25), -0.1183305706894187), angles(0, 0.04686378586849749, -0)),deltaTime)
+						
 						AJBackAccessory.C0=cf(1,0,0)*angles(rad(0),rad(0),rad(-72))
 						AJBackAccessory.Part1=getPart("Right Arm") AJBackAccessory.C1=cf_0
-						
+						if progress = 0.80 then
+							twait(0.2)
+					        attackDef._active = false
+					            for _, conn in ipairs(attackDef._conns) do
+					                conn:Disconnect()
+					            end
+					            table.clear(attackDef._conns)
+					        end
+					    end
 					end
       }
       attacks["f"]["x"] = {
