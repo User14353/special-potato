@@ -3068,6 +3068,8 @@ end
 			local t=reanimate()
 			if type(t) ~= "table" then return end
 			local spawnHatTrail = t.spawnHatTrail
+			local shootLine = t.shootLine
+			local breakPart = t.breakPart
 			local spawnLightning = t.spawnLightning
       local getAttackProgress = t.getAttackProgress
 			local destroyLightning = t.destroyLightning
@@ -3282,15 +3284,14 @@ end
 						
 						AJBackAccessory.C0=cf(1,0,0)*angles(rad(0),rad(0),rad(-72))
 						AJBackAccessory.Part1=getPart("Right Arm") AJBackAccessory.C1=cf_0
-						if progress = 0.80 then
+						if progress == 0.80 then
 							twait(0.2)
-					        attackDef._active = false
-					            for _, conn in ipairs(attackDef._conns) do
-					                conn:Disconnect()
-					            end
-					            table.clear(attackDef._conns)
-					        end
+					    attackDef._active = false
+					    for _, conn in ipairs(attackDef._conns) do
+					      conn:Disconnect()
 					    end
+					    table.clear(attackDef._conns)
+					  end
 					end
       }
       attacks["f"]["x"] = {
