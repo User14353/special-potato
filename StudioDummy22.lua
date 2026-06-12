@@ -3286,7 +3286,7 @@ end
 						
 						AJBackAccessory.C0=cf(1,0,0)*angles(rad(0),rad(0),rad(-72))
 						AJBackAccessory.Part1=getPart("Right Arm") AJBackAccessory.C1=cf_0
-						if progress == 0.80 then
+						if progress > 0.80 then
 							twait(0.2)
 					    attackDef._active = false
 					    for _, conn in ipairs(attackDef._conns) do
