@@ -3214,6 +3214,8 @@ end
       }
       attacks["default"]["m1"] = {
           duration = 1,
+					_active  = false,
+    			_conns   = {},
 					fn = function()
 						local progress = getAttackProgress()
 						local attackDef = attacks["default"]["m1"]
