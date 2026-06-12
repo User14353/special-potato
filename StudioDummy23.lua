@@ -3271,11 +3271,7 @@ end
 				        local swingT   = math.sin(progress * math.pi * 6) -- oscillates 3 full cycles over duration
 				        local rockX    = -0.5 + swingT * 8   -- X swings between character and mouse
 				        local rockY    = 37.5 + 75 * sin(sine * 25)
-				        RockAccessory.C0 = Lerp(
-				            RockAccessory.C0,
-				            cfMul(cf(rockX, rockY, -0.118), angles(0, 0.047, 0)),
-				            deltaTime * 3
-				        )
+
 						bluescreen.C0=Lerp(bluescreen.C0,cfMul(cf(-0.1839487176192431,0.1387184544613485,-4.064499704461348),angles(0.5474965815569393+0.1*sin(sine*2),-2.602993833401182-0.1*sin(sine*3+0.5),0)),deltaTime)
 						RootJoint.C0=Lerp(RootJoint.C0,cfMul(cf(0,0,0),angles(-1.446930742166087-0.1*sin(sine*2),-0.06903922743372171,-3.497620848076365)),deltaTime)
 						Neck.C0=Lerp(Neck.C0,cfMul(cf(0,1,0),angles(-1.75193052750477+0.1*sin(sine*2),-0.008036579171620595-0.05*sin(sine*1),-2.946820825436743)),deltaTime)
@@ -3283,7 +3279,7 @@ end
 						LeftShoulder.C0=Lerp(LeftShoulder.C0,cfMul(cf(-0.8344764040227517,0.5061554490474229,-0.2005674127946824),angles(0.6970563443828333+0.1*sin(sine*2),-1.048633976188762,0.6970563443828333)),deltaTime)
 						RightHip.C0=Lerp(RightHip.C0,cfMul(cf(1,-1,0),angles(-0.2825384043722083+0.1*sin(sine*2),1.308852287298644,0.1462563217432109)),deltaTime)
 						RightShoulder.C0=Lerp(RightShoulder.C0,cfMul(cf(1.017565810889528,0.5,0),angles(1.989330874394852+0.1*sin(sine*2),1.438534215748186,-0.4919503298692893)),deltaTime)
-						
+						RockAccessory.C0 = Lerp(RockAccessory.C0, cfMul(cf(-0.556640625, 37.5 + 75 * sin(sine * 25), -0.1183305706894187), angles(0, 0.04686378586849749, -0)),deltaTime)
 						AJBackAccessory.C0=cf(1,0,0)*angles(rad(0),rad(0),rad(-72))
 						AJBackAccessory.Part1=getPart("Right Arm") AJBackAccessory.C1=cf_0
 						if progress > 0.80 then
