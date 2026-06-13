@@ -2860,9 +2860,9 @@ local function breakPart(targetPart)
                 local elapsed = os.clock() - startTime
                 local t = math.min(elapsed / growDuration, 1)
                 burst.Size = targetPart.Size + Vector3.new(
-										40 * t,
-										40 * t,
-										40 * t
+										10 * t,
+										10 * t,
+										10 * t
 								)
                 burst.CFrame = burst.CFrame * CFrame.fromEulerAngles(rx * dt, ry * dt, rz * dt)
                 if t >= 1 then
