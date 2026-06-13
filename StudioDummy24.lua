@@ -2799,12 +2799,23 @@ end
 local brokenParts = {} -- tracks broken parts { [part] = restoreTime }
 
 local function breakPart(targetPart)
+
     -- validation: must be a real BasePart not in the character
     if not targetPart then return false end
     if not IsA(targetPart, "BasePart") then return false end
     if IsDescendantOf(targetPart, c) then return false end
     if brokenParts[targetPart] then return false end  -- already broken
     if not IsDescendantOf(targetPart, ws) then return false end
+
+		local maxDimension = math.max(
+			targetPart.Size.X,
+			targetPart.Size.Y,
+			targetPart.Size.Z
+		)
+
+		if maxDimension > 500 then
+				return false
+		end
 
     -- mark as broken immediately
     brokenParts[targetPart] = true
@@ -2819,7 +2830,7 @@ local function breakPart(targetPart)
         task.spawn(function()
             local delay = math.random(0, 150) / 1000
             task.wait(delay)
-            local burst = Instance.new("Part")
+            local burst = targetPart:Clone()
             burst.Anchored      = true
             burst.CanCollide    = false
             burst.CanQuery      = false
@@ -2827,7 +2838,8 @@ local function breakPart(targetPart)
             burst.CastShadow    = false
             burst.Color         = Color3.fromRGB(255, 255, 255)
             burst.Material      = Enum.Material.SmoothPlastic
-            burst.Size          = Vector3.new(2, 2, 2)
+						
+            burst.Size = targetPart.Size
             burst.Transparency  = 0.6
             burst.Massless      = true
             burst.CFrame        = CFrame.new(partPos) * CFrame.fromEulerAngles(
@@ -2847,7 +2859,11 @@ local function breakPart(targetPart)
                 if not burst.Parent then growConn:Disconnect() return end
                 local elapsed = os.clock() - startTime
                 local t = math.min(elapsed / growDuration, 1)
-                burst.Size   = Vector3.new(2 + 8 * t, 2 + 8 * t, 2 + 8 * t)
+                burst.Size = targetPart.Size + Vector3.new(
+										40 * t,
+										40 * t,
+										40 * t
+								)
                 burst.CFrame = burst.CFrame * CFrame.fromEulerAngles(rx * dt, ry * dt, rz * dt)
                 if t >= 1 then
                     growConn:Disconnect()
@@ -3254,12 +3270,14 @@ end
 				                if inp.UserInputType == Enum.UserInputType.MouseMovement then
 				                    local hovered = insGet(mouse, "Target")
 				                    if hovered and IsA(hovered, "BasePart") then
-				                        if breakPart(hovered) then
-				                            -- shoot a line to newly hovered part too
-				                            local gp = gun and gun.p
-				                            if gp then shootLine(gp.Position, hovered.Position) end
-				                        end
-				                    end
+															local gp = gun and gun.p
+
+															if gp then
+																	shootLine(gp.Position, mouse.Hit.Position)
+															end
+
+															breakPart(hovered)
+														end
 				                end
 				            end)
 				            tinsert(attackDef._conns, hoverConn)
