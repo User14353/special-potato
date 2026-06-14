@@ -3069,71 +3069,94 @@ local osclock = os.clock
 			local lastGunPart = nil
 			local RunService = game:GetService("RunService")
 			
-			local function setupEffects(part)
-				if not part or not part:IsA("BasePart") then return end
-				if part:FindFirstChild("GunEffectsDone") then return end
-			
-				local tag = Instance.new("BoolValue")
-				tag.Name = "GunEffectsDone"
-				tag.Parent = part
-			
-				-- SMOKE (white, ~60% visible)
-				local smoke = Instance.new("ParticleEmitter")
-				smoke.Name = "GunSmoke"
-				smoke.Texture = "rbxassetid://771221224"
-				smoke.Rate = 12
-				smoke.Lifetime = NumberRange.new(1.2, 2.2)
-				smoke.Speed = NumberRange.new(0.3, 1.2)
-				smoke.SpreadAngle = Vector2.new(180, 180)
-				smoke.Size = NumberSequence.new({
-					NumberSequenceKeypoint.new(0, 1.5),
-					NumberSequenceKeypoint.new(1, 3)
-				})
-				smoke.Transparency = NumberSequence.new({
-					NumberSequenceKeypoint.new(0, 0.6),
-					NumberSequenceKeypoint.new(1, 1)
-				})
-				smoke.Color = ColorSequence.new(Color3.fromRGB(255,255,255))
-				smoke.Parent = part
-			
-				-- FLOATING DOTS
-				local dots = Instance.new("ParticleEmitter")
-				dots.Name = "GunDots"
-				dots.Texture = "rbxassetid://248625108"
-				dots.Rate = 6
-				dots.Lifetime = NumberRange.new(1.5, 3)
-				dots.Speed = NumberRange.new(0.2, 0.9)
-				dots.SpreadAngle = Vector2.new(360, 360)
-				dots.Size = NumberSequence.new(0.12)
-				dots.Transparency = NumberSequence.new(0.2)
-				dots.LightEmission = 1
-				dots.Color = ColorSequence.new(Color3.fromRGB(255,255,255))
-				dots.Parent = part
+local RunService = game:GetService("RunService")
+
+local function setupEffects(part)
+	if not part or not part:IsA("BasePart") then return end
+	if part:FindFirstChild("GunEffectsDone") then return end
+
+	local tag = Instance.new("BoolValue")
+	tag.Name = "GunEffectsDone"
+	tag.Parent = part
+
+	-- SMOKE (actually visible now)
+	local smoke = Instance.new("ParticleEmitter")
+	smoke.Name = "GunSmoke"
+	smoke.Texture = "rbxassetid://771221224"
+	smoke.Rate = 25
+	smoke.Lifetime = NumberRange.new(1.5, 2.5)
+	smoke.Speed = NumberRange.new(0.5, 1.5)
+	smoke.SpreadAngle = Vector2.new(180, 180)
+	smoke.EmissionDirection = Enum.NormalId.Top
+	smoke.Size = NumberSequence.new({
+		NumberSequenceKeypoint.new(0, 1),
+		NumberSequenceKeypoint.new(1, 2.5)
+	})
+	smoke.Transparency = NumberSequence.new({
+		NumberSequenceKeypoint.new(0, 0.5),
+		NumberSequenceKeypoint.new(1, 1)
+	})
+	smoke.Color = ColorSequence.new(Color3.fromRGB(255, 255, 255))
+	smoke.Parent = part
+
+	-- SMALL FLOATING DOTS (fixed size + more of them)
+	local dots = Instance.new("ParticleEmitter")
+	dots.Name = "GunDots"
+	dots.Texture = "rbxassetid://248625108"
+	dots.Rate = 20
+	dots.Lifetime = NumberRange.new(1.2, 2.8)
+	dots.Speed = NumberRange.new(0.1, 0.6)
+	dots.SpreadAngle = Vector2.new(360, 360)
+	dots.EmissionDirection = Enum.NormalId.Top
+	dots.Size = NumberSequence.new({
+		NumberSequenceKeypoint.new(0, 0.05),
+		NumberSequenceKeypoint.new(1, 0.1)
+	})
+	dots.Transparency = NumberSequence.new(0.2)
+	dots.LightEmission = 1
+	dots.Color = ColorSequence.new(Color3.fromRGB(255, 255, 255))
+	dots.Parent = part
+end
+
+local function applyNeon(part)
+	if not part or not part:IsA("BasePart") then return end
+
+	-- FORCE neon properly
+	part.Material = Enum.Material.Neon
+	part.Color = Color3.fromRGB(255, 255, 255)
+	part.Reflectance = 0
+
+	-- remove textures properly
+	if part:IsA("MeshPart") then
+		part.TextureID = ""
+	else
+		local sm = part:FindFirstChildOfClass("SpecialMesh")
+		if sm then
+			sm.TextureId = ""
+		end
+	end
+end
+
+RunService.Heartbeat:Connect(function()
+	local gunPart = gun and gun.p
+	if not gunPart then return end
+
+	if gunPart ~= lastGunPart then
+		lastGunPart = gunPart
+
+		-- APPLY TO ALL PARTS (this fixes your "not neon" issue)
+		for _, v in ipairs(gunPart:GetDescendants()) do
+			if v:IsA("BasePart") then
+				applyNeon(v)
+				setupEffects(v)
 			end
-			
-			RunService.Heartbeat:Connect(function()
-				local gunPart = gun and gun.p
-				if gunPart ~= lastGunPart then
-					lastGunPart = gunPart
-				end
-			
-				if gunPart and gunPart.Parent then
-					setupEffects(gunPart)
-			
-					-- NEON GUN
-					if gunPart:IsA("MeshPart") then
-						gunPart.TextureID = ""
-					else
-						local sm = gunPart:FindFirstChildOfClass("SpecialMesh")
-						if sm then
-							sm.TextureId = ""
-						end
-					end
-			
-					gunPart.Material = Enum.Material.Neon
-					gunPart.Color = Color3.fromRGB(255, 255, 255)
-				end
-			end)
+		end
+
+		-- also apply to root
+		applyNeon(gunPart)
+		setupEffects(gunPart)
+	end
+end)
 			local activeBoomLoop = false
 			local boomSounds = {}
 
