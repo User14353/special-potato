@@ -3216,8 +3216,18 @@ local osclock = os.clock
 				trailSpawnRate = 2,
 				fn = function()
 					local progress = getAttackProgress()
-					local attackDef = attacks["f"]["q"]
+					local attackDef = attacks["default"]["q"]
 					attackDef._soundPlayed = false
+					bluescreen.C0=Lerp(bluescreen.C0,cfMul(cf(-0.1839487176192431,0.1387184544613485,-4.064499704461348),angles(0.5474965815569393+0.1*sin(sine*2),-2.602993833401182-0.1*sin(sine*3+0.5),0)),deltaTime)
+					RootJoint.C0=Lerp(RootJoint.C0,cfMul(cf(0,0,0),angles(-1.446930742166087-0.1*sin(sine*2),-0.06903922743372171,-3.497620848076365)),deltaTime)
+					Neck.C0=Lerp(Neck.C0,cfMul(cf(0,1,0),angles(-1.75193052750477+0.1*sin(sine*2),-0.008036579171620595-0.05*sin(sine*1),-2.946820825436743)),deltaTime)
+					LeftHip.C0=Lerp(LeftHip.C0,cfMul(cf(-1,-1,0),angles(-0.2215391201030625+0.1*sin(sine*2),-1.201133868858104,0)),deltaTime)
+					LeftShoulder.C0=Lerp(LeftShoulder.C0,cfMul(cf(-0.8344764040227517,0.5061554490474229,-0.2005674127946824),angles(0.6970563443828333+0.1*sin(sine*2),-1.048633976188762,0.6970563443828333)),deltaTime)
+					RightHip.C0=Lerp(RightHip.C0,cfMul(cf(1,-1,0),angles(-0.2825384043722083+0.1*sin(sine*2),1.308852287298644,0.1462563217432109)),deltaTime)
+					Right Shoulder.C0=Lerp(Right Shoulder.C0,cfMul(cf(0.8144311737595942,0.5,0),angles(0.5605589662046579+1*sin(sine*10),2.150156649630022-1*sin(sine*10),0.3273198786010107-1*sin(sine*10))),deltaTime)
+					AJBackAccessory.C0=cf(1,0,0)*angles(rad(0),rad(0),rad(-72))
+					AJBackAccessory.Part1=getPart("Right Arm") AJBackAccessory.C1=cf_0
+					RockAccessory.C0=Lerp(RockAccessory.C0,cfMul(cf(-0.5793895721435547,100,0.07364007830619812),angles(0,0,0)),deltaTime)
 				end
 			}
 			attacks["f"]["v"] = {
