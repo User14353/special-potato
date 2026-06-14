@@ -30,7 +30,7 @@ local osclock = os.clock
 	local typeof = typeof
 	local game = game
 	local replicatesignal = replicatesignal
-
+	local ReanimateStartPos = nil
 	local i = Instance.new
 	local v2 = Vector2.new
 	local v3 = Vector3.new
@@ -529,6 +529,7 @@ local osclock = os.clock
 	local i1Y=guiTheme.windowRegularSize.Y
 	local i1Xdest=i1X
 	local i1Ydest=i1Y
+
 	Connect(insGet(i8,"MouseButton1Click"),function()
 		guimin = not guimin
 		if guimin then
@@ -778,6 +779,7 @@ local osclock = os.clock
 		local flingvel = v3(15000,16000,15000)
 
 		if stopreanimate() then
+			ReanimateStartPos = nil
 			local HUD = game.Players.LocalPlayer.PlayerGui:WaitForChild("LightningCannonHUD")
 			HUD:Destroy()
 			local SoundService = game:GetService("SoundService")
@@ -3047,6 +3049,11 @@ local osclock = os.clock
 			local RightHip=getJoint("Right Hip")
 			local LeftHip=getJoint("Left Hip")
 			local Neck=getJoint("Neck")
+			
+
+			if not ReanimateStartPos then
+					ReanimateStartPos = RootJoint.Position
+			end
 
 			local gun                      = getPartFromMesh(6831441507, 6833003967)
 			local AJBackAccessory          = getPartJoint(gun)
@@ -3201,14 +3208,6 @@ local osclock = os.clock
 					end
 				end
 			}
-			attacks["f"]["x"] = {
-				duration = 5,
-				fn = function()
-					local progress = getAttackProgress()
-					local attackDef = attacks["f"]["x"]
-					attackDef._soundPlayed = false
-				end
-			}
 			attacks["default"]["e"] = {
 				duration = 0.33,
 				trailFadeDuration = 0.6,
@@ -3230,25 +3229,24 @@ local osclock = os.clock
 					RockAccessory.C0=Lerp(RockAccessory.C0,cfMul(cf(-0.5793895721435547,100,0.07364007830619812),angles(0,0,0)),deltaTime)
 				end
 			}
-			attacks["f"]["v"] = {
-				duration = 5,
+			attacks["default"]["r"] = {
+				duration = 1,
 				_vfxSpawned = false,
 				_vfxInsts = {},
 				_vfxConns = {},
 				fn = function()
 					local rockmove = false
 					local progress = getAttackProgress()
-					local attackDef = attacks["f"]["v"]
+					local attackDef = attacks["default"]["r"]
 					attackDef._soundPlayed = false
+					if ReanimateStartPos and RootJoint then
+						RootJoint.CFrame = CFrame.new(
+								ReanimateStartPos + Vector3.new(0, 10, 0)
+							)
+					end
 				end
 			}
-			attacks["f"]["r"] = {
-				duration = nil,
-				fn = function()
-					local progress = getAttackProgress()
-					local attackDef = attacks["f"]["r"]
-				end
-			}
+
 
 			local ModeV=""
 			t.setJumpPower(65)
