@@ -3209,14 +3209,14 @@ local osclock = os.clock
 					attackDef._soundPlayed = false
 				end
 			}
-			attacks["f"]["q"] = {
+			attacks["default"]["e"] = {
 				duration = 1,
 				trailFadeDuration = 0.6,
 				trailStartAlpha = 0.3,
 				trailSpawnRate = 2,
 				fn = function()
 					local progress = getAttackProgress()
-					local attackDef = attacks["default"]["q"]
+					local attackDef = attacks["default"]["e"]
 					attackDef._soundPlayed = false
 					bluescreen.C0=Lerp(bluescreen.C0,cfMul(cf(-0.1839487176192431,0.1387184544613485,-4.064499704461348),angles(0.5474965815569393+0.1*sin(sine*2),-2.602993833401182-0.1*sin(sine*3+0.5),0)),deltaTime)
 					RootJoint.C0=Lerp(RootJoint.C0,cfMul(cf(0,0,0),angles(-1.446930742166087-0.1*sin(sine*2),-0.06903922743372171,-3.497620848076365)),deltaTime)
@@ -3308,7 +3308,7 @@ local osclock = os.clock
 			local attackKeybinds = {
 				[e.KeyCode.Z] = { modeKey = nil, attackKey = "z" },
 				[e.KeyCode.X] = { modeKey = nil, attackKey = "x" },
-				[e.KeyCode.Q] = { modeKey = nil, attackKey = "q" },
+				[e.KeyCode.E] = { modeKey = nil, attackKey = "e" },
 				[e.KeyCode.V] = { modeKey = nil, attackKey = "v" },
 				[e.KeyCode.R] = { modeKey = nil, attackKey = "r" },
 			}
