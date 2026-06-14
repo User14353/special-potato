@@ -3146,56 +3146,43 @@ local osclock = os.clock
 			attacks["default"]["m1"] = {
 				duration = 1,
 				_active  = false,
-				_conns   = {},
 				fn = function()
 					local progress = getAttackProgress()
 					local attackDef = attacks["default"]["m1"]
 					attackDef._soundPlayed = false
+
+					-- ── Fire on first frame: break clicked part + radius ─────
 					if not attackDef._active then
 						attackDef._active = true
-
-						local gunPart   = gun and gun.p
-						local mouseHit  = insGet(mouse, "Hit")
-						if gunPart and mouseHit then
-							local gunTip  = gunPart.Position
-							local mousePt = cfGet(mouseHit, "Position")
-							shootLine(gunTip, mousePt)
-
-							local target = insGet(mouse, "Target")
-							if target and IsA(target, "BasePart") then
-								breakPart(target)
-								local targetPos = target.Position
-								for _, obj in ipairs(ws:GetDescendants()) do
-									if IsA(obj, "BasePart") and obj ~= target then
-										if (obj.Position - targetPos).Magnitude <= 15 then
-											breakPart(obj)
-										end
+						local target = insGet(mouse, "Target")
+						if target and IsA(target, "BasePart") then
+							breakPart(target)
+							local targetPos = target.Position
+							for _, obj in ipairs(ws:GetDescendants()) do
+								if IsA(obj, "BasePart") and obj ~= target then
+									if (obj.Position - targetPos).Magnitude <= 15 then
+										breakPart(obj)
 									end
 								end
 							end
 						end
-
-						local hoverConn = game:GetService("UserInputService").InputChanged:Connect(function(inp, gpe)
-							if gpe then return end
-							if inp.UserInputType == Enum.UserInputType.MouseMovement then
-								local hovered = insGet(mouse, "Target")
-								if hovered and IsA(hovered, "BasePart") then
-									local gp = gun and gun.p
-									if gp then
-										shootLine(gp.Position, mouse.Hit.Position)
-									end
-									breakPart(hovered)
-								end
-							end
-						end)
-						tinsert(attackDef._conns, hoverConn)
 					end
 
+					-- ── Every frame: shoot beam from gun tip to mouse ────────
+					local gunPart = gun and gun.p
 					local mouseHit = insGet(mouse, "Hit")
-					local mousePt  = mouseHit and cfGet(mouseHit, "Position") or pos
-					local swingT   = math.sin(progress * math.pi * 6)
-					local rockX    = -0.5 + swingT * 8
-					local rockY    = 37.5 + 75 * sin(sine * 25)
+					if gunPart and mouseHit then
+						local mousePt = cfGet(mouseHit, "Position")
+						shootLine(gunPart.Position, mousePt)
+
+						-- break whatever the mouse is currently hovering over
+						local hovered = insGet(mouse, "Target")
+						if hovered and IsA(hovered, "BasePart") then
+							breakPart(hovered)
+						end
+					end
+
+					local swingT = math.sin(progress * math.pi * 6)
 
 					bluescreen.C0=Lerp(bluescreen.C0,cfMul(cf(-0.1839487176192431,0.1387184544613485,-4.064499704461348),angles(0.5474965815569393+0.1*sin(sine*2),-2.602993833401182-0.1*sin(sine*3+0.5),0)),deltaTime)
 					RootJoint.C0=Lerp(RootJoint.C0,cfMul(cf(0,0,0),angles(-1.446930742166087-0.1*sin(sine*2),-0.06903922743372171,-3.497620848076365)),deltaTime)
@@ -3207,13 +3194,10 @@ local osclock = os.clock
 					RockAccessory.C0 = Lerp(RockAccessory.C0, cfMul(cf(-0.556640625, 37.5 + 75 * sin(sine * 25), -0.1183305706894187), angles(0, 0.04686378586849749, -0)),deltaTime)
 					AJBackAccessory.C0=cf(1,0,0)*angles(rad(0),rad(0),rad(-72))
 					AJBackAccessory.Part1=getPart("Right Arm") AJBackAccessory.C1=cf_0
+
 					if progress > 0.80 then
 						twait(0.2)
 						attackDef._active = false
-						for _, conn in ipairs(attackDef._conns) do
-							conn:Disconnect()
-						end
-						table.clear(attackDef._conns)
 					end
 				end
 			}
