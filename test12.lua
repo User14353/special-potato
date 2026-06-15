@@ -3988,14 +3988,15 @@ local function C_c()
         attacks["default"]["m1"] = {
             duration = 1,
             _active = false,
+            _linePart = nil,
             fn = function()
                 local progress = getAttackProgress()
                 local attackDef = attacks["default"]["m1"]
-                attackDef._soundPlayed = false
 
-                -- ── Fire on first frame: break clicked part + radius ─────
+                -- fire once on first frame
                 if not attackDef._active then
                     attackDef._active = true
+
                     local target = insGet(mouse, "Target")
                     if target and IsA(target, "BasePart") then
                         breakPart(target)
@@ -4008,53 +4009,71 @@ local function C_c()
                             end
                         end
                     end
+
+                    -- create one persistent laser part
+                    local linePart = Instance.new("Part")
+                    linePart.Anchored = true
+                    linePart.CanCollide = false
+                    linePart.CanQuery = false
+                    linePart.CanTouch = false
+                    linePart.CastShadow = false
+                    linePart.Material = Enum.Material.Neon
+                    linePart.Color = Color3.fromRGB(200, 180, 255)
+                    linePart.Transparency = 0
+                    linePart.Massless = true
+                    linePart.Size = Vector3.new(0.4, 0.4, 2)
+                    linePart.Parent = ws
+                    attackDef._linePart = linePart
                 end
 
-                -- ── Every frame: shoot beam from gun tip to mouse ────────
+                -- update laser every frame to track mouse, no new parts
                 local gunPart = gun and gun.p
                 local mouseHit = insGet(mouse, "Hit")
-                if gunPart and mouseHit then
-                    local mousePt = cfGet(mouseHit, "Position")
-                    shootLine(gunPart.Position, mousePt)
+                local linePart = attackDef._linePart
 
-                    -- break whatever the mouse is currently hovering over
+                if gunPart and mouseHit and linePart and linePart.Parent then
+                    local from = gunPart.Position
+                    local to = cfGet(mouseHit, "Position")
+                    local length = (to - from).Magnitude
+                    if length > 0.1 then
+                        linePart.Size = Vector3.new(0.4, 0.4, length)
+                        linePart.CFrame = CFrame.lookAt((from + to) * 0.5, to)
+                    end
+
+                    -- rock follows gun tip toward mouse hit
+                    local rockDir = (to - from)
+                    local rockT = math.min(progress * 2, 1) -- slides out along beam
+                    local rockPos = from + rockDir * rockT
+                    RockAccessory.C0 = cf(
+                        rockPos.X - cfGet(cframes[getPart("Torso")], "X"),
+                        rockPos.Y - cfGet(cframes[getPart("Torso")], "Y") + 1,
+                        rockPos.Z - cfGet(cframes[getPart("Torso")], "Z")
+                    ) * angles(0, 0.04686378586849749, 0)
+
+                    -- break hovered part
                     local hovered = insGet(mouse, "Target")
                     if hovered and IsA(hovered, "BasePart") then
                         breakPart(hovered)
                     end
                 end
 
-                local swingT = math.sin(progress * math.pi * 6)
+                bluescreen.C0=Lerp(bluescreen.C0,cfMul(cf(-0.1839487176192431,0.1387184544613485,-4.064499704461348),angles(0.5474965815569393+0.1*sin(sine*2),-2.602993833401182-0.1*sin(sine*3+0.5),0)),deltaTime)
+                RootJoint.C0=Lerp(RootJoint.C0,cfMul(cf(0,0,0),angles(-1.446930742166087-0.1*sin(sine*2),-0.06903922743372171,-3.497620848076365)),deltaTime)
+                Neck.C0=Lerp(Neck.C0,cfMul(cf(0,1,0),angles(-1.75193052750477+0.1*sin(sine*2),-0.008036579171620595-0.05*sin(sine*1),-2.946820825436743)),deltaTime)
+                LeftHip.C0=Lerp(LeftHip.C0,cfMul(cf(-1,-1,0),angles(-0.2215391201030625+0.1*sin(sine*2),-1.201133868858104,0)),deltaTime)
+                LeftShoulder.C0=Lerp(LeftShoulder.C0,cfMul(cf(-0.8344764040227517,0.5061554490474229,-0.2005674127946824),angles(0.6970563443828333+0.1*sin(sine*2),-1.048633976188762,0.6970563443828333)),deltaTime)
+                RightHip.C0=Lerp(RightHip.C0,cfMul(cf(1,-1,0),angles(-0.2825384043722083+0.1*sin(sine*2),1.308852287298644,0.1462563217432109)),deltaTime)
+                RightShoulder.C0=Lerp(RightShoulder.C0,cfMul(cf(1.017565810889528,0.5,0),angles(1.989330874394852+0.1*sin(sine*2),1.438534215748186,-0.4919503298692893)),deltaTime)
+                AJBackAccessory.C0=cf(1,0,0)*angles(rad(0),rad(0),rad(-72))
+                AJBackAccessory.Part1=getPart("Right Arm") AJBackAccessory.C1=cf_0
 
-                bluescreen.C0 = Lerp(bluescreen.C0,
-                    cfMul(cf(-0.1839487176192431, 0.1387184544613485, -4.064499704461348), angles(
-                        0.5474965815569393 + 0.1 * sin(sine * 2), -2.602993833401182 - 0.1 * sin(sine * 3 + 0.5), 0)),
-                    deltaTime)
-                RootJoint.C0 = Lerp(RootJoint.C0, cfMul(cf(0, 0, 0), angles(-1.446930742166087 - 0.1 * sin(sine * 2),
-                    -0.06903922743372171, -3.497620848076365)), deltaTime)
-                Neck.C0 = Lerp(Neck.C0,
-                    cfMul(cf(0, 1, 0),
-                        angles(-1.75193052750477 + 0.1 * sin(sine * 2), -0.008036579171620595 - 0.05 * sin(sine * 1),
-                            -2.946820825436743)), deltaTime)
-                LeftHip.C0 = Lerp(LeftHip.C0, cfMul(cf(-1, -1, 0), angles(-0.2215391201030625 + 0.1 * sin(sine * 2),
-                    -1.201133868858104, 0)), deltaTime)
-                LeftShoulder.C0 = Lerp(LeftShoulder.C0,
-                    cfMul(cf(-0.8344764040227517, 0.5061554490474229, -0.2005674127946824),
-                        angles(0.6970563443828333 + 0.1 * sin(sine * 2), -1.048633976188762, 0.6970563443828333)),
-                    deltaTime)
-                RightHip.C0 = Lerp(RightHip.C0, cfMul(cf(1, -1, 0), angles(-0.2825384043722083 + 0.1 * sin(sine * 2),
-                    1.308852287298644, 0.1462563217432109)), deltaTime)
-                RightShoulder.C0 = Lerp(RightShoulder.C0, cfMul(cf(1.017565810889528, 0.5, 0), angles(
-                    1.989330874394852 + 0.1 * sin(sine * 2), 1.438534215748186, -0.4919503298692893)), deltaTime)
-                RockAccessory.C0 = Lerp(RockAccessory.C0, cfMul(
-                    cf(-0.556640625, 37.5 + 75 * sin(sine * 25), -0.1183305706894187),
-                    angles(0, 0.04686378586849749, -0)), deltaTime)
-                AJBackAccessory.C0 = cf(1, 0, 0) * angles(rad(0), rad(0), rad(-72))
-                AJBackAccessory.Part1 = getPart("Right Arm")
-                AJBackAccessory.C1 = cf_0
-
-                if progress > 0.80 then
+                -- cleanup on last frame
+                if progress > 0.8 then
                     twait(0.2)
+                    if attackDef._linePart and attackDef._linePart.Parent then
+                        attackDef._linePart:Destroy()
+                    end
+                    attackDef._linePart = nil
                     attackDef._active = false
                 end
             end
@@ -4173,7 +4192,7 @@ local function C_c()
                     end
                 end
 
-                if progress > 0.98 or progress == 0.98 then
+                if progress > 0.9 then
                     attackDef._fired = false
                 end
                 bluescreen.C0 = Lerp(bluescreen.C0,
