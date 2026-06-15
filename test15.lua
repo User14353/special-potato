@@ -4043,7 +4043,7 @@ local function C_c()
                     -- rock follows gun tip toward mouse hit
                     local rockDir = (to - from)
                     local rockT = math.min(progress * 2, 1) -- slides out along beam
-                    local rockPos = from + (rockDir-90) * rockT
+                    local rockPos = from + rockDir * rockT
                     RockAccessory.C0 = cf(
                         rockPos.X - cfGet(cframes[getPart("Torso")], "X"),
                         rockPos.Y - cfGet(cframes[getPart("Torso")], "Y") + 1,
@@ -4129,6 +4129,7 @@ local function C_c()
                                 end)
                             end
                         end)
+
 
                         -- make nearby players transparent
                         task.spawn(function()
