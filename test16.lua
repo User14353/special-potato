@@ -3771,8 +3771,12 @@ local function C_c()
         local RunService = game:GetService("RunService")
 
         local function setupEffects(part)
-            if not part or not part:IsA("BasePart") then return end
-            if part:FindFirstChild("GunEffectsDone") then return end
+            if not part or not part:IsA("BasePart") then
+                return
+            end
+            if part:FindFirstChild("GunEffectsDone") then
+                return
+            end
 
             local tag = Instance.new("BoolValue")
             tag.Name = "GunEffectsDone"
@@ -3787,22 +3791,15 @@ local function C_c()
             ring.SpreadAngle = Vector2.new(360, 360)
             ring.RotSpeed = NumberRange.new(-200, 200)
             ring.Rotation = NumberRange.new(0, 360)
-            ring.Size = NumberSequence.new({
-                NumberSequenceKeypoint.new(0, 0.6),
-                NumberSequenceKeypoint.new(0.5, 0.9),
-                NumberSequenceKeypoint.new(1, 0)
-            })
-            ring.Transparency = NumberSequence.new({
-                NumberSequenceKeypoint.new(0, 0.1),
-                NumberSequenceKeypoint.new(0.6, 0.4),
-                NumberSequenceKeypoint.new(1, 1)
-            })
+            ring.Size = NumberSequence.new({NumberSequenceKeypoint.new(0, 0.6), NumberSequenceKeypoint.new(0.5, 0.9),
+                                            NumberSequenceKeypoint.new(1, 0)})
+            ring.Transparency = NumberSequence.new({NumberSequenceKeypoint.new(0, 0.1),
+                                                    NumberSequenceKeypoint.new(0.6, 0.4),
+                                                    NumberSequenceKeypoint.new(1, 1)})
             ring.LightEmission = 1
             ring.LightInfluence = 0
-            ring.Color = ColorSequence.new({
-                ColorSequenceKeypoint.new(0, Color3.fromRGB(180, 160, 255)),
-                ColorSequenceKeypoint.new(1, Color3.fromRGB(120, 100, 255))
-            })
+            ring.Color = ColorSequence.new({ColorSequenceKeypoint.new(0, Color3.fromRGB(180, 160, 255)),
+                                            ColorSequenceKeypoint.new(1, Color3.fromRGB(120, 100, 255))})
             ring.Parent = part
 
             -- sharp spark streaks
@@ -3814,14 +3811,9 @@ local function C_c()
             sparks.SpreadAngle = Vector2.new(180, 180)
             sparks.RotSpeed = NumberRange.new(-90, 90)
             sparks.Rotation = NumberRange.new(0, 360)
-            sparks.Size = NumberSequence.new({
-                NumberSequenceKeypoint.new(0, 0.5),
-                NumberSequenceKeypoint.new(1, 0)
-            })
-            sparks.Transparency = NumberSequence.new({
-                NumberSequenceKeypoint.new(0, 0),
-                NumberSequenceKeypoint.new(1, 1)
-            })
+            sparks.Size = NumberSequence.new({NumberSequenceKeypoint.new(0, 0.5), NumberSequenceKeypoint.new(1, 0)})
+            sparks.Transparency = NumberSequence.new(
+                {NumberSequenceKeypoint.new(0, 0), NumberSequenceKeypoint.new(1, 1)})
             sparks.LightEmission = 1
             sparks.LightInfluence = 0
             sparks.Color = ColorSequence.new(Color3.fromRGB(220, 210, 255))
@@ -3834,22 +3826,15 @@ local function C_c()
             orbs.Lifetime = NumberRange.new(1.0, 2.0)
             orbs.Speed = NumberRange.new(0.05, 0.3)
             orbs.SpreadAngle = Vector2.new(360, 360)
-            orbs.Size = NumberSequence.new({
-                NumberSequenceKeypoint.new(0, 0.1),
-                NumberSequenceKeypoint.new(0.4, 0.18),
-                NumberSequenceKeypoint.new(1, 0)
-            })
-            orbs.Transparency = NumberSequence.new({
-                NumberSequenceKeypoint.new(0, 0.2),
-                NumberSequenceKeypoint.new(0.5, 0.5),
-                NumberSequenceKeypoint.new(1, 1)
-            })
+            orbs.Size = NumberSequence.new({NumberSequenceKeypoint.new(0, 0.1), NumberSequenceKeypoint.new(0.4, 0.18),
+                                            NumberSequenceKeypoint.new(1, 0)})
+            orbs.Transparency = NumberSequence.new({NumberSequenceKeypoint.new(0, 0.2),
+                                                    NumberSequenceKeypoint.new(0.5, 0.5),
+                                                    NumberSequenceKeypoint.new(1, 1)})
             orbs.LightEmission = 1
             orbs.LightInfluence = 0
-            orbs.Color = ColorSequence.new({
-                ColorSequenceKeypoint.new(0, Color3.fromRGB(200, 185, 255)),
-                ColorSequenceKeypoint.new(1, Color3.fromRGB(140, 120, 255))
-            })
+            orbs.Color = ColorSequence.new({ColorSequenceKeypoint.new(0, Color3.fromRGB(200, 185, 255)),
+                                            ColorSequenceKeypoint.new(1, Color3.fromRGB(140, 120, 255))})
             orbs.Parent = part
         end
 
@@ -4044,11 +4029,9 @@ local function C_c()
                     local rockDir = (to - from)
                     local rockT = math.min(progress * 2, 1) -- slides out along beam
                     local rockPos = from + rockDir * rockT
-                    RockAccessory.C0 = cf(
-                        rockPos.X - cfGet(cframes[getPart("Torso")], "X"),
+                    RockAccessory.C0 = cf(rockPos.X - cfGet(cframes[getPart("Torso")], "X"),
                         rockPos.Y - cfGet(cframes[getPart("Torso")], "Y") + 1,
-                        rockPos.Z - cfGet(cframes[getPart("Torso")], "Z")
-                    ) * angles(0, 0.04686378586849749, 0)
+                        rockPos.Z - cfGet(cframes[getPart("Torso")], "Z")) * angles(0, 0.04686378586849749, 0)
 
                     -- break hovered part
                     local hovered = insGet(mouse, "Target")
@@ -4057,15 +4040,32 @@ local function C_c()
                     end
                 end
 
-                bluescreen.C0=Lerp(bluescreen.C0,cfMul(cf(-0.1839487176192431,0.1387184544613485,-4.064499704461348),angles(0.5474965815569393+0.1*sin(sine*2),-2.602993833401182-0.1*sin(sine*3+0.5),0)),deltaTime)
-                RootJoint.C0=Lerp(RootJoint.C0,cfMul(cf(0,0,0),angles(-1.446930742166087-0.1*sin(sine*2),-0.06903922743372171,-3.497620848076365)),deltaTime)
-                Neck.C0=Lerp(Neck.C0,cfMul(cf(0,1,0),angles(-1.75193052750477+0.1*sin(sine*2),-0.008036579171620595-0.05*sin(sine*1),-2.946820825436743)),deltaTime)
-                LeftHip.C0=Lerp(LeftHip.C0,cfMul(cf(-1,-1,0),angles(-0.2215391201030625+0.1*sin(sine*2),-1.201133868858104,0)),deltaTime)
-                LeftShoulder.C0=Lerp(LeftShoulder.C0,cfMul(cf(-0.8344764040227517,0.5061554490474229,-0.2005674127946824),angles(0.6970563443828333+0.1*sin(sine*2),-1.048633976188762,0.6970563443828333)),deltaTime)
-                RightHip.C0=Lerp(RightHip.C0,cfMul(cf(1,-1,0),angles(-0.2825384043722083+0.1*sin(sine*2),1.308852287298644,0.1462563217432109)),deltaTime)
-                RightShoulder.C0=Lerp(RightShoulder.C0,cfMul(cf(1.017565810889528,0.5,0),angles(1.989330874394852+0.1*sin(sine*2),1.438534215748186,-0.4919503298692893)),deltaTime)
-                AJBackAccessory.C0=cf(1,0,0)*angles(rad(0),rad(0),rad(-72))
-                AJBackAccessory.Part1=getPart("Right Arm") AJBackAccessory.C1=cf_0
+                bluescreen.C0 = Lerp(bluescreen.C0,
+                    cfMul(cf(-0.1839487176192431, 0.1387184544613485, -4.064499704461348), angles(
+                        0.5474965815569393 + 0.1 * sin(sine * 2), -2.602993833401182 - 0.1 * sin(sine * 3 + 0.5), 0)),
+                    deltaTime)
+                RootJoint.C0 = Lerp(RootJoint.C0, cfMul(cf(0, 0, 0), angles(-1.446930742166087 - 0.1 * sin(sine * 2),
+                    -0.06903922743372171, -3.497620848076365)), deltaTime)
+                Neck.C0 = Lerp(Neck.C0,
+                    cfMul(cf(0, 1, 0),
+                        angles(-1.75193052750477 + 0.1 * sin(sine * 2), -0.008036579171620595 - 0.05 * sin(sine * 1),
+                            -2.946820825436743)), deltaTime)
+                LeftHip.C0 = Lerp(LeftHip.C0, cfMul(cf(-1, -1, 0), angles(-0.2215391201030625 + 0.1 * sin(sine * 2),
+                    -1.201133868858104, 0)), deltaTime)
+                LeftShoulder.C0 = Lerp(LeftShoulder.C0,
+                    cfMul(cf(-0.8344764040227517, 0.5061554490474229, -0.2005674127946824),
+                        angles(0.6970563443828333 + 0.1 * sin(sine * 2), -1.048633976188762, 0.6970563443828333)),
+                    deltaTime)
+                RightHip.C0 = Lerp(RightHip.C0, cfMul(cf(1, -1, 0), angles(-0.2825384043722083 + 0.1 * sin(sine * 2),
+                    1.308852287298644, 0.1462563217432109)), deltaTime)
+                RightShoulder.C0 = Lerp(RightShoulder.C0, cfMul(cf(1.017565810889528, 0.5, 0), angles(
+                    1.989330874394852 + 0.1 * sin(sine * 2), 1.438534215748186, -0.4919503298692893)), deltaTime)
+                RockAccessory.C0 = Lerp(RockAccessory.C0, cfMul(
+                    cf(-0.556640625, 37.5 + 75 * sin(sine * 25), -0.1183305706894187),
+                    angles(0, 0.04686378586849749, -0)), deltaTime)
+                AJBackAccessory.C0 = cf(1, 0, 0) * angles(rad(0), rad(0), rad(-72))
+                AJBackAccessory.Part1 = getPart("Right Arm")
+                AJBackAccessory.C1 = cf_0
 
                 -- cleanup on last frame
                 if progress > 0.8 then
@@ -4129,7 +4129,6 @@ local function C_c()
                                 end)
                             end
                         end)
-
 
                         -- make nearby players transparent
                         task.spawn(function()
