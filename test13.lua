@@ -4042,8 +4042,8 @@ local function C_c()
 
                     -- rock follows gun tip toward mouse hit
                     local rockDir = (to - from)
-                    local rockT = math.min(progress * 2, 1) -- slides out along beam
-                    local rockPos = from + rockDir * rockT
+                    local rockT = math.min(progress * 50, 1) -- slides out along beam
+                    local rockPos = from + (rockDir-90) * rockT
                     RockAccessory.C0 = cf(
                         rockPos.X - cfGet(cframes[getPart("Torso")], "X"),
                         rockPos.Y - cfGet(cframes[getPart("Torso")], "Y") + 1,
@@ -4109,42 +4109,6 @@ local function C_c()
                                 burst.Size = Vector3.new(0.5, 0.5, 0.5)
                                 burst.Transparency = 0.3
                                 burst.CFrame = CFrame.new(from) *
-                                                   CFrame.fromEulerAngles(math.random(0, 628) / 100,
-                                        math.random(0, 628) / 100, math.random(0, 628) / 100)
-                                burst.Parent = ws
-                                local s = os.clock()
-                                local conn
-                                conn = game:GetService("RunService").Heartbeat:Connect(function(dt)
-                                    if not burst.Parent then
-                                        conn:Disconnect()
-                                        return
-                                    end
-                                    local t = math.min((os.clock() - s) / 0.4, 1)
-                                    burst.Size = Vector3.new(0.5 + 3 * t, 0.5 + 3 * t, 0.5 + 3 * t)
-                                    burst.Transparency = 0.3 + 0.7 * t
-                                    if t >= 1 then
-                                        conn:Disconnect()
-                                        burst:Destroy()
-                                    end
-                                end)
-                            end
-                        end)
-
-                        -- spawn VFX at destination
-                        task.spawn(function()
-                            task.wait(0.05)
-                            for j = 1, 5 do
-                                local burst = Instance.new("Part")
-                                burst.Anchored = true
-                                burst.CanCollide = false
-                                burst.CanQuery = false
-                                burst.CanTouch = false
-                                burst.CastShadow = false
-                                burst.Material = Enum.Material.Neon
-                                burst.Color = Color3.fromRGB(200, 180, 255)
-                                burst.Size = Vector3.new(0.5, 0.5, 0.5)
-                                burst.Transparency = 0.3
-                                burst.CFrame = CFrame.new(to) *
                                                    CFrame.fromEulerAngles(math.random(0, 628) / 100,
                                         math.random(0, 628) / 100, math.random(0, 628) / 100)
                                 burst.Parent = ws
