@@ -3771,47 +3771,86 @@ local function C_c()
         local RunService = game:GetService("RunService")
 
         local function setupEffects(part)
-            if not part or not part:IsA("BasePart") then
-                return
-            end
-            if part:FindFirstChild("GunEffectsDone") then
-                return
-            end
+            if not part or not part:IsA("BasePart") then return end
+            if part:FindFirstChild("GunEffectsDone") then return end
 
             local tag = Instance.new("BoolValue")
             tag.Name = "GunEffectsDone"
             tag.Parent = part
 
-            -- electric arc flicker
-            local arc = Instance.new("ParticleEmitter")
-            arc.Texture = "rbxassetid://6880496088"
-            arc.Rate = 8
-            arc.Lifetime = NumberRange.new(0.05, 0.15)
-            arc.Speed = NumberRange.new(0, 0.5)
-            arc.SpreadAngle = Vector2.new(360, 360)
-            arc.Size = NumberSequence.new({NumberSequenceKeypoint.new(0, 0.4), NumberSequenceKeypoint.new(1, 0.0)})
-            arc.Transparency =
-                NumberSequence.new({NumberSequenceKeypoint.new(0, 0.2), NumberSequenceKeypoint.new(1, 1)})
-            arc.LightEmission = 1
-            arc.LightInfluence = 0
-            arc.Color = ColorSequence.new(Color3.fromRGB(180, 160, 255))
-            arc.Parent = part
+            -- swirling energy ring
+            local ring = Instance.new("ParticleEmitter")
+            ring.Texture = "rbxassetid://5606212524"
+            ring.Rate = 6
+            ring.Lifetime = NumberRange.new(0.3, 0.6)
+            ring.Speed = NumberRange.new(0, 0.1)
+            ring.SpreadAngle = Vector2.new(360, 360)
+            ring.RotSpeed = NumberRange.new(-200, 200)
+            ring.Rotation = NumberRange.new(0, 360)
+            ring.Size = NumberSequence.new({
+                NumberSequenceKeypoint.new(0, 0.6),
+                NumberSequenceKeypoint.new(0.5, 0.9),
+                NumberSequenceKeypoint.new(1, 0)
+            })
+            ring.Transparency = NumberSequence.new({
+                NumberSequenceKeypoint.new(0, 0.1),
+                NumberSequenceKeypoint.new(0.6, 0.4),
+                NumberSequenceKeypoint.new(1, 1)
+            })
+            ring.LightEmission = 1
+            ring.LightInfluence = 0
+            ring.Color = ColorSequence.new({
+                ColorSequenceKeypoint.new(0, Color3.fromRGB(180, 160, 255)),
+                ColorSequenceKeypoint.new(1, Color3.fromRGB(120, 100, 255))
+            })
+            ring.Parent = part
 
-            -- energy wisps
-            local wisps = Instance.new("ParticleEmitter")
-            wisps.Texture = "rbxassetid://248625108"
-            wisps.Rate = 15
-            wisps.Lifetime = NumberRange.new(0.8, 1.6)
-            wisps.Speed = NumberRange.new(0.05, 0.3)
-            wisps.SpreadAngle = Vector2.new(360, 360)
-            wisps.Size = NumberSequence.new({NumberSequenceKeypoint.new(0, 0.08), NumberSequenceKeypoint.new(0.5, 0.12),
-                                             NumberSequenceKeypoint.new(1, 0)})
-            wisps.Transparency = NumberSequence.new({NumberSequenceKeypoint.new(0, 0.1),
-                                                     NumberSequenceKeypoint.new(1, 1)})
-            wisps.LightEmission = 1
-            wisps.LightInfluence = 0
-            wisps.Color = ColorSequence.new(Color3.fromRGB(200, 180, 255))
-            wisps.Parent = part
+            -- sharp spark streaks
+            local sparks = Instance.new("ParticleEmitter")
+            sparks.Texture = "rbxassetid://6880496088"
+            sparks.Rate = 12
+            sparks.Lifetime = NumberRange.new(0.08, 0.18)
+            sparks.Speed = NumberRange.new(0.5, 2)
+            sparks.SpreadAngle = Vector2.new(180, 180)
+            sparks.RotSpeed = NumberRange.new(-90, 90)
+            sparks.Rotation = NumberRange.new(0, 360)
+            sparks.Size = NumberSequence.new({
+                NumberSequenceKeypoint.new(0, 0.5),
+                NumberSequenceKeypoint.new(1, 0)
+            })
+            sparks.Transparency = NumberSequence.new({
+                NumberSequenceKeypoint.new(0, 0),
+                NumberSequenceKeypoint.new(1, 1)
+            })
+            sparks.LightEmission = 1
+            sparks.LightInfluence = 0
+            sparks.Color = ColorSequence.new(Color3.fromRGB(220, 210, 255))
+            sparks.Parent = part
+
+            -- soft glowing orbs drifting up
+            local orbs = Instance.new("ParticleEmitter")
+            orbs.Texture = "rbxassetid://4740758626"
+            orbs.Rate = 10
+            orbs.Lifetime = NumberRange.new(1.0, 2.0)
+            orbs.Speed = NumberRange.new(0.05, 0.3)
+            orbs.SpreadAngle = Vector2.new(360, 360)
+            orbs.Size = NumberSequence.new({
+                NumberSequenceKeypoint.new(0, 0.1),
+                NumberSequenceKeypoint.new(0.4, 0.18),
+                NumberSequenceKeypoint.new(1, 0)
+            })
+            orbs.Transparency = NumberSequence.new({
+                NumberSequenceKeypoint.new(0, 0.2),
+                NumberSequenceKeypoint.new(0.5, 0.5),
+                NumberSequenceKeypoint.new(1, 1)
+            })
+            orbs.LightEmission = 1
+            orbs.LightInfluence = 0
+            orbs.Color = ColorSequence.new({
+                ColorSequenceKeypoint.new(0, Color3.fromRGB(200, 185, 255)),
+                ColorSequenceKeypoint.new(1, Color3.fromRGB(140, 120, 255))
+            })
+            orbs.Parent = part
         end
 
         local function applyNeon(part)
