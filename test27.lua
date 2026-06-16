@@ -4431,8 +4431,9 @@ G2L["1"].ScreenInsets = Enum.ScreenInsets.None
 
 local SDV_VOID  = Color3.fromRGB(2,   5,  16)
 local SDV_NAVY  = Color3.fromRGB(5,  15,  40)
-local SDV_CYAN  = Color3.fromRGB(133,  133, 144)
+local SDV_CYAN  = Color3.fromRGB(0,  210, 255)
 local SDV_CYAN2 = Color3.fromRGB(0,  165, 210)
+local SDV_CYAN3  = Color3.fromRGB(133,  133, 144)
 local SDV_ICE   = Color3.fromRGB(185, 232, 255)
 local SDV_WHITE = Color3.fromRGB(230, 245, 255)
 
@@ -4589,12 +4590,12 @@ subLbl.TextColor3 = SDV_CYAN2
 subLbl.ZIndex = 7
 
 local Keybinds = Instance.new("TextLabel", hudPanel)
-subLbl.Size = UDim2.new(1, -44, 0, 14)
-subLbl.Position = UDim2.new(0, 17, 0, 34)
-subLbl.BackgroundTransparency = 1
-subLbl.Text = "[ M1 | Shoot | E | Melee | Z | Teleport ]"
-subLbl.TextColor3 = SDV_CYAN2
-subLbl.ZIndex = 7
+Keybinds.Size = UDim2.new(1, -44, 0, 14)
+Keybinds.Position = UDim2.new(0, 17, 0, 34)
+Keybinds.BackgroundTransparency = 1
+Keybinds.Text = "[ M1 | Shoot | E | Melee | Z | Teleport ]"
+Keybinds.TextColor3 = SDV_CYAN3
+Keybinds.ZIndex = 7
 local _hudClock = 0
 
 RunService.RenderStepped:Connect(function(dt)
