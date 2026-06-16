@@ -4591,7 +4591,7 @@ subLbl.ZIndex = 7
 
 local Keybinds = Instance.new("TextLabel", hudPanel)
 Keybinds.Size = UDim2.new(1, -44, 0, 14)
-Keybinds.Position = UDim2.new(0, 17, 0, 34)
+Keybinds.Position = UDim2.new(0, 17, 0, 23)
 Keybinds.BackgroundTransparency = 1
 Keybinds.Text = "[ M1 | Shoot | E | Melee | Z | Teleport ]"
 Keybinds.TextColor3 = SDV_CYAN3
