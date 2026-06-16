@@ -4415,163 +4415,178 @@ local function C_c()
         local RunService = game:GetService("RunService")
         local Players = game:GetService("Players")
 
-        local G2L = {}
+local G2L = {}
 
-        G2L["1"] = Instance.new("ScreenGui", Players.LocalPlayer:WaitForChild("PlayerGui"))
-        G2L["1"].Name = "LightningCannonHUD"
-        G2L["1"].ZIndexBehavior = Enum.ZIndexBehavior.Sibling
-        G2L["1"].ResetOnSpawn = false
-        G2L["1"].IgnoreGuiInset = true
-        G2L["1"].ScreenInsets = Enum.ScreenInsets.None
+-- ══════════════════════════════════════════════════════
+--   STUDIO DUMMY v3  ·  Premium HUD
+--   Void black · Electric cyan · Sharp geometry
+-- ══════════════════════════════════════════════════════
 
-        G2L["2"] = Instance.new("Folder", G2L["1"])
-        G2L["2"].Name = "FadeInThing"
+G2L["1"] = Instance.new("ScreenGui", Players.LocalPlayer:WaitForChild("PlayerGui"))
+G2L["1"].Name = "LightningCannonHUD"
+G2L["1"].ZIndexBehavior = Enum.ZIndexBehavior.Sibling
+G2L["1"].ResetOnSpawn = false
+G2L["1"].IgnoreGuiInset = true
+G2L["1"].ScreenInsets = Enum.ScreenInsets.None
 
-        G2L["3"] = Instance.new("Frame", G2L["1"])
-        G2L["3"].Name = "FadeBottom"
-        G2L["3"].BorderSizePixel = 0
-        G2L["3"].BackgroundColor3 = Color3.fromRGB(255, 255, 255)
-        G2L["3"].Size = UDim2.new(1, 0, 0.12862, 0)
-        G2L["3"].Position = UDim2.new(0, 0, 0.87138, 0)
-        G2L["3"].BackgroundTransparency = 0.5
-        G2L["3"].ZIndex = 1
-        do
-            local g = Instance.new("UIGradient", G2L["3"])
-            g.Rotation = -90
-            g.Transparency = NumberSequence.new {NumberSequenceKeypoint.new(0, 0), NumberSequenceKeypoint.new(1, 1)}
-            g.Color = ColorSequence.new {ColorSequenceKeypoint.new(0, Color3.fromRGB(95, 84, 158)),
-                                         ColorSequenceKeypoint.new(0.984, Color3.fromRGB(96, 85, 159)),
-                                         ColorSequenceKeypoint.new(1, Color3.fromRGB(255, 255, 255))}
-        end
+local SDV_VOID  = Color3.fromRGB(2,   5,  16)
+local SDV_NAVY  = Color3.fromRGB(5,  15,  40)
+local SDV_CYAN  = Color3.fromRGB(0,  210, 255)
+local SDV_CYAN2 = Color3.fromRGB(0,  165, 210)
+local SDV_ICE   = Color3.fromRGB(185, 232, 255)
+local SDV_WHITE = Color3.fromRGB(230, 245, 255)
 
-        G2L["5"] = Instance.new("Frame", G2L["1"])
-        G2L["5"].Name = "FadeRight"
-        G2L["5"].BorderSizePixel = 0
-        G2L["5"].BackgroundColor3 = Color3.fromRGB(255, 255, 255)
-        G2L["5"].Size = UDim2.new(0.19302, 0, 1, 0)
-        G2L["5"].Position = UDim2.new(0.80698, 0, 0, 0)
-        G2L["5"].BackgroundTransparency = 0.5
-        G2L["5"].ZIndex = 1
-        do
-            local g = Instance.new("UIGradient", G2L["5"])
-            g.Rotation = 180
-            g.Transparency = NumberSequence.new {NumberSequenceKeypoint.new(0, 0), NumberSequenceKeypoint.new(1, 1)}
-            g.Color = ColorSequence.new {ColorSequenceKeypoint.new(0, Color3.fromRGB(95, 84, 158)),
-                                         ColorSequenceKeypoint.new(0.984, Color3.fromRGB(96, 85, 159)),
-                                         ColorSequenceKeypoint.new(1, Color3.fromRGB(255, 255, 255))}
-        end
+-- Vignette edges: deep void/navy instead of the original purple
+local function makeVig(name, sz, pos, rot)
+    local f = Instance.new("Frame", G2L["1"])
+    f.Name = name
+    f.BorderSizePixel = 0
+    f.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+    f.Size = sz
+    f.Position = pos
+    f.BackgroundTransparency = 0.3
+    f.ZIndex = 1
 
-        G2L["7"] = Instance.new("Frame", G2L["1"])
-        G2L["7"].Name = "FadeTop"
-        G2L["7"].BorderSizePixel = 0
-        G2L["7"].BackgroundColor3 = Color3.fromRGB(255, 255, 255)
-        G2L["7"].Size = UDim2.new(1, 0, 0.14949, 0)
-        G2L["7"].Position = UDim2.new(0, 0, 0, 0)
-        G2L["7"].BackgroundTransparency = 0.35
-        G2L["7"].ZIndex = 1
-        do
-            local g = Instance.new("UIGradient", G2L["7"])
-            g.Rotation = 90
-            g.Transparency = NumberSequence.new {NumberSequenceKeypoint.new(0, 0),
-                                                 NumberSequenceKeypoint.new(0.738, 0.55),
-                                                 NumberSequenceKeypoint.new(1, 1)}
-            g.Color = ColorSequence.new {ColorSequenceKeypoint.new(0, Color3.fromRGB(95, 84, 158)),
-                                         ColorSequenceKeypoint.new(0.984, Color3.fromRGB(96, 85, 159)),
-                                         ColorSequenceKeypoint.new(1, Color3.fromRGB(255, 255, 255))}
-        end
+    local g = Instance.new("UIGradient", f)
+    g.Rotation = rot
+    g.Transparency = NumberSequence.new {
+        NumberSequenceKeypoint.new(0, 0),
+        NumberSequenceKeypoint.new(0.55, 0.65),
+        NumberSequenceKeypoint.new(1, 1)
+    }
 
-        G2L["9"] = Instance.new("Frame", G2L["1"])
-        G2L["9"].Name = "FadeLeft"
-        G2L["9"].BorderSizePixel = 0
-        G2L["9"].BackgroundColor3 = Color3.fromRGB(255, 255, 255)
-        G2L["9"].Size = UDim2.new(0.19302, 0, 1, 0)
-        G2L["9"].Position = UDim2.new(-0.00499, 0, 0, 0)
-        G2L["9"].BackgroundTransparency = 0.5
-        G2L["9"].ZIndex = 1
-        do
-            local g = Instance.new("UIGradient", G2L["9"])
-            g.Transparency = NumberSequence.new {NumberSequenceKeypoint.new(0, 0), NumberSequenceKeypoint.new(1, 1)}
-            g.Color = ColorSequence.new {ColorSequenceKeypoint.new(0, Color3.fromRGB(95, 84, 158)),
-                                         ColorSequenceKeypoint.new(0.984, Color3.fromRGB(96, 85, 159)),
-                                         ColorSequenceKeypoint.new(1, Color3.fromRGB(255, 255, 255))}
-        end
+    g.Color = ColorSequence.new {
+        ColorSequenceKeypoint.new(0, SDV_VOID),
+        ColorSequenceKeypoint.new(0.6, SDV_NAVY),
+        ColorSequenceKeypoint.new(1, Color3.fromRGB(255, 255, 255))
+    }
 
-        G2L["b"] = Instance.new("Folder", G2L["1"])
-        G2L["b"].Name = "Text"
+    return f
+end
 
-        G2L["c"] = Instance.new("Frame", G2L["1"])
-        G2L["c"].Name = "DividerTop"
-        G2L["c"].ZIndex = 5
-        G2L["c"].BorderSizePixel = 0
-        G2L["c"].BackgroundColor3 = Color3.fromRGB(255, 255, 255)
-        G2L["c"].Size = UDim2.new(0.41311, 0, 0, 2)
-        G2L["c"].Position = UDim2.new(0.32079, 0, 0.90614, 0)
+makeVig("FadeBottom", UDim2.new(1, 0, 0.13, 0), UDim2.new(0, 0, 0.87, 0), -90)
+makeVig("FadeRight",  UDim2.new(0.19, 0, 1, 0), UDim2.new(0.81, 0, 0, 0), 180)
+makeVig("FadeTop",    UDim2.new(1, 0, 0.15, 0), UDim2.new(0, 0, 0, 0), 90)
+makeVig("FadeLeft",   UDim2.new(0.19, 0, 1, 0), UDim2.new(-0.005, 0, 0, 0), 0)
 
-        G2L["d"] = Instance.new("Frame", G2L["1"])
-        G2L["d"].Name = "DividerBottom"
-        G2L["d"].ZIndex = 5
-        G2L["d"].BorderSizePixel = 0
-        G2L["d"].BackgroundColor3 = Color3.fromRGB(255, 255, 255)
-        G2L["d"].Size = UDim2.new(0.41311, 0, 0, 2)
-        G2L["d"].Position = UDim2.new(0.32079, 0, 0.96871, 0)
+-- Subtle scan-line shimmer overlay
+local scanFrame = Instance.new("Frame", G2L["1"])
+scanFrame.Name = "ScanLines"
+scanFrame.Size = UDim2.new(1, 0, 1, 0)
+scanFrame.BackgroundTransparency = 1
+scanFrame.BorderSizePixel = 0
+scanFrame.ZIndex = 2
 
-        G2L["e"] = Instance.new("Frame", G2L["1"])
-        G2L["e"].Name = "TextContainer"
-        G2L["e"].ZIndex = 5
-        G2L["e"].BorderSizePixel = 0
-        G2L["e"].BackgroundTransparency = 1
-        G2L["e"].Size = UDim2.new(0.41311, 0, 0.06027, 0)
-        G2L["e"].Position = UDim2.new(0.32079, 0, 0.90973, 0)
+do
+    local grid = Instance.new("UIGridLayout", scanFrame)
+    grid.CellSize = UDim2.new(1, 0, 0, 2)
+    grid.CellPadding = UDim2.new(0, 0, 0, 4)
+    grid.SortOrder = Enum.SortOrder.LayoutOrder
 
-        G2L["f"] = Instance.new("TextLabel", G2L["e"])
-        G2L["f"].Name = "[ Lightning Cannon ] label"
-        G2L["f"].ZIndex = 5
-        G2L["f"].BorderSizePixel = 0
-        G2L["f"].BackgroundTransparency = 1
-        G2L["f"].Size = UDim2.new(1, 0, 0.55, 0)
-        G2L["f"].Position = UDim2.new(0, 0, 0, 0)
-        G2L["f"].TextScaled = true
-        G2L["f"].TextWrapped = true
-        G2L["f"].FontFace = Font.new([[rbxasset://fonts/families/PressStart2P.json]], Enum.FontWeight.Bold,
-            Enum.FontStyle.Normal)
-        G2L["f"].TextColor3 = Color3.fromRGB(212, 208, 255)
-        G2L["f"].Text = [[ [ Lightning Cannon ] ]]
+    for idx = 1, 70 do
+        local line = Instance.new("Frame", scanFrame)
+        line.BackgroundColor3 = SDV_CYAN
+        line.BackgroundTransparency = 0.93
+        line.BorderSizePixel = 0
+        line.LayoutOrder = idx
+        line.Size = UDim2.new(1, 0, 1, 0)
+    end
+end
 
-        G2L["10"] = Instance.new("TextLabel", G2L["e"])
-        G2L["10"].Name = "ExireLabel"
-        G2L["10"].ZIndex = 5
-        G2L["10"].BorderSizePixel = 0
-        G2L["10"].BackgroundTransparency = 1
-        G2L["10"].Size = UDim2.new(0.6, 0, 0.4, 0)
-        G2L["10"].Position = UDim2.new(0.2, 0, 0.58, 0)
-        G2L["10"].TextScaled = true
-        G2L["10"].TextWrapped = true
-        G2L["10"].FontFace = Font.new([[rbxasset://fonts/families/Michroma.json]], Enum.FontWeight.Bold,
-            Enum.FontStyle.Normal)
-        G2L["10"].TextColor3 = Color3.fromRGB(181, 176, 255)
-        G2L["10"].Text = [[Exire Reanimate]]
+-- Corner bracket accents
+local function makeBracket(aX, aY, pX, pY)
+    local b = Instance.new("Frame", G2L["1"])
+    b.AnchorPoint = Vector2.new(aX, aY)
+    b.Position = UDim2.new(pX, 0, pY, 0)
+    b.Size = UDim2.new(0, 24, 0, 24)
+    b.BackgroundTransparency = 1
+    b.BorderSizePixel = 0
+    b.ZIndex = 9
 
-        local clock = 0
-        local BASE_DIVTOP_Y = 0.90614
-        local BASE_DIVBOT_Y = 0.96871
-        local BASE_CONT_Y = 0.90973
-        local BASE_FADE_Y = 0.87138
-        local BASE_X = 0.32079
-        local CONT_BASE_X = 0.32079
+    local hbar = Instance.new("Frame", b)
+    hbar.Size = UDim2.new(1, 0, 0, 2)
+    hbar.Position = UDim2.new(0, 0, aY, 0)
+    hbar.BackgroundColor3 = SDV_CYAN
+    hbar.BorderSizePixel = 0
 
-        RunService.RenderStepped:Connect(function(dt)
-            clock = clock + dt
-            local oscY = math.sin(clock * 0.9) * 0.004
-            local rotDeg = math.sin(clock * 0.45) * 2
+    local vbar = Instance.new("Frame", b)
+    vbar.Size = UDim2.new(0, 2, 1, 0)
+    vbar.Position = UDim2.new(aX, 0, 0, 0)
+    vbar.BackgroundColor3 = SDV_CYAN
+    vbar.BorderSizePixel = 0
+end
 
-            G2L["c"].Position = UDim2.new(BASE_X, 0, BASE_DIVTOP_Y + oscY, 0)
-            G2L["d"].Position = UDim2.new(BASE_X, 0, BASE_DIVBOT_Y + oscY, 0)
-            G2L["e"].Position = UDim2.new(CONT_BASE_X, 0, BASE_CONT_Y + oscY, 0)
+local BP = 0.026
+makeBracket(0, 0, BP, BP)
+makeBracket(1, 0, 1 - BP, BP)
+makeBracket(0, 1, BP, 1 - BP)
+makeBracket(1, 1, 1 - BP, 1 - BP)
 
-            G2L["e"].Rotation = rotDeg
-            G2L["c"].Rotation = rotDeg
-            G2L["d"].Rotation = rotDeg
-        end)
+-- Main HUD panel
+local hudPanel = Instance.new("Frame", G2L["1"])
+hudPanel.Name = "HUDPanel"
+hudPanel.AnchorPoint = Vector2.new(0.5, 1)
+hudPanel.Position = UDim2.new(0.5, 0, 0.965, 0)
+hudPanel.Size = UDim2.new(0, 440, 0, 74)
+hudPanel.BackgroundColor3 = SDV_VOID
+hudPanel.BackgroundTransparency = 0.07
+hudPanel.BorderSizePixel = 0
+hudPanel.ZIndex = 6
+
+Instance.new("UICorner", hudPanel).CornerRadius = UDim.new(0, 5)
+
+local panelGrad = Instance.new("UIGradient", hudPanel)
+panelGrad.Rotation = 90
+panelGrad.Color = ColorSequence.new {
+    ColorSequenceKeypoint.new(0, Color3.fromRGB(0, 22, 52)),
+    ColorSequenceKeypoint.new(1, SDV_VOID)
+}
+
+local panelStroke = Instance.new("UIStroke", hudPanel)
+panelStroke.Color = SDV_CYAN
+panelStroke.Thickness = 1.2
+panelStroke.Transparency = 0.38
+
+-- Top bar
+local topBar = Instance.new("Frame", hudPanel)
+topBar.Size = UDim2.new(0.6, 0, 0, 2)
+topBar.Position = UDim2.new(0.5, 0, 0, 0)
+topBar.AnchorPoint = Vector2.new(0.5, 0)
+topBar.BackgroundColor3 = SDV_CYAN
+topBar.BorderSizePixel = 0
+
+-- Pulse dots
+local pDotL = Instance.new("Frame", hudPanel)
+pDotL.Position = UDim2.new(0, 14, 0.3, 0)
+pDotL.Size = UDim2.new(0, 5, 0, 5)
+pDotL.BackgroundColor3 = SDV_CYAN
+
+Instance.new("UICorner", pDotL).CornerRadius = UDim.new(1, 0)
+
+local pDotR = Instance.new("Frame", hudPanel)
+pDotR.Position = UDim2.new(1, -14, 0.3, 0)
+pDotR.Size = UDim2.new(0, 5, 0, 5)
+pDotR.BackgroundColor3 = SDV_CYAN
+
+Instance.new("UICorner", pDotR).CornerRadius = UDim.new(1, 0)
+
+-- Title
+local titleLbl = Instance.new("TextLabel", hudPanel)
+titleLbl.Size = UDim2.new(1, -44, 0, 26)
+titleLbl.Position = UDim2.new(0, 22, 0, 8)
+titleLbl.BackgroundTransparency = 1
+titleLbl.Text = "STUDIO DUMMY v3"
+titleLbl.TextColor3 = SDV_WHITE
+titleLbl.ZIndex = 7
+
+-- Subtitle
+local subLbl = Instance.new("TextLabel", hudPanel)
+subLbl.Size = UDim2.new(1, -44, 0, 14)
+subLbl.Position = UDim2.new(0, 22, 0, 34)
+subLbl.BackgroundTransparency = 1
+subLbl.Text = "[ LIGHTNING CANNON ]  ·  EXIRE"
+subLbl.TextColor3 = SDV_CYAN2
+subLbl.ZIndex = 7
 
         if _G.HatInputConnection then
             _G.HatInputConnection:Disconnect()
