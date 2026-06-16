@@ -4598,7 +4598,7 @@ RunService.RenderStepped:Connect(function(dt)
     hudPanel.Position = UDim2.new(0.5, 0, 0.965, math.floor(floatY))
 
     -- rotation (half speed of bob)
-    local rot = math.sin(_hudClock * 0.999) * 5
+    local rot = math.sin(_hudClock * 1.5) * 5
     hudPanel.Rotation = rot
 
     -- existing effects
