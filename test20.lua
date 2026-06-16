@@ -3672,43 +3672,6 @@ MinStroke.ApplyStrokeMode = Enum.ApplyStrokeMode.Border;
 MinStroke.Thickness = 2;
 MinStroke.Color = Color3.fromRGB(59, 30, 0);
 
-local _hudClock = 0
-
-RunService.RenderStepped:Connect(function(dt)
-    _hudClock += dt
-
-    -- vertical bob (slow)
-    local floatY = math.sin(_hudClock * 0.75) * 3
-    hudPanel.Position = UDim2.new(0.5, 0, 0.965, math.floor(floatY))
-
-    -- rotation (half speed of bob)
-    local rot = math.sin(_hudClock * 0.375) * 15
-    hudPanel.Rotation = rot
-
-    -- existing effects
-    local sh = (math.sin(_hudClock * 1.1) + 1) * 0.5
-    titleLbl.TextColor3 = SDV_WHITE:Lerp(SDV_CYAN, sh * 0.22)
-
-    local pulse  = (math.sin(_hudClock * 2.8) + 1) * 0.5
-    local dAlpha = 0.08 + pulse * 0.65
-    local dSize  = 4 + pulse * 3
-
-    pDotL.BackgroundTransparency = dAlpha
-    pDotR.BackgroundTransparency = dAlpha
-    pDotL.Size = UDim2.new(0, dSize, 0, dSize)
-    pDotR.Size = UDim2.new(0, dSize, 0, dSize)
-
-    local bw = 0.48 + math.sin(_hudClock * 0.55) * 0.09
-    topBar.Size = UDim2.new(bw, 0, 0, 2)
-
-    panelStroke.Transparency = math.clamp(
-        0.28 + math.sin(_hudClock * 1.8) * 0.14, 0.1, 0.55
-    )
-
-    local cyi = (math.sin(_hudClock * 0.6) + 1) * 0.5
-    subLbl.TextColor3 = SDV_CYAN2:Lerp(SDV_CYAN, cyi * 0.35)
-end)
-
 local function C_c()
     local mainFrame = LMG2L["Frame_2"]
     local minBtn = LMG2L["MinButton"]
@@ -4625,6 +4588,43 @@ subLbl.Text = "[ LIGHTNING CANNON ]  ·  EXIRE"
 subLbl.TextColor3 = SDV_CYAN2
 subLbl.ZIndex = 7
 
+local _hudClock = 0
+
+RunService.RenderStepped:Connect(function(dt)
+    _hudClock += dt
+
+    -- vertical bob (slow)
+    local floatY = math.sin(_hudClock * 0.75) * 3
+    hudPanel.Position = UDim2.new(0.5, 0, 0.965, math.floor(floatY))
+
+    -- rotation (half speed of bob)
+    local rot = math.sin(_hudClock * 0.375) * 15
+    hudPanel.Rotation = rot
+
+    -- existing effects
+    local sh = (math.sin(_hudClock * 1.1) + 1) * 0.5
+    titleLbl.TextColor3 = SDV_WHITE:Lerp(SDV_CYAN, sh * 0.22)
+
+    local pulse  = (math.sin(_hudClock * 2.8) + 1) * 0.5
+    local dAlpha = 0.08 + pulse * 0.65
+    local dSize  = 4 + pulse * 3
+
+    pDotL.BackgroundTransparency = dAlpha
+    pDotR.BackgroundTransparency = dAlpha
+    pDotL.Size = UDim2.new(0, dSize, 0, dSize)
+    pDotR.Size = UDim2.new(0, dSize, 0, dSize)
+
+    local bw = 0.48 + math.sin(_hudClock * 0.55) * 0.09
+    topBar.Size = UDim2.new(bw, 0, 0, 2)
+
+    panelStroke.Transparency = math.clamp(
+        0.28 + math.sin(_hudClock * 1.8) * 0.14, 0.1, 0.55
+    )
+
+    local cyi = (math.sin(_hudClock * 0.6) + 1) * 0.5
+    subLbl.TextColor3 = SDV_CYAN2:Lerp(SDV_CYAN, cyi * 0.35)
+end)
+
         if _G.HatInputConnection then
             _G.HatInputConnection:Disconnect()
             _G.HatInputConnection = nil
@@ -4656,9 +4656,7 @@ subLbl.ZIndex = 7
         local Path = Folder .. "/"
 
         local SongLinks = {
-            ["default"] = "https://github.com/bayly098764321/Exire-Reanimate/blob/main/Music/LightningCannon/GunAway.mp3?raw=true",
-            ["f"] = "https://github.com/bayly098764321/Exire-Reanimate/blob/main/Music/LightningCannon/GunOut.mp3?raw=true",
-            ["exist"] = "https://github.com/bayly098764321/Exire-Reanimate/blob/main/Music/LightningCannon/Unsubstantual.mp3?raw=true"
+            ["default"] = "https://github.com/bayly098764321/Exire-Reanimate/blob/main/Music/StudioDummy/Default.mp3?raw=true",
         }
 
         function getmp3(modeName)
