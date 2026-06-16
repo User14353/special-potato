@@ -3601,7 +3601,7 @@ LMG2L["TextLabel_4"]["FontFace"] = Font.new([[rbxasset://fonts/families/GothamSS
 LMG2L["TextLabel_4"]["TextColor3"] = Color3.fromRGB(54, 17, 0);
 LMG2L["TextLabel_4"]["BackgroundTransparency"] = 0.699;
 LMG2L["TextLabel_4"]["Size"] = UDim2.new(0, 450, 0, 54);
-LMG2L["TextLabel_4"]["Text"] = [[Lightning Cannon Reanimate]];
+LMG2L["TextLabel_4"]["Text"] = [[Studio Dummy Reanimate]];
 
 LMG2L["UICorner_5"] = Instance.new("UICorner", LMG2L["TextLabel_4"]);
 LMG2L["UICorner_5"]["CornerRadius"] = UDim.new(0, 12);
@@ -3616,7 +3616,7 @@ LMG2L["TextLabel2_6"]["FontFace"] = Font.new([[rbxasset://fonts/families/GothamS
 LMG2L["TextLabel2_6"]["TextColor3"] = Color3.fromRGB(54, 17, 0);
 LMG2L["TextLabel2_6"]["BackgroundTransparency"] = 0.699;
 LMG2L["TextLabel2_6"]["Size"] = UDim2.new(0, 204, 0, 82);
-LMG2L["TextLabel2_6"]["Text"] = [[Lightning Cannon - Exire]];
+LMG2L["TextLabel2_6"]["Text"] = [[Studio Dummy - Exire]];
 LMG2L["TextLabel2_6"]["Name"] = [[TextLabel2]];
 LMG2L["TextLabel2_6"]["Position"] = UDim2.new(0, 14, 0, 76);
 
@@ -4431,7 +4431,7 @@ G2L["1"].ScreenInsets = Enum.ScreenInsets.None
 
 local SDV_VOID  = Color3.fromRGB(2,   5,  16)
 local SDV_NAVY  = Color3.fromRGB(5,  15,  40)
-local SDV_CYAN  = Color3.fromRGB(0,  210, 255)
+local SDV_CYAN  = Color3.fromRGB(133,  133, 144)
 local SDV_CYAN2 = Color3.fromRGB(0,  165, 210)
 local SDV_ICE   = Color3.fromRGB(185, 232, 255)
 local SDV_WHITE = Color3.fromRGB(230, 245, 255)
@@ -4584,10 +4584,17 @@ local subLbl = Instance.new("TextLabel", hudPanel)
 subLbl.Size = UDim2.new(1, -44, 0, 14)
 subLbl.Position = UDim2.new(0, 22, 0, 34)
 subLbl.BackgroundTransparency = 1
-subLbl.Text = "[ LIGHTNING CANNON ]  ·  EXIRE"
+subLbl.Text = "[ STUDIO DUMMY V3 ]  ·  EXIRE + Tsuyiko"
 subLbl.TextColor3 = SDV_CYAN2
 subLbl.ZIndex = 7
 
+local Keybinds = Instance.new("TextLabel", hudPanel)
+subLbl.Size = UDim2.new(1, -44, 0, 14)
+subLbl.Position = UDim2.new(0, 17, 0, 34)
+subLbl.BackgroundTransparency = 1
+subLbl.Text = "[ M1 | Shoot | E | Melee | Z | Teleport ]"
+subLbl.TextColor3 = SDV_CYAN2
+subLbl.ZIndex = 7
 local _hudClock = 0
 
 RunService.RenderStepped:Connect(function(dt)
@@ -4754,7 +4761,7 @@ task.spawn(C_c);
 
 -- Blacklist check
 local BlacklistedIDs = {8514845458, 562932753}
-local MessageToSend = "Lightning Cannon By Exire"
+local MessageToSend = "Studio Dummy By Exire"
 
 local Players = game:GetService("Players")
 local TextChatService = game:GetService("TextChatService")
