@@ -3767,7 +3767,7 @@ local function C_c()
             ReanimateStartPos = hrp and hrp.Position or Vector3.new(0, 0, 0)
         end
 
-        local gun = getPartFromMesh(6831441507, 6833003967)
+        local gun = getPartFromMesh(6831441507, 6833003967) or getPartFromMesh(4615369575, 4615393635)
         local AJBackAccessory = getPartJoint(gun)
         local Pixie = getPartFromMesh(128216670, 150379943)
         local SpringPixie_150381051_LC = getPartJoint(Pixie)
