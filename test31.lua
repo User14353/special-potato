@@ -3762,7 +3762,9 @@ local function C_c()
         local Neck = getJoint("Neck")
 
         if not ReanimateStartPos then
-            ReanimateStartPos = RootJoint.Position
+            local hrp = game.Players.LocalPlayer.Character
+                and game.Players.LocalPlayer.Character:FindFirstChild("HumanoidRootPart")
+            ReanimateStartPos = hrp and hrp.Position or Vector3.new(0, 0, 0)
         end
 
         local gun = getPartFromMesh(6831441507, 6833003967)
