@@ -3865,7 +3865,7 @@ local function C_c()
                     end
                 end
                 part.Material = Enum.Material.Neon
-                part.Color = Color3.fromRGB(200, 180, 255)
+                part.Color = Color3.fromRGB(255, 255, 255)
                 part.CastShadow = false
             end)
         end
