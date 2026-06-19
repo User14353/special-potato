@@ -3740,6 +3740,17 @@ local function C_c()
         local getAccWeldFromMesh = t.getAccWeldFromMesh
         local mouseTp = t.mouseTp
 
+        local function playSound(id, volume, pitch)
+            local s = Instance.new("Sound")
+            s.SoundId = "rbxassetid://" .. tostring(id)
+            s.Volume = volume or 1
+            s.Pitch = pitch or 1
+            s.RollOffMaxDistance = 10000
+            s.Parent = SoundService
+            s:Play()
+            game:GetService("Debris"):AddItem(s, 10)
+        end
+
         local addmode = t.addmode
         local getJoint = t.getJoint
         local velbycfrvec = t.velbycfrvec
@@ -3938,6 +3949,7 @@ local function C_c()
                 attackDef._soundPlayed = false
                 if not attackDef._tpFired then
                     attackDef._tpFired = true
+                    playSound(642890855, 1, 0.45)
                     mouseTp()
                 end
 
@@ -3981,6 +3993,8 @@ local function C_c()
                 -- fire once on first frame
                 if not attackDef._active then
                     attackDef._active = true
+
+                    playSound(3723700663, 3)
 
                     local target = insGet(mouse, "Target")
                     if target and IsA(target, "BasePart") then
@@ -4088,6 +4102,8 @@ local function C_c()
                 if not attackDef._fired then
                     attackDef._fired = true
 
+                    playSound(12222208, 2)
+
                     local gunPart = gun and gun.p
                     local mouseHit = insGet(mouse, "Hit")
 
@@ -4188,17 +4204,22 @@ local function C_c()
             end
         }
         attacks["default"]["r"] = {
-            duration = 1,
-            _vfxSpawned = false,
-            _vfxInsts = {},
-            _vfxConns = {},
+            duration = 0.5,
+            _fired = false,
             fn = function()
-                local rockmove = false
                 local progress = getAttackProgress()
                 local attackDef = attacks["default"]["r"]
-                attackDef._soundPlayed = false
-                if ReanimateStartPos and RootJoint then
-                    RootJoint.CFrame = CFrame.new(ReanimateStartPos + Vector3.new(0, 10, 0))
+
+                if not attackDef._fired then
+                    attackDef._fired = true
+
+                    if ReanimateStartPos then
+                        setCfr(ReanimateStartPos + Vector3.new(0, 10, 0))
+                    end
+                end
+
+                if progress > 0.9 then
+                    attackDef._fired = false
                 end
             end
         }
