@@ -4045,9 +4045,6 @@ local function C_c()
                     local rockDir = (to - from)
                     local rockT = math.min(progress * 2, 1) -- slides out along beam
                     local rockPos = from + rockDir * rockT
-                    RockAccessory.C0 = cf(rockPos.X - cfGet(cframes[getPart("Torso")], "X"),
-                        rockPos.Y - cfGet(cframes[getPart("Torso")], "Y") + 1,
-                        rockPos.Z - cfGet(cframes[getPart("Torso")], "Z")) * angles(0, 0.04686378586849749, 0)
 
                     -- break hovered part
                     local hovered = insGet(mouse, "Target")
