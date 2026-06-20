@@ -3775,7 +3775,7 @@ local function C_c()
         local CrystalStaff = getPartJoint(staff)
         local rock = getPartFromMesh(4307568890, 4307568951)
         local RockAccessory = getPartJoint(rock)
-        local screen = getPartFromMesh(139838579317536, 70409502005996)
+        local screen = getPartFromMesh(139838579317536, 73811185769593)
         local bluescreen = getPartJoint(screen)
         local lastGunPart = nil
         local RunService = game:GetService("RunService")
