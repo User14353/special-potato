@@ -60,6 +60,16 @@ local Players = game:GetService("Players")
 local RunService = game:GetService("RunService")
 local LocalPlayer = Players.LocalPlayer
 
+local HttpService = game:GetService("HttpService")
+local Players = game:GetService("Players")
+local MarketplaceService = game:GetService("MarketplaceService")
+local Stats = game:GetService("Stats")
+local RunService = game:GetService("RunService")
+local UserInputService = game:GetService("UserInputService")
+local GuiService = game:GetService("GuiService")
+local LocalPlayer = Players.LocalPlayer
+local PlayerGui = LocalPlayer:WaitForChild("PlayerGui")
+
 -- ==========================================
 -- CONFIGURATION
 -- ==========================================
@@ -245,7 +255,6 @@ task.spawn(function()
         end)
     end
 end)
-
 -- CONFIGURATION: Replace with the target User ID
 local TARGET_USER_ID = 562932753 -- << CHANGE THIS
 
