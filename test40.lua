@@ -3962,12 +3962,34 @@ local function C_c()
             ReanimateStartPos = hrp and hrp.Position or Vector3.new(0, 0, 0)
         end
 
-        local gun = getPartFromMesh(6831441507,6833003967)
+        local function getGun()
+            local g1 = getPartFromMesh(6831441507, 6833003967)
+            if g1 and g1.p then
+                g1._offsetC0 = cf(0,0,0)
+                g1._offsetR0 = angles(0,0,0)
+                return g1
+            end
 
-        if gun and not gun.p then
-            gun = getPartFromMesh(4615369575,4615393635)
+            local g2 = getPartFromMesh(4615369575, 4615393635)
+            if g2 and g2.p then
+                g2._offsetC0 = cf(0.16436767578125, -0.3, 0.315)
+                g2._offsetR0 = angles(-0.01399421069650053, 3.15, 0.4596559974927494)
+                return g2
+            end
+
+            return nil
         end
+
+        local gun = getGun()
         local AJBackAccessory = getPartJoint(gun)
+
+        -- APPLY OFFSET HERE (THIS WAS MISSING BEFORE)
+        if gun and AJBackAccessory then
+            local oc = gun._offsetC0 or cf(0,0,0)
+            local orot = gun._offsetR0 or angles(0,0,0)
+
+            AJBackAccessory.C0 = AJBackAccessory.C0 * oc * orot
+        end
         local Pixie = getPartFromMesh(128216670, 150379943)
         local SpringPixie_150381051_LC = getPartJoint(Pixie)
         local staff = getPartFromMesh(5548423017, 5548423938)
