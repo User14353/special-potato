@@ -1318,8 +1318,8 @@ end
 Draggable(i1)
 
 local allowshiftlock       = nil
-local ctrltp               = true
-local placeholders         = true
+local ctrltp               = nil
+local placeholders         = nil
 local clickfling           = nil
 local highlightflingtargets= nil
 
