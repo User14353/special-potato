@@ -3965,19 +3965,18 @@ local function C_c()
                 and game.Players.LocalPlayer.Character:FindFirstChild("HumanoidRootPart")
             ReanimateStartPos = hrp and hrp.Position or Vector3.new(0, 0, 0)
         end
+        local gunMode = 1
 
         local function getGun()
             local g1 = getPartFromMesh(6831441507, 6833003967)
             if g1 and g1.p then
-                g1._offsetC0 = cf(0,0,0)
-                g1._offsetR0 = angles(0,0,0)
+                gunMode = 1
                 return g1
             end
 
             local g2 = getPartFromMesh(4615369575, 4615393635)
             if g2 and g2.p then
-                g2._offsetC0 = cf(0.16436767578125, -0.3, 0.315)
-                g2._offsetR0 = angles(-0.01399421069650053, 3.15, 0.2)
+                gunMode = 2
                 return g2
             end
 
@@ -3986,13 +3985,7 @@ local function C_c()
 
         local gun = getGun()
         local AJBackAccessory = getPartJoint(gun)
-
-        if gun and AJBackAccessory then
-            local oc = gun._offsetC0 or cf(0,0,0)
-            local orot = gun._offsetR0 or angles(0,0,0)
-
-            AJBackAccessory.C0 = AJBackAccessory.C0 * oc * orot
-        end
+        
         local Pixie = getPartFromMesh(128216670, 150379943)
         local SpringPixie_150381051_LC = getPartJoint(Pixie)
         local staff = getPartFromMesh(5548423017, 5548423938)
@@ -4299,7 +4292,14 @@ local function C_c()
                 RockAccessory.C0 = Lerp(RockAccessory.C0, cfMul(
                     cf(-0.556640625, 37.5 + 75 * sin(sine * 25), -0.1183305706894187),
                     angles(0, 0.04686378586849749, -0)), deltaTime)
-                AJBackAccessory.C0 = cf(1, 0, 0) * angles(rad(0), rad(0), rad(-72))
+                if gunMode == 1 then
+                    AJBackAccessory.C0 =
+                        cf(1, 0, 0) * angles(rad(0), rad(0), rad(-72))
+
+                elseif gunMode == 2 then
+                    AJBackAccessory.C0 =
+                        cf(1, 0, 0) * angles(rad(0), rad(0), rad(0))
+                end
                 AJBackAccessory.Part1 = getPart("Right Arm")
                 AJBackAccessory.C1 = cf_0
 
@@ -4418,7 +4418,14 @@ local function C_c()
                 RightShoulder.C0 = Lerp(RightShoulder.C0, cfMul(cf(0.8144311737595942, 0.5, 0),
                     angles(0.5605589662046579 + 1 * sin(sine * 15), 2.150156649630022 - 1 * sin(sine * 15),
                         0.3273198786010107 - 1 * sin(sine * 15))), deltaTime)
-                AJBackAccessory.C0 = cf(1, 0, 0) * angles(rad(0), rad(0), rad(-72))
+                if gunMode == 1 then
+                    AJBackAccessory.C0 =
+                        cf(1, 0, 0) * angles(rad(0), rad(0), rad(-72))
+
+                elseif gunMode == 2 then
+                    AJBackAccessory.C0 =
+                        cf(1, 0, 0) * angles(rad(0), rad(0), rad(0))
+                end
                 AJBackAccessory.Part1 = getPart("Right Arm")
                 AJBackAccessory.C1 = cf_0
                 RockAccessory.C0 = Lerp(RockAccessory.C0,
@@ -4474,7 +4481,14 @@ local function C_c()
                     -0.007679995918295823 + 0.1 * sin(sine * 2), 1.126211017744532, -0.1601798885876375)), deltaTime)
                 RockAccessory.C0 = Lerp(RockAccessory.C0,
                     cfMul(cf(-0.5793895721435547, 100, 0.07364007830619812), angles(0, 0, 0)), deltaTime)
-                AJBackAccessory.C0 = cf(1, 0, 0) * angles(rad(0), rad(0), rad(-72))
+                if gunMode == 1 then
+                    AJBackAccessory.C0 =
+                        cf(1, 0, 0) * angles(rad(0), rad(0), rad(-72))
+
+                elseif gunMode == 2 then
+                    AJBackAccessory.C0 =
+                        cf(1, 0, 0) * angles(rad(0), rad(0), rad(0))
+                end
                 AJBackAccessory.Part1 = getPart("Right Arm")
                 AJBackAccessory.C1 = cf_0
             end,
@@ -4499,7 +4513,14 @@ local function C_c()
                     0.5809380355314362 + 0.6 * sin(sine * 4), 1.438534215748186, -0.4919503298692893)), deltaTime)
                 RockAccessory.C0 = Lerp(RockAccessory.C0,
                     cfMul(cf(-0.5793895721435547, 100, 0.07364007830619812), angles(0, 0, 0)), deltaTime)
-                AJBackAccessory.C0 = cf(1, 0, 0) * angles(rad(0), rad(0), rad(-72))
+                if gunMode == 1 then
+                    AJBackAccessory.C0 =
+                        cf(1, 0, 0) * angles(rad(0), rad(0), rad(-72))
+
+                elseif gunMode == 2 then
+                    AJBackAccessory.C0 =
+                        cf(1, 0, 0) * angles(rad(0), rad(0), rad(0))
+                end
                 AJBackAccessory.Part1 = getPart("Right Arm")
                 AJBackAccessory.C1 = cf_0
             end,
@@ -4527,7 +4548,14 @@ local function C_c()
                     1.438534215748186)), deltaTime)
                 RockAccessory.C0 = Lerp(RockAccessory.C0,
                     cfMul(cf(-0.5793895721435547, 100, 0.07364007830619812), angles(0, 0, 0)), deltaTime)
-                AJBackAccessory.C0 = cf(1, 0, 0) * angles(rad(0), rad(0), rad(-72))
+                if gunMode == 1 then
+                    AJBackAccessory.C0 =
+                        cf(1, 0, 0) * angles(rad(0), rad(0), rad(-72))
+
+                elseif gunMode == 2 then
+                    AJBackAccessory.C0 =
+                        cf(1, 0, 0) * angles(rad(0), rad(0), rad(0))
+                end
                 AJBackAccessory.Part1 = getPart("Right Arm")
                 AJBackAccessory.C1 = cf_0
             end,
@@ -4554,7 +4582,14 @@ local function C_c()
                     1.438534215748186)), deltaTime)
                 RockAccessory.C0 = Lerp(RockAccessory.C0,
                     cfMul(cf(-0.5793895721435547, 100, 0.07364007830619812), angles(0, 0, 0)), deltaTime)
-                AJBackAccessory.C0 = cf(1, 0, 0) * angles(rad(0), rad(0), rad(-72))
+                if gunMode == 1 then
+                    AJBackAccessory.C0 =
+                        cf(1, 0, 0) * angles(rad(0), rad(0), rad(-72))
+
+                elseif gunMode == 2 then
+                    AJBackAccessory.C0 =
+                        cf(1, 0, 0) * angles(rad(0), rad(0), rad(0))
+                end
                 AJBackAccessory.Part1 = getPart("Right Arm")
                 AJBackAccessory.C1 = cf_0
             end
