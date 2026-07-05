@@ -1317,20 +1317,24 @@ end
 
 Draggable(i1)
 
-local allowshiftlock = nil
-local ctrltp = nil
-local placeholders = nil
-local clickfling = nil
-local highlightflingtargets = nil
-local discharscripts = nil
-local disguiscripts = nil -- NEW from rqz v2
-local flingchangestate = nil
-local respawntp = 1
-local breakjointsmethod = 1
-local simrad = true
-local hidedeatheffect = true
-local permadeath = nil
-local refit = true
+local allowshiftlock       = nil
+local ctrltp               = true
+local placeholders         = true
+local clickfling           = nil
+local highlightflingtargets= nil
+
+local discharscripts       = nil
+local disguiscripts        = nil -- NEW from rqz v2
+
+local flingchangestate     = nil
+local permadeath           = nil
+
+local respawntp            = 1
+local breakjointsmethod    = 1
+
+local simrad               = true
+local hidedeatheffect      = true
+local refit                = true
 
 local c = nil
 local cons = {}
