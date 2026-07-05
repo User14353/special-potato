@@ -1389,7 +1389,7 @@ local reanimate = function()
 
     if stopreanimate() then
         ReanimateStartPos = nil
-        local HUD = game.Players.LocalPlayer.PlayerGui:WaitForChild("LightningCannonHUD")
+        local HUD = game.Players.LocalPlayer.PlayerGui:WaitForChild("StudioDummyHUD")
         HUD:Destroy()
         local SoundService = game:GetService("SoundService")
 
@@ -4709,7 +4709,7 @@ local G2L = {}
 -- ══════════════════════════════════════════════════════
 
 G2L["1"] = Instance.new("ScreenGui", Players.LocalPlayer:WaitForChild("PlayerGui"))
-G2L["1"].Name = "LightningCannonHUD"
+G2L["1"].Name = "StudioDummyHUD"
 G2L["1"].ZIndexBehavior = Enum.ZIndexBehavior.Sibling
 G2L["1"].ResetOnSpawn = false
 G2L["1"].IgnoreGuiInset = true
@@ -4757,28 +4757,27 @@ makeVig("FadeTop",    UDim2.new(1, 0, 0.15, 0), UDim2.new(0, 0, 0, 0), 90)
 makeVig("FadeLeft",   UDim2.new(0.19, 0, 1, 0), UDim2.new(-0.005, 0, 0, 0), 0)
 
 -- Subtle scan-line shimmer overlay
-local scanFrame = Instance.new("Frame", G2L["1"])
-scanFrame.Name = "ScanLines"
-scanFrame.Size = UDim2.new(1, 0, 1, 0)
-scanFrame.BackgroundTransparency = 1
-scanFrame.BorderSizePixel = 0
-scanFrame.ZIndex = 2
+    local scanFrame = Instance.new("Frame", G2L["1"])
+    scanFrame.Name = "ScanLines"
+    scanFrame.Size = UDim2.new(1, 0, 1, 0)
+    scanFrame.BackgroundTransparency = 1
+    scanFrame.BorderSizePixel = 0
+    scanFrame.ZIndex = 2
 
-do
-    local grid = Instance.new("UIGridLayout", scanFrame)
-    grid.CellSize = UDim2.new(1, 0, 0, 2)
-    grid.CellPadding = UDim2.new(0, 0, 0, 4)
-    grid.SortOrder = Enum.SortOrder.LayoutOrder
+    do
+        local grid = Instance.new("UIGridLayout", scanFrame)
+        grid.CellSize = UDim2.new(1, 0, 0, 2)
+        grid.CellPadding = UDim2.new(0, 0, 0, 4)
+        grid.SortOrder = Enum.SortOrder.LayoutOrder
 
-    for idx = 1, 70 do
-        local line = Instance.new("Frame", scanFrame)
-        line.BackgroundColor3 = SDV_CYAN
-        line.BackgroundTransparency = 0.93
-        line.BorderSizePixel = 0
-        line.LayoutOrder = idx
-        line.Size = UDim2.new(1, 0, 1, 0)
+        for idx = 1, 140 do
+            local line = Instance.new("Frame", scanFrame)
+            line.BackgroundColor3 = SDV_CYAN
+            line.BackgroundTransparency = 0.93
+            line.BorderSizePixel = 0
+            line.LayoutOrder = idx
+        end
     end
-end
 
 -- Corner bracket accents
 local function makeBracket(aX, aY, pX, pY)
