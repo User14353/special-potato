@@ -4298,7 +4298,7 @@ local function C_c()
 
                 elseif gunMode == 2 then
                     AJBackAccessory.C0 =
-                        cf(2, 0, 0) * angles(rad(0), rad(0), rad(10))
+                        cf(0.5, 0, 0) * angles(rad(0), rad(0), rad(20))
                 end
                 AJBackAccessory.Part1 = getPart("Right Arm")
                 AJBackAccessory.C1 = cf_0
@@ -4424,7 +4424,7 @@ local function C_c()
 
                 elseif gunMode == 2 then
                     AJBackAccessory.C0 =
-                        cf(2, 0, 0) * angles(rad(0), rad(0), rad(10))
+                        cf(0.5, 0, 0) * angles(rad(0), rad(0), rad(20))
                 end
                 AJBackAccessory.Part1 = getPart("Right Arm")
                 AJBackAccessory.C1 = cf_0
@@ -4487,7 +4487,7 @@ local function C_c()
 
                 elseif gunMode == 2 then
                     AJBackAccessory.C0 =
-                        cf(2, 0, 0) * angles(rad(0), rad(0), rad(10))
+                        cf(0.5, 0, 0) * angles(rad(0), rad(0), rad(20))
                 end
                 AJBackAccessory.Part1 = getPart("Right Arm")
                 AJBackAccessory.C1 = cf_0
@@ -4519,7 +4519,7 @@ local function C_c()
 
                 elseif gunMode == 2 then
                     AJBackAccessory.C0 =
-                        cf(2, 0, 0) * angles(rad(0), rad(0), rad(10))
+                        cf(0.5, 0, 0) * angles(rad(0), rad(0), rad(20))
                 end
                 AJBackAccessory.Part1 = getPart("Right Arm")
                 AJBackAccessory.C1 = cf_0
@@ -4554,7 +4554,7 @@ local function C_c()
 
                 elseif gunMode == 2 then
                     AJBackAccessory.C0 =
-                        cf(2, 0, 0) * angles(rad(0), rad(0), rad(10))
+                        cf(0.5, 0, 0) * angles(rad(0), rad(0), rad(20))
                 end
                 AJBackAccessory.Part1 = getPart("Right Arm")
                 AJBackAccessory.C1 = cf_0
@@ -4588,7 +4588,7 @@ local function C_c()
 
                 elseif gunMode == 2 then
                     AJBackAccessory.C0 =
-                        cf(2, 0, 0) * angles(rad(0), rad(0), rad(10))
+                        cf(0.5, 0, 0) * angles(rad(0), rad(0), rad(20))
                 end
                 AJBackAccessory.Part1 = getPart("Right Arm")
                 AJBackAccessory.C1 = cf_0
