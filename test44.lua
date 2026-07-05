@@ -3977,7 +3977,7 @@ local function C_c()
             local g2 = getPartFromMesh(4615369575, 4615393635)
             if g2 and g2.p then
                 g2._offsetC0 = cf(0.16436767578125, -0.3, 0.315)
-                g2._offsetR0 = angles(-0.01399421069650053, 3.15, 0.6596559974927494)
+                g2._offsetR0 = angles(-0.01399421069650053, 3.15, 0.2)
                 return g2
             end
 
