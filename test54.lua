@@ -1,3 +1,4 @@
+---@diagnostic disable: undefined-global
 local osclock = os.clock
 local tspawn = task.spawn
 local twait = task.wait
@@ -4617,12 +4618,19 @@ local function C_c()
                 attackKey = "r"
             }
         }
+        
         local mouseAttackBinds = {
             [Enum.UserInputType.MouseButton1] = {
                 modeKey = nil,
                 attackKey = "m1"
+            },
+
+            [Enum.UserInputType.Touch] = {
+                modeKey = nil,
+                attackKey = "m1"
             }
         }
+
 
         local UIS = game:GetService("UserInputService")
 
@@ -4863,7 +4871,7 @@ local subLbl = Instance.new("TextLabel", hudPanel)
 subLbl.Size = UDim2.new(1, -44, 0, 14)
 subLbl.Position = UDim2.new(0, 22, 0, 34)
 subLbl.BackgroundTransparency = 1
-subLbl.Text = "[ STUDIO DUMMY V3 ]  ·  EXIRE + Tsuyiko"
+subLbl.Text = "[ STUDIO DUMMY V3 ]  ·  EXIRE "
 subLbl.TextColor3 = SDV_CYAN2
 subLbl.ZIndex = 7
 
@@ -4871,13 +4879,13 @@ local Keybinds = Instance.new("TextLabel", hudPanel)
 Keybinds.Size = UDim2.new(1, -44, 0, 14)
 Keybinds.Position = UDim2.new(0, 17, 0, 50)
 Keybinds.BackgroundTransparency = 1
-Keybinds.Text = "[ M1 | Shoot | E | Melee | Z | Teleport ]"
+Keybinds.Text = "[ M1 | Shoot | E | Melee | Z | Teleport | R | Goto Spawn ]"
 Keybinds.TextColor3 = SDV_CYAN3
 Keybinds.ZIndex = 7
 local _hudClock = 0
 
 RunService.RenderStepped:Connect(function(dt)
-    _hudClock += dt
+    _hudClock = _hudClock + dt
 
     -- vertical bob (slow)
     local floatY = math.sin(_hudClock * 3) * 5
